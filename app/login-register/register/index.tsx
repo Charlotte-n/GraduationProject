@@ -19,8 +19,8 @@ import {
     View,
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
+import { useRegisterInterface } from '../../../services/login-register/pageInterface/register'
 import SeePassWord from '../components/see-password'
-import { useRegisterInterface } from '../pageInterface/register'
 
 export default function Register() {
     const router = useRouter()

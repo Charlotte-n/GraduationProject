@@ -4127,6 +4127,11 @@ image-size@^1.0.2:
   dependencies:
     queue "6.0.2"
 
+immer@^11.1.0:
+  version "11.1.0"
+  resolved "https://registry.npmmirror.com/immer/-/immer-11.1.0.tgz#6c15b1fd4082021e9c61d51ab19d313f8973fde1"
+  integrity sha512-dlzb07f5LDY+tzs+iLCSXV2yuhaYfezqyZQc+n6baLECWkOMEWxkECAOnXL0ba7lsA25fM9b2jtzpu/uxo1a7g==
+
 import-fresh@^3.2.1:
   version "3.3.1"
   resolved "https://registry.npmmirror.com/import-fresh/-/import-fresh-3.3.1.tgz#9cecb56503c0ada1f2741dbbd6546e4b13b57ccf"
@@ -6999,3 +7004,8 @@ yocto-queue@^0.1.0:
   version "0.1.0"
   resolved "https://registry.npmmirror.com/yocto-queue/-/yocto-queue-0.1.0.tgz#0294eb3dee05028d31ee1a5fa2c556a6aaf10a1b"
   integrity sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==
+
+zustand@^5.0.9:
+  version "5.0.9"
+  resolved "https://registry.npmmirror.com/zustand/-/zustand-5.0.9.tgz#389dcd0309b9c545d7a461bd3c54955962847654"
+  integrity sha512-ALBtUj0AfjJt3uNRQoL1tL2tMvj6Gp/6e39dnfT6uzpelGru8v1tPOGBzayOWbPJvujM8JojDk3E1LxeFisBNg==

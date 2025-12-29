@@ -1,4 +1,4 @@
-import { requestLogin } from '@/app/login-register/pageInterface/login'
+import { requestLogin } from '@/services/login-register/pageInterface/login'
 import theme from '@/styles/theme/color'
 import { verifyEmail } from '@/utils/validation'
 import { Button, Icon, Image, Input } from '@rneui/themed'
@@ -6,6 +6,8 @@ import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 
 import { screenHeight, windowHeight } from '@/common/common'
+import { useLoginRegisterStore } from '@/store'
+import { createSelectors } from '@/store/selector'
 import type { InputRef } from '@/types'
 import { useRef, useState } from 'react'
 import {
@@ -72,6 +74,15 @@ export default function Login() {
             .then((res) => {
                 if (res) {
                     // 存储token & 跳转
+                    const setUserInfo = createSelectors(
+                        useLoginRegisterStore,
+                    ).use?.setUserInfo()
+                    const setToken = createSelectors(
+                        useLoginRegisterStore,
+                    ).use?.setToken()
+
+                    setUserInfo && setUserInfo(res.user)
+                    setToken && setToken(res.token)
                     router.navigate('/tabs')
                 } else {
                     Alert.alert('', '邮箱或者密码错误,请重新输入', [

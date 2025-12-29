@@ -1,3 +1,5 @@
+import { useLoginRegisterStore } from '@/store'
+import { createSelectors } from '@/store/selector'
 import type { AxiosInstance } from 'axios'
 import axios from 'axios'
 import type { HYRequestConfig } from './type'
@@ -24,11 +26,11 @@ class HYRequest {
         // 每个instance实例都添加拦截器
         this.instance.interceptors.request.use(
             (config) => {
-                // const token = store.getState().LoginRegisterSlice.token
+                const token = createSelectors(useLoginRegisterStore).use.token()
                 // loading/token
-                // if (token) {
-                //     config.headers.token = token
-                // }
+                if (token) {
+                    config.headers.token = token
+                }
                 return config
             },
             (err) => {
@@ -44,8 +46,10 @@ class HYRequest {
                     err.response?.data.code === 401 ||
                     !err.response?.data.code
                 ) {
-                    // store.dispatch(changeTokenAction(''))
-                    // navigateToTop()
+                    const setToken = createSelectors(
+                        useLoginRegisterStore,
+                    ).use?.setToken()
+                    setToken && setToken('')
                 }
 
                 return err

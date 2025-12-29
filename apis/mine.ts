@@ -29,3 +29,32 @@ export const LoginApi = (LoginParam: LoginParamType) => {
         },
     })
 }
+
+/**
+ * 获取验证码
+ * @param email
+ */
+export const getCodeApi = (email: string) => {
+    return hyRequest.get<CommonResponseType<string>>({
+        url: URL.CODEURL,
+        params: {
+            email,
+        },
+    })
+}
+
+/**
+ * 校验验证码
+ * @param code
+ */
+export interface VerifyCodeParamType {
+    code: string
+    email: string
+    password: string
+}
+export const verifyCodeApi = (parm: VerifyCodeParamType) => {
+    return hyRequest.post({
+        url: URL.VERIFYURL,
+        data: parm,
+    })
+}

@@ -1,10 +1,11 @@
-import { requestLogin } from '@/services/login'
+import { requestLogin } from '@/app/login-register/pageInterface/login'
 import theme from '@/styles/theme/color'
 import { verifyEmail } from '@/utils/validation'
 import { Button, Icon, Image, Input } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import type { ComponentRef } from 'react'
+
+import type { InputRef } from '@/types'
 import { useRef, useState } from 'react'
 import {
     Alert,
@@ -14,22 +15,18 @@ import {
     ScrollView,
     StyleSheet,
     Text,
-    TextInput,
     TouchableOpacity,
     View,
 } from 'react-native'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import SeePassWord from '../components/see-password'
-
-type BaseInputRef = ComponentRef<typeof TextInput>
-type InputRef = BaseInputRef & {
-    shake?: () => void
-}
 
 const { height } = Dimensions.get('screen')
 const { height: windowHeight } = Dimensions.get('window')
 
 export default function Login() {
     const router = useRouter()
+    const insets = useSafeAreaInsets()
     const [isEmail, setIsEmail] = useState(true)
     const [isPassWord, setIsPassWord] = useState(true)
     const [isSee, setIsSee] = useState(false)
@@ -94,10 +91,23 @@ export default function Login() {
             })
     }
     return (
+        // <SafeAreaView style={styles.container} edges={['top']}>
         <KeyboardAvoidingView
             style={styles.container}
             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
         >
+            <TouchableOpacity
+                style={[styles.Back, { top: insets.top + 10 }]}
+                touchSoundDisabled
+                onPress={() => router.back()}
+            >
+                <Icon
+                    name={'left'}
+                    type={'antdesign'}
+                    color={theme.colors.deep01Primary}
+                    size={30}
+                />
+            </TouchableOpacity>
             <ScrollView style={{ flex: 1 }}>
                 <StatusBar backgroundColor={theme.colors.primary} />
                 <View style={styles.content}>
@@ -105,18 +115,6 @@ export default function Login() {
                         source={require('@/assets/images/bg_login_header.png')}
                         style={styles.loginHeaderImage}
                     />
-                    <TouchableOpacity
-                        style={styles.Back}
-                        touchSoundDisabled
-                        onPress={() => router.back()}
-                    >
-                        <Icon
-                            name={'left'}
-                            type={'antdesign'}
-                            color={theme.colors.deep01Primary}
-                            size={30}
-                        />
-                    </TouchableOpacity>
                 </View>
                 {/* bottom */}
                 <View style={styles.Bottom}>
@@ -134,9 +132,9 @@ export default function Login() {
                                 />
                             }
                             onBlur={() => verifyEmailRule()}
-                            onChangeText={() => {
-                                verifyEmailRule()
-                            }}
+                            onChangeText={(value: string) =>
+                                (email.current = value)
+                            }
                             defaultValue=""
                             ErrorComponent={() => {
                                 if (!isEmail) {
@@ -152,9 +150,6 @@ export default function Login() {
                             placeholder="输入密码"
                             defaultValue=""
                             ref={passwordInput}
-                            onChangeText={() => {
-                                verifyPasswordRule()
-                            }}
                             ErrorComponent={() => {
                                 if (!isPassWord) {
                                     return (
@@ -179,6 +174,9 @@ export default function Login() {
                                 marginTop: 25,
                             }}
                             secureTextEntry={!isSee}
+                            onChangeText={(value: string) =>
+                                (password.current = value)
+                            }
                         />
                     </View>
                     {/* 登录按钮 */}
@@ -214,6 +212,7 @@ export default function Login() {
                 </View>
             </ScrollView>
         </KeyboardAvoidingView>
+        // </SafeAreaView>
     )
 }
 
@@ -221,6 +220,7 @@ const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
         height,
+        position: 'relative',
     },
     content: {
         height: windowHeight / 1.5,
@@ -233,8 +233,8 @@ const styles = StyleSheet.create({
     },
     Back: {
         position: 'absolute',
+        zIndex: 10,
         borderRadius: 100,
-        marginTop: 10,
         marginLeft: 10,
         width: 50,
         height: 50,

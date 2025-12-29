@@ -1,7 +1,19 @@
 {
+  // 保存时自动格式化
+  "editor.formatOnSave": true,
+  
+  // 保存时执行代码修复
   "editor.codeActionsOnSave": {
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit",
-    "source.sortMembers": "explicit"
-  }
+    "source.fixAll.eslint": "explicit"
+  },
+  // 默认格式化器
+  "editor.defaultFormatter": "esbenp.prettier-vscode",
+  
+  // 文件保存延迟（毫秒）
+  "files.autoSaveDelay": 1000,
+  
+  // 自动保存
+  "files.autoSave": "afterDelay"
 }

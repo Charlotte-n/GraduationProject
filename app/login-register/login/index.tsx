@@ -5,6 +5,7 @@ import { Button, Icon, Image, Input } from '@rneui/themed'
 import { useRouter } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
 
+import { screenHeight, windowHeight } from '@/common/common'
 import type { InputRef } from '@/types'
 import { useRef, useState } from 'react'
 import {
@@ -20,9 +21,6 @@ import {
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import SeePassWord from '../components/see-password'
-
-const { height } = Dimensions.get('screen')
-const { height: windowHeight } = Dimensions.get('window')
 
 export default function Login() {
     const router = useRouter()
@@ -219,7 +217,7 @@ export default function Login() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        height,
+        height: screenHeight,
         position: 'relative',
     },
     content: {

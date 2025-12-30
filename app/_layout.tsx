@@ -9,6 +9,7 @@ import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useColorScheme } from '@/hooks/use-color-scheme'
+import { useLoginRegisterStore } from '@/store'
 
 export const unstable_settings = {
     anchor: 'tabs',
@@ -16,6 +17,7 @@ export const unstable_settings = {
 
 export default function RootLayout() {
     const colorScheme = useColorScheme()
+    const { token } = useLoginRegisterStore.getState()
 
     return (
         <SafeAreaProvider>
@@ -23,14 +25,17 @@ export default function RootLayout() {
                 value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
             >
                 <Stack>
-                    <Stack.Screen
-                        name="login-register"
-                        options={{ headerShown: false }}
-                    />
-                    <Stack.Screen
-                        name="tabs"
-                        options={{ headerShown: false }}
-                    />
+                    {token ? (
+                        <Stack.Screen
+                            name="tabs"
+                            options={{ headerShown: false }}
+                        />
+                    ) : (
+                        <Stack.Screen
+                            name="login-register"
+                            options={{ headerShown: false }}
+                        />
+                    )}
                 </Stack>
                 <StatusBar style="auto" />
             </ThemeProvider>

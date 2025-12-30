@@ -7,7 +7,6 @@ import { StatusBar } from 'expo-status-bar'
 
 import { screenHeight, windowHeight } from '@/common/common'
 import { useLoginRegisterStore } from '@/store'
-import { createSelectors } from '@/store/selector'
 import type { InputRef } from '@/types'
 import { useRef, useState } from 'react'
 import {
@@ -74,15 +73,8 @@ export default function Login() {
             .then((res) => {
                 if (res) {
                     // 存储token & 跳转
-                    const setUserInfo = createSelectors(
-                        useLoginRegisterStore,
-                    ).use?.setUserInfo()
-                    const setToken = createSelectors(
-                        useLoginRegisterStore,
-                    ).use?.setToken()
-
-                    setUserInfo && setUserInfo(res.user)
-                    setToken && setToken(res.token)
+                    useLoginRegisterStore.getState()?.setUserInfo?.(res.user)
+                    useLoginRegisterStore.getState()?.setToken?.(res.token)
                     router.navigate('/tabs')
                 } else {
                     Alert.alert('', '邮箱或者密码错误,请重新输入', [

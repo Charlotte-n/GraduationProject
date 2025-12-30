@@ -2,14 +2,14 @@ import type { CommonResponseType, LoginData } from '@/apis/types'
 import hyRequest from '@/services'
 
 enum URL {
-    LOGINURL = '/api/user/login',
-    CODEURL = '/api/user/getCode',
-    VERIFYURL = '/api/user/register',
-    UPLOADAVATAR = '/api/common/upload',
-    UPDATEUSERINFO = '/api/user/updatemsg',
-    GETUSERINFO = '/api/user/msg',
-    LOGOUT = '/api/user/logout',
-    FIND_PASSWORD = '/api/user/findBack',
+    LOGINURL = '/user/login',
+    CODEURL = '/user/getCode',
+    VERIFYURL = '/user/register',
+    UPLOADAVATAR = '/common/upload',
+    UPDATEUSERINFO = '/user/updatemsg',
+    GETUSERINFO = '/user/msg',
+    LOGOUT = '/user/logout',
+    FIND_PASSWORD = '/user/findBack',
 }
 
 export interface LoginParamType {

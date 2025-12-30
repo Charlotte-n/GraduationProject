@@ -1,4 +1,5 @@
 import type { User } from '@/apis/types/mine'
+import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
@@ -27,7 +28,7 @@ export const useLoginRegisterStore = create<initial>()(
         }),
         {
             name: 'login-register',
-            storage: createJSONStorage(() => localStorage),
+            storage: createJSONStorage(() => AsyncStorage),
         },
     ),
 )

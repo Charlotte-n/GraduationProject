@@ -58,3 +58,13 @@ export const verifyCodeApi = (parm: VerifyCodeParamType) => {
         data: parm,
     })
 }
+
+/**
+ * 获取用户信息
+ * @param id
+ */
+export const getUserInfo = (id: number) => {
+    return hyRequest.get({
+        url: URL.GETUSERINFO + '/' + id,
+    })
+}

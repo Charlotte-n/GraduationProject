@@ -1,6 +1,6 @@
 import { VerifyCodeParamType } from '@/apis'
 import { screenHeight, screenWidth, windowWidth } from '@/common/common'
-import CountDown from '@/components/count-down'
+import CountDown from '@/common/components/count-down'
 import theme from '@/styles/theme/color'
 import type { InputRef } from '@/types'
 import { verifyEmail } from '@/utils/validation'

@@ -1,12 +1,15 @@
 import { screenHeight, screenWidth, windowHeight } from '@/common/common'
+import EchartsBigPie from '@/components/home/components/EchartsBigPie'
+import EchartsSmallPie from '@/components/home/components/EchartsSmallPie'
 import { useHome } from '@/hooks/useHome'
+import { StatusBar } from 'expo-status-bar'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
+import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import DrawerContent from '../../../components/home/components/DrawerContent'
 import FoodList from '../../../components/home/components/FoodList'
 import HotRecommend from '../../../components/home/components/HotRecommend'
 import ProfileDialog from '../../../components/home/components/ProfileDialog'
-
 export default function Home() {
     const {
         open,
@@ -16,7 +19,7 @@ export default function Home() {
         handleDrawerToggle,
         cancel,
     } = useHome()
-
+    const insets = useSafeAreaInsets()
     return (
         <Drawer
             open={open}
@@ -28,11 +31,17 @@ export default function Home() {
                 height: windowHeight,
             }}
         >
+            <StatusBar style="dark" backgroundColor="black" />
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={styles.container}
             >
+                {/* 安全区 */}
+                <View style={{ height: insets.top }} />
+
                 {/* echarts表 */}
+                <EchartsBigPie />
+                <EchartsSmallPie />
                 {/* 早餐、午餐、晚餐 */}
                 {foodList.length > 0 && (
                     <View style={styles.foodListContainer}>
@@ -56,11 +65,13 @@ export default function Home() {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: 'white',
-        paddingHorizontal: 10,
         height: screenHeight,
     },
     foodListContainer: {
         marginBottom: 10,
+        paddingHorizontal: 10,
     },
-    hotRecommend: {},
+    hotRecommend: {
+        paddingHorizontal: 10,
+    },
 })

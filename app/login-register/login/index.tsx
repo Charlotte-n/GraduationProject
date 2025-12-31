@@ -65,6 +65,7 @@ export default function Login() {
     // 跳转
     const goToMine = () => {
         verifyLogin()
+        console.log(isEmail, isPassWord)
         if (!isEmail || !isPassWord) {
             return
         }

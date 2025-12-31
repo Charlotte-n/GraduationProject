@@ -4,29 +4,18 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface initial {
-    dailyIntake: ResponseDailyIntake
-    dailyIntaked: ResponseDailyIntake
+    dailyIntake: Partial<ResponseDailyIntake>
+    dailyIntaked: Partial<ResponseDailyIntake>
     setDailyIntake: (dailyIntake: ResponseDailyIntake) => void
+    setDailyIntaked: (dailyIntaked: ResponseDailyIntake) => void
     reset: () => void
 }
 
 export const useHomeStore = create<initial>()(
     persist(
         (set) => ({
-            dailyIntake: {
-                cellulose: 0,
-                calories: 0,
-                fat: 0,
-                carbohydrate: 0,
-                protein: 0,
-            },
-            dailyIntaked: {
-                cellulose: 0,
-                calories: 0,
-                fat: 0,
-                carbohydrate: 0,
-                protein: 0,
-            },
+            dailyIntake: {},
+            dailyIntaked: {},
             setDailyIntaked: (dailyIntaked: ResponseDailyIntake) =>
                 set({ dailyIntaked }),
             setDailyIntake: (dailyIntake: ResponseDailyIntake) =>

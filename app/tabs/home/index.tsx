@@ -31,13 +31,17 @@ export default function Home() {
                 height: windowHeight,
             }}
         >
-            <StatusBar style="dark" backgroundColor="black" />
+            <StatusBar style="auto" backgroundColor="white" />
             <ScrollView
                 showsVerticalScrollIndicator={false}
                 style={styles.container}
             >
                 {/* 安全区 */}
-                <View style={{ height: insets.top }} />
+                <View
+                    style={{
+                        height: insets.top,
+                    }}
+                />
 
                 {/* echarts表 */}
                 <EchartsBigPie />

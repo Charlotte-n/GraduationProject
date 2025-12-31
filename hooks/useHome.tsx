@@ -57,12 +57,13 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '晚餐',
-            recommend: (dailyIntake?.calories / 5).toFixed(0),
+            recommend: ((dailyIntake.calories || 0) / 5).toFixed(0),
         },
     ]
 
     const toggleDialog = async () => {
         const { height, weight, exercise = 0, target = 0 } = userInfo
+
         if (height && weight && exercise >= 0 && target >= 0) {
             //获取用户的每日摄入量，放入仓库存储
             try {
@@ -96,7 +97,7 @@ export const useHome = () => {
                         protein: res.data.calories[0],
                         cellulose: res.data.calories[3],
                     }
-                    useHomeStore.getState().setDailyIntake(dailyIntaked)
+                    useHomeStore.getState().setDailyIntaked(dailyIntaked)
                 } else {
                     ToastAndroid.show(
                         res?.msg || '获取摄入列表失败',

@@ -12,10 +12,10 @@ interface IProps {
 }
 
 const EchartsBigPie: FC<IProps> = () => {
-    const { dailyIntake, dailyIntaked } = useHomeStore()
+    const { dailyIntake, dailyIntaked } = useHomeStore.getState()
     console.log(dailyIntake, dailyIntaked)
     const sampleData = [
-        Math.floor(dailyIntaked?.calories / dailyIntake?.calories) || 0,
+        Math.floor(dailyIntaked.calories! / dailyIntake.calories!) || 0,
     ]
 
     return (
@@ -23,7 +23,7 @@ const EchartsBigPie: FC<IProps> = () => {
             <Svg width={screenWidth} height={200}>
                 {/*摄入总量*/}
                 <View style={styles.containerInfo}>
-                    {((dailyIntake?.calories - dailyIntaked?.calories)?.toFixed(
+                    {((dailyIntake.calories! - dailyIntaked.calories!)?.toFixed(
                         0,
                     ) as unknown as number) >= 0 ? (
                         <View>
@@ -42,8 +42,8 @@ const EchartsBigPie: FC<IProps> = () => {
                                 }}
                             >
                                 {(
-                                    dailyIntake?.calories -
-                                    dailyIntaked?.calories
+                                    dailyIntake.calories! -
+                                    dailyIntaked.calories!
                                 )?.toFixed(0)}
                             </Text>
                             <Text
@@ -56,7 +56,7 @@ const EchartsBigPie: FC<IProps> = () => {
                             </Text>
                         </View>
                     ) : !(isNaN(
-                          dailyIntake?.calories - dailyIntaked?.calories,
+                          dailyIntake.calories! - dailyIntaked.calories!,
                       ) as unknown as number) ? (
                         <View>
                             <Text
@@ -74,8 +74,8 @@ const EchartsBigPie: FC<IProps> = () => {
                                 }}
                             >
                                 {(
-                                    (dailyIntake?.calories -
-                                        dailyIntaked?.calories) *
+                                    (dailyIntake.calories! -
+                                        dailyIntaked.calories!) *
                                     -1
                                 ).toFixed(0)}
                             </Text>
@@ -104,7 +104,7 @@ const EchartsBigPie: FC<IProps> = () => {
                                     textAlign: 'center',
                                 }}
                             >
-                                {dailyIntake?.calories?.toFixed(0)}
+                                {dailyIntake.calories!.toFixed(0)}
                             </Text>
                             <Text
                                 style={{

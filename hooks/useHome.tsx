@@ -27,7 +27,7 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '早餐',
-            recommend: ((dailyIntake?.calories * 2) / 5).toFixed(0),
+            recommend: ((dailyIntake.calories! * 2) / 5).toFixed(0),
         },
         {
             id: '1',
@@ -42,7 +42,7 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '午餐',
-            recommend: ((dailyIntake?.calories * 2) / 5).toFixed(0),
+            recommend: ((dailyIntake.calories! * 2) / 5).toFixed(0),
         },
         {
             id: '2',
@@ -87,8 +87,10 @@ export const useHome = () => {
 
     //获取摄入列表
     const GetDailyIntake = () => {
+        console.log(dailyIntake, 'dailyIntake', userInfo.id, 'userInfo.id')
         getDailyIntakeApi(userInfo.id as number)
             .then((res) => {
+                console.log(res, 'res')
                 if (res.code === 1) {
                     const dailyIntaked = {
                         fat: res.data.calories[2],
@@ -144,7 +146,7 @@ export const useHome = () => {
 
     useEffect(() => {
         GetDailyIntake()
-    }, [userInfo.id])
+    }, [dailyIntake])
 
     return {
         open,

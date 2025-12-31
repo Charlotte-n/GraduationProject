@@ -41,6 +41,7 @@ class HYRequest {
                 return res.data
             },
             (err) => {
+                console.log(err, 'err')
                 if (
                     err.response?.data.code === 401 ||
                     !err.response?.data.code

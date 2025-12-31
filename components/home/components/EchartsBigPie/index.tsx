@@ -12,7 +12,7 @@ interface IProps {
 }
 
 const EchartsBigPie: FC<IProps> = () => {
-    const { dailyIntake, dailyIntaked } = useHomeStore.getState()
+    const { dailyIntake, dailyIntaked } = useHomeStore()
     const sampleData = [
         Math.floor(dailyIntaked?.calories / dailyIntake?.calories) || 0,
     ]

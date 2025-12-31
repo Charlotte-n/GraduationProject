@@ -13,7 +13,7 @@ interface IProps {
 }
 
 const EchartSmallPie: FC<IProps> = () => {
-    const { dailyIntake, dailyIntaked } = useHomeStore.getState()
+    const { dailyIntake, dailyIntaked } = useHomeStore()
     const sampleData = [
         [
             Math.floor(

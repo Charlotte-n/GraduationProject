@@ -20,7 +20,6 @@ const MyImagePicker = ({
     const result = useRef<ImagePicker.ImagePickerResult | null>(null)
     const image = useRef<string | null>(null)
 
-    // TODO:权限
     const checkPermission = async () => {
         try {
             if (!hasPermission) {
@@ -52,7 +51,6 @@ const MyImagePicker = ({
     }
 
     useEffect(() => {
-        // TODO: 权限
         checkPermission().then((res) => {
             if (!res) {
                 showAlert(() => {

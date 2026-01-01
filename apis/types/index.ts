@@ -1,3 +1,4 @@
+export * from './common'
 export * from './commonRequest'
 export * from './diet'
 export * from './food'

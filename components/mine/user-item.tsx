@@ -1,4 +1,5 @@
 import { Icon, Text } from '@rneui/themed'
+import { RelativePathString, useRouter } from 'expo-router'
 import { memo } from 'react'
 import { TouchableOpacity } from 'react-native'
 
@@ -9,8 +10,10 @@ interface UserItemProps {
 
 const UserItem = (props: UserItemProps) => {
     const { title, path } = props
+    const router = useRouter()
+
     const goTo = () => {
-        console.log(path)
+        router.navigate(path as RelativePathString)
     }
     return (
         <TouchableOpacity

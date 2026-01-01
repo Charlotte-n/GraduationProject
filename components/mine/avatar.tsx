@@ -5,7 +5,7 @@ import { Fragment, memo } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
 function Avatar() {
-    const { userInfo } = useLoginRegisterStore.getState()
+    const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const getImage = (image: string) => {
         console.log(image)
     }

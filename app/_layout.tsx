@@ -44,6 +44,7 @@ export default function RootLayout() {
                 <Stack screenOptions={{ headerShown: false }}>
                     <Stack.Screen name="login-register" />
                     <Stack.Screen name="tabs" />
+                    <Stack.Screen name="mine-cpage" />
                 </Stack>
                 <StatusBar style="auto" />
             </ThemeProvider>

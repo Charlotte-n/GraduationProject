@@ -6,7 +6,7 @@ export interface GetDailyIntakeData {
     height: number | string
     sex: number | string
     target: number | string
-    userid: number
+    userid?: number
     weight: number | string
 }
 

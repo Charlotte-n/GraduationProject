@@ -63,8 +63,29 @@ export const verifyCodeApi = (parm: VerifyCodeParamType) => {
  * 获取用户信息
  * @param id
  */
-export const getUserInfo = (id: number) => {
+export const getUserInfo = (id?: number) => {
     return hyRequest.get({
         url: URL.GETUSERINFO + '/' + id,
+    })
+}
+
+/**
+ * 修改用户名
+ * @param username
+ * @param id
+ */
+export const updateUserName = ({
+    username,
+    id,
+}: {
+    username: string
+    id: number
+}) => {
+    return hyRequest.post({
+        url: URL.UPDATEUSERINFO,
+        data: {
+            username,
+            id,
+        },
     })
 }

@@ -17,12 +17,21 @@ const EchartSmallPie: FC<IProps> = () => {
     const sampleData = [
         [
             Math.floor(
-                dailyIntaked?.carbohydrate / dailyIntake?.carbohydrate,
+                (dailyIntaked?.carbohydrate || 0) /
+                    (dailyIntake?.carbohydrate || 1),
             ) || 0,
         ],
-        [Math.floor(dailyIntaked?.protein / dailyIntake?.protein) || 0],
-        [Math.floor(dailyIntaked?.fat / dailyIntake?.fat) || 0],
-        [Math.floor(dailyIntaked?.cellulose / dailyIntake?.cellulose) || 0],
+        [
+            Math.floor(
+                (dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1),
+            ) || 0,
+        ],
+        [Math.floor((dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1)) || 0],
+        [
+            Math.floor(
+                (dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1),
+            ) || 0,
+        ],
     ]
     //以后这是一个动态的数据
     const data = [
@@ -44,6 +53,8 @@ const EchartSmallPie: FC<IProps> = () => {
         },
     ]
     const yuansu = ['carbohydrate', 'protein', 'fat', 'cellulose']
+
+    console.log(sampleData)
 
     return (
         <View style={styles.container}>

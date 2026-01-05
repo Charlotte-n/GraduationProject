@@ -4,7 +4,7 @@ import { Icon } from '@rneui/themed'
 import { Fragment, memo } from 'react'
 import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
 
-function Avatar() {
+function Avatar({ showIcon = true }: { showIcon?: boolean }) {
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const getImage = (image: string) => {
         console.log(image)
@@ -37,12 +37,14 @@ function Avatar() {
                     {userInfo.username}
                 </Text>
 
-                <Icon
-                    name={'right'}
-                    type={'antdesign'}
-                    size={20}
-                    color={'#888888'}
-                />
+                {showIcon && (
+                    <Icon
+                        name={'right'}
+                        type={'antdesign'}
+                        size={20}
+                        color={'#888888'}
+                    />
+                )}
             </TouchableOpacity>
         </Fragment>
     )

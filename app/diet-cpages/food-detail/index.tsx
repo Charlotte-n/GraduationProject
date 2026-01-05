@@ -217,7 +217,9 @@ export default function FoodDetail() {
                                                 步骤{index + 1}
                                             </Text>
                                             <Image
-                                                source={{ uri: item }}
+                                                source={{
+                                                    uri: item?.trim(),
+                                                }}
                                                 style={{
                                                     width: '100%',
                                                     height: 200,

@@ -81,29 +81,36 @@ const CollectWrite = (
     }))
     return (
         <View style={styles.container}>
-            <View style={{ marginRight: 20 }}>
+            <View
+                style={{
+                    marginRight: 20,
+                    flexDirection: 'row',
+                }}
+            >
                 <ChangeIcon
+                    isShowNum={false}
                     likeData={{
                         isLike: isCollect,
                     }}
                     likeImages={{
-                        like: '@/assets/icon/collect1.png',
-                        unlike: '@/assets/icon/collect.png',
+                        like: require('@/assets/icon/collect1.png'),
+                        unlike: require('@/assets/icon/collect.png'),
                     }}
                     ImageStyle={{ height: 25, width: 25 }}
-                    handleLike={() => handleCollect(isCollect ? 0 : 1)}
+                    handleLike={() => handleCollect(isCollect ? 1 : 0)}
                 />
             </View>
             <ChangeIcon
+                isShowNum={false}
                 likeData={{
                     isLike: isWrite,
                 }}
                 likeImages={{
-                    like: '@/assets/icon/write1.png',
-                    unlike: '@/assets/icon/write.png',
+                    like: require('@/assets/icon/write1.png'),
+                    unlike: require('@/assets/icon/write.png'),
                 }}
                 ImageStyle={{ height: 25, width: 25 }}
-                handleLike={() => handleWrite(isWrite ? 0 : 1)}
+                handleLike={() => handleWrite(isWrite ? 1 : 0)}
             />
         </View>
     )
@@ -117,11 +124,13 @@ export default memo(
 
 const styles = StyleSheet.create({
     container: {
+        width: '100%',
+        paddingHorizontal: 20,
         flexDirection: 'row',
         alignItems: 'center',
-        paddingLeft: 20,
         backgroundColor: 'white',
         borderTopWidth: 1,
         borderColor: '#F1F3F4',
+        justifyContent: 'flex-end',
     },
 })

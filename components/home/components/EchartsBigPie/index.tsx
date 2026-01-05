@@ -17,7 +17,9 @@ const EchartsBigPie: FC<IProps> = () => {
 
     console.log(dailyIntake, dailyIntaked)
     const sampleData = [
-        Math.floor(dailyIntaked.calories! / dailyIntake.calories!) || 0,
+        Math.floor(
+            (dailyIntaked.calories || 0) / (dailyIntake.calories || 1),
+        ) || 0,
     ]
 
     return (

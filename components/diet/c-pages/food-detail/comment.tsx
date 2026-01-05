@@ -51,7 +51,7 @@ const Comment = (
             </AutoText>
             {/*用户发评论的帖子*/}
             <View style={styles.commentContainer}>
-                <Avatar />
+                <Avatar showIcon={false} />
                 <TouchableOpacity style={styles.commentUserInfoContainer}>
                     <TextInput
                         editable={false}

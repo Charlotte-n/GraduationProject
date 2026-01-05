@@ -6,10 +6,13 @@ import { BottomSheet, Button, Icon } from '@rneui/themed'
 import { memo, useEffect, useRef } from 'react'
 import {
     Keyboard,
+    KeyboardAvoidingView,
+    Platform,
     StyleSheet,
     TextInput,
     ToastAndroid,
     TouchableOpacity,
+    TouchableWithoutFeedback,
     View,
 } from 'react-native'
 
@@ -70,49 +73,64 @@ const CommentModal = ({
         }
     }, [])
     return (
-        <BottomSheet isVisible={isVisible} containerStyle={styles.container}>
-            <View style={styles.headerContainer}>
-                <TouchableOpacity style={styles.closeButton} onPress={onClose}>
-                    <Icon type="antdesign" name="close" />
-                </TouchableOpacity>
-            </View>
-            <View style={styles.contentContainer}>
-                <TextInput
-                    ref={commentInput}
-                    style={{
-                        backgroundColor: '#f6f6f6',
-                        borderRadius: 30,
-                        flex: 1,
-                        marginRight: 10,
-                        paddingHorizontal: 10,
-                        borderBottomWidth: 1,
-                        height: 45,
+        <BottomSheet isVisible={isVisible} containerStyle={{ flex: 1 }}>
+            <KeyboardAvoidingView
+                behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+                style={{ flex: 1 }}
+            >
+                <View style={styles.headerContainer}>
+                    <TouchableOpacity
+                        style={styles.closeButton}
+                        onPress={onClose}
+                    >
+                        <Icon type="antdesign" name="close" />
+                    </TouchableOpacity>
+                </View>
+                <TouchableWithoutFeedback
+                    onPress={() => {
+                        Keyboard.dismiss()
                     }}
-                    placeholder="写评论....."
-                    defaultValue=""
-                    multiline={true}
-                    onChangeText={handleComment}
-                />
-                <TouchableOpacity>
-                    <Button
-                        title={'发送'}
-                        buttonStyle={{
-                            backgroundColor: theme.colors.deep01Primary,
-                            borderRadius: 15,
-                            paddingVertical: 10,
-                            paddingHorizontal: 10,
-                        }}
-                        onPress={handleSendComment}
-                    ></Button>
-                </TouchableOpacity>
-            </View>
+                >
+                    <View style={styles.contentContainer}>
+                        <TextInput
+                            ref={commentInput}
+                            style={{
+                                backgroundColor: '#f6f6f6',
+                                borderRadius: 30,
+                                flex: 1,
+                                marginRight: 10,
+                                paddingHorizontal: 10,
+                                height: 45,
+                                color: 'black',
+                            }}
+                            placeholder="写评论....."
+                            placeholderTextColor="#999"
+                            defaultValue=""
+                            multiline={true}
+                            onChangeText={handleComment}
+                        />
+                        <TouchableOpacity>
+                            <Button
+                                title={'发送'}
+                                buttonStyle={{
+                                    backgroundColor: theme.colors.deep01Primary,
+                                    borderRadius: 15,
+                                    paddingVertical: 10,
+                                    paddingHorizontal: 10,
+                                }}
+                                onPress={handleSendComment}
+                            ></Button>
+                        </TouchableOpacity>
+                    </View>
+                </TouchableWithoutFeedback>
+            </KeyboardAvoidingView>
         </BottomSheet>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
-        height: 300,
+        height: 100,
     },
     headerContainer: {
         backgroundColor: 'white',

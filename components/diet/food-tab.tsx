@@ -3,6 +3,7 @@ import theme from '@/styles/theme/color'
 import { SingleFoodItemType, SingleFoodListType } from '@/types/home'
 import { onMomentumScrollEnd } from '@/utils/load-more'
 import { Icon } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { memo, RefObject, useState } from 'react'
 import {
     ActivityIndicator,
@@ -28,10 +29,13 @@ interface FoodTabProps {
 
 const FoodItem = ({ data }: { data: SingleFoodItemType }) => {
     const [isVisible, setIsVisible] = useState(false)
+    const router = useRouter()
 
     const handlePress = () => {
         // TODO: 食物詳情頁
-        console.log('FoodItem pressed')
+        router.navigate(
+            `/diet-cpages/food-nutrition?id=${data.id}&type=category`,
+        )
     }
 
     // show Record

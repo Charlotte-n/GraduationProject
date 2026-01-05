@@ -4,17 +4,20 @@ import { create } from 'zustand'
 import { createJSONStorage, persist } from 'zustand/middleware'
 
 interface DietStore {
+    url: string
     breakfastList: SingleFoodListType
     lunchList: SingleFoodListType
     dinnerList: SingleFoodListType
     fruitList: SingleFoodListType
     otherList: SingleFoodListType
     setFoodList: (list: SingleFoodListType, index: number) => void
+    setUrl: (url: string) => void
 }
 
-const useDietStore = create<DietStore>()(
+export const useDietStore = create<DietStore>()(
     persist(
         (set) => ({
+            url: '',
             breakfastList: [] as SingleFoodListType,
             lunchList: [] as SingleFoodListType,
             dinnerList: [] as SingleFoodListType,
@@ -39,6 +42,9 @@ const useDietStore = create<DietStore>()(
                         break
                 }
             },
+            setUrl: (url: string) => {
+                set({ url })
+            },
         }),
         {
             name: 'diet',
@@ -46,5 +52,3 @@ const useDietStore = create<DietStore>()(
         },
     ),
 )
-
-export default useDietStore

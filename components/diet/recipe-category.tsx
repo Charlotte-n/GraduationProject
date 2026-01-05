@@ -1,4 +1,5 @@
 import { FoodCategory } from '@/constants/diet'
+import { useRouter } from 'expo-router'
 import { memo } from 'react'
 import {
     Dimensions,
@@ -18,9 +19,11 @@ const Item = ({
     name: string
     id: number
 }) => {
+    const router = useRouter()
+
     const handlePress = () => {
-        console.log('handlePress')
         //TODO 跳转二级页面
+        router.navigate(`/diet-cpages/food-category?id=${id}`)
     }
     return (
         <TouchableOpacity style={sytleItem.container} onPress={handlePress}>

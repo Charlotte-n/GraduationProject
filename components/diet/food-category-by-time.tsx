@@ -1,5 +1,5 @@
 import { FoodListByCategoryApi } from '@/apis'
-import useDietStore from '@/store/diet'
+import { useDietStore } from '@/store/diet'
 import theme from '@/styles/theme/color'
 import { FoodListByCategoryType, SingleFoodListType } from '@/types/home'
 import { Tab, TabView } from '@rneui/themed'

@@ -4,12 +4,14 @@ import LoadingScheme from '@/components/diet/loading-scheme'
 import RecipeCategory from '@/components/diet/recipe-category'
 import SearchFilter from '@/components/diet/search-filter'
 import { SingleFoodListType } from '@/types/home'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 
 export default function Diet() {
     const [RecipeFood, setRecipeFood] = useState([] as SingleFoodListType[])
     const [loading, setLoading] = useState(true)
+    const router = useRouter()
 
     const getRecipeData = async () => {
         try {
@@ -23,6 +25,10 @@ export default function Diet() {
             setLoading(false)
         }
     }
+
+    const handleSearchPress = () => {
+        router.navigate('/diet-cpages/search')
+    }
     return (
         <ScrollView
             style={styles.container}
@@ -31,7 +37,11 @@ export default function Diet() {
         >
             {/* 搜索 */}
             <View style={styles.searchContainer}>
-                <SearchFilter type="home" isPress={true} />
+                <SearchFilter
+                    type="home"
+                    isPress={true}
+                    handlePress={handleSearchPress}
+                />
             </View>
             {/* 食谱分类 */}
             <View style={styles.categoryContainer}>

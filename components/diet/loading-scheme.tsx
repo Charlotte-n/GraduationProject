@@ -5,6 +5,7 @@ import { Icon, Skeleton } from '@rneui/themed'
 import { Fragment, memo } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import HotRecommendItem from '../home/components/HotRecommend/hotRecommendItem'
+import { useRouter } from 'expo-router'
 
 const LoadingScheme = ({
     data,
@@ -13,9 +14,13 @@ const LoadingScheme = ({
     data: SingleFoodListType
     isLoading: boolean
 }) => {
+    const router = useRouter()
+
     const handlePress = (id: number) => {
         // TODO: 跳转到菜品详情页面
         // console.log(id)
+        router.navigate(`/diet-cpages/food-detail?id=${id}`)
+        
     }
 
     const handleMorePress = () => {

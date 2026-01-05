@@ -38,12 +38,16 @@ const SearchFilter = ({
         value: search,
         onChangeText: (text: string) => {
             setSearch(text)
+            if (text.length === 0) {
+                setRecommendShowFood?.(true)
+            }
         },
         placeholder: '搜索相关菜品食物的热量',
     }
 
     const clearAll = () => {
         setSearch('')
+        setRecommendShowFood?.(true)
     }
 
     const gotoCamera = () => {
@@ -54,12 +58,8 @@ const SearchFilter = ({
         res: CommonResponseType<SingleFoodListType | FoodListByCategoryType>,
         showRecommendShowFood: boolean = false,
     ) => {
-        if (res.code !== 1) {
-            ToastAndroid.show('搜索失败', ToastAndroid.SHORT)
-            return
-        }
-
         showRecommendShowFood && setRecommendShowFood?.(false)
+
         if ((res.data as FoodListByCategoryType).foods.length === 0)
             setEmpty?.(true)
         else setEmpty?.(false)

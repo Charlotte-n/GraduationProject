@@ -46,18 +46,18 @@ export default function TabLayout() {
                     }}
                 />
                 <Tabs.Screen
-                    name="explore"
+                    name="more/index"
                     options={{
-                        title: 'Explore',
+                        title: 'More',
                         tabBarIcon: ({ color }) => (
                             <IconSymbol
                                 size={28}
-                                name="paperplane.fill"
+                                name="ellipsis.circle"
                                 color={color}
                             />
                         ),
                     }}
-                />
+                ></Tabs.Screen>
                 <Tabs.Screen
                     name="diet/index"
                     options={{

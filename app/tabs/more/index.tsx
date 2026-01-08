@@ -20,14 +20,14 @@ const getMoreFunctionList = () => {
             Image: (
                 <Image
                     style={{
-                        width: 30,
-                        height: 30,
+                        width: 25,
+                        height: 25,
                         marginBottom: 5,
                     }}
                     source={require('@/assets/images/robot.png')}
                 ></Image>
             ),
-            toPage: () => goto('/more-cpages/ai'),
+            toPage: () => goto('/more-cpages/ai' as RelativePathString),
         },
         {
             key: 1,
@@ -35,14 +35,15 @@ const getMoreFunctionList = () => {
             Image: (
                 <Image
                     style={{
-                        width: 30,
-                        height: 30,
+                        width: 25,
+                        height: 25,
                         marginBottom: 5,
                     }}
                     source={require('@/assets/icon/yinshiquan.png')}
                 ></Image>
             ),
-            toPage: () => goto('/more-cpages/communicate'),
+            toPage: () =>
+                goto('/more-cpages/communicate' as RelativePathString),
         },
         {
             key: 2,
@@ -50,14 +51,14 @@ const getMoreFunctionList = () => {
             Image: (
                 <Image
                     style={{
-                        width: 30,
-                        height: 30,
+                        width: 25,
+                        height: 25,
                         marginBottom: 5,
                     }}
                     source={require('@/assets/icon/yinshiquan.png')}
                 ></Image>
             ),
-            toPage: () => goto('/more-cpages/group'),
+            toPage: () => goto('/more-cpages/group' as RelativePathString),
         },
     ]
     return moreFunction
@@ -72,7 +73,7 @@ export default function More({
     const moreFunctionList = getMoreFunctionList()
 
     return (
-        <View>
+        <View style={{ flex: 1, backgroundColor: 'white' }}>
             <BottomSheet isVisible={true}>
                 <Card containerStyle={styles.cardCotainer}>
                     {/* 标题 */}
@@ -147,7 +148,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         borderWidth: 1,
         borderColor: theme.colors.deep01Primary,
-        width: 70,
-        height: 70,
+        width: 80,
+        height: 80,
     },
 })

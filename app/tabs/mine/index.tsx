@@ -57,7 +57,7 @@ export default function MineScreen() {
                     scrollEnabled={false}
                     data={DATA}
                     renderItem={({ item }) => (
-                        <UserItem title={item.title} path={item.path} />
+                        <UserItem title={item?.title} path={item?.path} />
                     )}
                     keyExtractor={(item) => item?.id}
                 />

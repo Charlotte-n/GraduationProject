@@ -363,6 +363,7 @@ export default function Register() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: 'white',
     },
     content: {
         height: screenHeight / 3.8,

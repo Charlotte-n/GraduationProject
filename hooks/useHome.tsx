@@ -27,7 +27,7 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '早餐',
-            recommend: (((dailyIntake.calories || 0) * 2) / 5).toFixed(0),
+            recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
         },
         {
             id: '1',
@@ -42,7 +42,7 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '午餐',
-            recommend: (((dailyIntake.calories || 0) * 2) / 5).toFixed(0),
+            recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
         },
         {
             id: '2',
@@ -57,7 +57,7 @@ export const useHome = () => {
                 ></Image>
             ),
             name: '晚餐',
-            recommend: ((dailyIntake.calories || 0) / 5).toFixed(0),
+            recommend: ((dailyIntake?.calories || 0) / 5).toFixed(0),
         },
     ]
 

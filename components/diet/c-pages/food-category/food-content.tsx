@@ -57,7 +57,7 @@ const FoodContent = ({ FoodList = [] }: { FoodList: SingleFoodListType }) => {
                           >
                               <FoodItem
                                   title={item.title as string}
-                                  hot={item.calories as number}
+                                  hot={item?.calories as number}
                                   id={item.id as number}
                               />
                           </TouchableOpacity>

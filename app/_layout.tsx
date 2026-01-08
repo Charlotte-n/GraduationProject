@@ -32,7 +32,8 @@ export default function RootLayout() {
             router.replace('/login-register')
         } else if (token && inAuthGroup) {
             // 已登入，重定向到主頁
-            router.replace('/tabs')
+            // router.replace('/login-register')
+            router.replace('/tabs/home')
         }
     }, [token, segments])
 

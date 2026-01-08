@@ -43,7 +43,7 @@ const SearchResult = ({ foodData }: { foodData: SingleFoodListType }) => {
                             {item.title}
                         </AutoText>
                         <AutoText fontSize={4}>
-                            {item.calories?.toFixed(2)}Kcal/100g
+                            {item?.calories?.toFixed(2)}Kcal/100g
                         </AutoText>
                     </View>
                     <View style={styles.editContainer}>

@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar'
 import { screenHeight, windowHeight } from '@/common/common'
 import { useLoginRegisterStore } from '@/store'
 import type { InputRef } from '@/types'
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
     Alert,
     Dimensions,
@@ -37,6 +37,10 @@ export default function Login() {
     const getIsSee = (value: boolean) => {
         setIsSee(value)
     }
+
+    useEffect(() => {
+        console.log('Login')
+    }, [])
 
     // 验证邮箱规则
     const verifyEmailRule = () => {
@@ -76,7 +80,7 @@ export default function Login() {
                     // 存储token & 跳转
                     useLoginRegisterStore.getState()?.setUserInfo?.(res.user)
                     useLoginRegisterStore.getState()?.setToken?.(res.token)
-                    router.navigate('/tabs')
+                    router.navigate('/tabs/home')
                 } else {
                     Alert.alert('', '邮箱或者密码错误,请重新输入', [
                         {

@@ -1,4 +1,5 @@
 import { AiQuestionApi } from '@/apis'
+import { screenHeight } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
 import Container from '@/common/components/container'
 import { useLoginRegisterStore } from '@/store'
@@ -215,7 +216,10 @@ export default function AI() {
     return (
         <Container>
             <KeyboardAvoidingView
-                style={styles.container}
+                style={[
+                    styles.container,
+                    { paddingBottom: insets.bottom || 25 },
+                ]}
                 behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
             >
                 {/* ai对话 */}
@@ -231,74 +235,74 @@ export default function AI() {
                         showsVerticalScrollIndicator={false}
                         keyExtractor={(item, index) => index.toString()}
                     />
-                    {/* 文本框 */}
-                    <View
-                        style={[
-                            styles.inputContainer,
-                            {
-                                paddingBottom: Math.max(insets.bottom, 10),
-                            },
-                        ]}
-                    >
-                        <View style={styles.inputWrapper}>
-                            <TextInput
-                                ref={inputRef}
-                                style={styles.textInput}
-                                placeholder="輸入消息..."
-                                placeholderTextColor="#999"
-                                multiline={false}
-                                maxLength={500}
-                                returnKeyType="send"
-                                value={inputContent}
-                                editable={!isSending}
-                                onChangeText={setInputContent}
-                            />
-                            {inputContent.trim().length > 0 && (
-                                <TouchableOpacity
-                                    style={styles.clearButton}
-                                    onPress={() => setInputContent('')}
-                                    hitSlop={{
-                                        top: 10,
-                                        bottom: 10,
-                                        left: 10,
-                                        right: 10,
-                                    }}
-                                >
-                                    <Icon
-                                        name="close"
-                                        type="material"
-                                        size={18}
-                                        color="#999"
-                                    />
-                                </TouchableOpacity>
-                            )}
-                        </View>
-                        <Button
-                            onPress={handleSend}
-                            disabled={!inputContent.trim() || isSending}
-                            loading={isSending}
-                            buttonStyle={[
-                                styles.sendButton,
-                                (!inputContent.trim() || isSending) &&
-                                    styles.sendButtonDisabled,
-                            ]}
-                            titleStyle={styles.sendButtonText}
-                            icon={
-                                !isSending && (
-                                    <Icon
-                                        name="send"
-                                        type="material"
-                                        size={18}
-                                        color="#fff"
-                                        style={styles.sendIcon}
-                                    />
-                                )
-                            }
-                        >
-                            {isSending ? '發送中...' : '發送'}
-                        </Button>
-                    </View>
                 </ScrollView>
+                {/* 文本框 */}
+                <View
+                    style={[
+                        styles.inputContainer,
+                        {
+                            paddingBottom: Math.max(insets.bottom, 10),
+                        },
+                    ]}
+                >
+                    <View style={styles.inputWrapper}>
+                        <TextInput
+                            ref={inputRef}
+                            style={styles.textInput}
+                            placeholder="輸入消息..."
+                            placeholderTextColor="#999"
+                            multiline={false}
+                            maxLength={500}
+                            returnKeyType="send"
+                            value={inputContent}
+                            editable={!isSending}
+                            onChangeText={setInputContent}
+                        />
+                        {inputContent.trim().length > 0 && (
+                            <TouchableOpacity
+                                style={styles.clearButton}
+                                onPress={() => setInputContent('')}
+                                hitSlop={{
+                                    top: 10,
+                                    bottom: 10,
+                                    left: 10,
+                                    right: 10,
+                                }}
+                            >
+                                <Icon
+                                    name="close"
+                                    type="material"
+                                    size={18}
+                                    color="#999"
+                                />
+                            </TouchableOpacity>
+                        )}
+                    </View>
+                    <Button
+                        onPress={handleSend}
+                        disabled={!inputContent.trim() || isSending}
+                        loading={isSending}
+                        buttonStyle={[
+                            styles.sendButton,
+                            (!inputContent.trim() || isSending) &&
+                                styles.sendButtonDisabled,
+                        ]}
+                        titleStyle={styles.sendButtonText}
+                        icon={
+                            !isSending && (
+                                <Icon
+                                    name="send"
+                                    type="material"
+                                    size={18}
+                                    color="#fff"
+                                    style={styles.sendIcon}
+                                />
+                            )
+                        }
+                    >
+                        {isSending ? '發送中...' : '發送'}
+                    </Button>
+                </View>
             </KeyboardAvoidingView>
         </Container>
     )
@@ -307,14 +311,14 @@ export default function AI() {
 const styles = StyleSheet.create({
     container: {
         position: 'relative',
-        backgroundColor: 'gray',
+        backgroundColor: 'white',
         flex: 1,
         paddingHorizontal: 20,
         paddingTop: 10,
     },
     aiConversation: {
-        height: '80%',
-        marginBottom: 80,
+        height: screenHeight * 0.8,
+        position: 'relative',
     },
     aiMessageContainer: {
         flexDirection: 'row',
@@ -369,7 +373,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         paddingHorizontal: 20,
         paddingTop: 10,
-        backgroundColor: 'gray',
+        // backgroundColor: 'gray',
         borderTopWidth: 1,
         borderTopColor: '#e0e0e0',
     },
@@ -378,7 +382,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginRight: 10,
-        position: 'relative',
+        // position: 'relative',
     },
     textInput: {
         flex: 1,
@@ -403,8 +407,8 @@ const styles = StyleSheet.create({
         height: 45,
         paddingHorizontal: 20,
         borderRadius: 22,
-        backgroundColor: theme.colors.deep01Primary,
         minWidth: 70,
+        backgroundColor: theme.colors.deep01Primary,
     },
     sendButtonDisabled: {
         backgroundColor: '#ccc',

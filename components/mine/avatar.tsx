@@ -2,9 +2,22 @@ import MyImagePicker from '@/common/components/image-picker'
 import { useLoginRegisterStore } from '@/store'
 import { Icon } from '@rneui/themed'
 import { Fragment, memo } from 'react'
-import { Image, StyleSheet, Text, TouchableOpacity } from 'react-native'
+import type { ImageStyle } from 'react-native'
+import {
+    Image,
+    StyleProp,
+    StyleSheet,
+    Text,
+    TouchableOpacity,
+} from 'react-native'
 
-function Avatar({ showIcon = true }: { showIcon?: boolean }) {
+function Avatar({
+    showIcon = true,
+    avatarStyle,
+}: {
+    showIcon?: boolean
+    avatarStyle?: StyleProp<ImageStyle>
+}) {
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const getImage = (image: string) => {
         console.log(image)
@@ -20,7 +33,10 @@ function Avatar({ showIcon = true }: { showIcon?: boolean }) {
                             ? { uri: userInfo.avatar }
                             : require('@/assets/images/bg_login_header.png')
                     }
-                    style={{ width: 100, height: 100, borderRadius: 50 }}
+                    style={[
+                        { width: 100, height: 100, borderRadius: 50 },
+                        avatarStyle,
+                    ]}
                 />
             </MyImagePicker>
             <TouchableOpacity style={styles.usernameContainer}>

@@ -1,13 +1,18 @@
+import { JoinGroupByCodeApi } from '@/apis'
 import { GroupInfoType } from '@/apis/types'
 import AutoText from '@/common/components/AutoText'
+import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { Button } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { memo } from 'react'
 import {
+    Alert,
     Image,
     ImageStyle,
     StyleProp,
     StyleSheet,
+    ToastAndroid,
     TouchableOpacity,
     View,
     ViewStyle,
@@ -18,21 +23,37 @@ const GroupItem = ({
     showRateOther = true,
     showButton = true,
     stylesGroup = {},
+    updateGroupList,
 }: {
     groupItem: GroupInfoType
     showRateOther?: boolean
     showButton?: boolean
-    stylesGroup: {
+    stylesGroup?: {
         groupItemStyle?: StyleProp<ViewStyle>
         containerStyle?: StyleProp<ViewStyle>
         ImageStyles?: StyleProp<ImageStyle>
     }
+    updateGroupList: () => void
 }) => {
+    const router = useRouter()
+    const userInfo = useLoginRegisterStore((state) => state.userInfo)
+
     const gotoGroupDetailHome = (id: number) => {
-        // TODO: 跳转小组详情首页
+        router.navigate(`/more-cpages/group/c-pages/group-detail?id=${id}`)
     }
     const JoinGroup = (codeInfo: string) => {
-        // TODO: 加入小组
+        JoinGroupByCodeApi(userInfo?.id as number, codeInfo)
+            .then((res) => {
+                if (res.code !== 1) {
+                    ToastAndroid.show('加入小组失败', ToastAndroid.SHORT)
+                    return
+                }
+                Alert.alert('加入小组成功')
+                updateGroupList()
+            })
+            .catch((err) => {
+                ToastAndroid.show('加入小组失败', ToastAndroid.SHORT)
+            })
     }
     return (
         <>

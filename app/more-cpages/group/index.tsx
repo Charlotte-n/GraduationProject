@@ -44,6 +44,7 @@ export default function Group() {
             })
     }
 
+
     useEffect(() => {
         getThreeGroups()
         getGroupClassification()
@@ -60,7 +61,7 @@ export default function Group() {
             >
                 {/* 推荐小组 */}
                 <View style={styles.recommendGroupContainer}>
-                    <SearchGroup groupList={threeGroups} />
+                    <SearchGroup groupList={threeGroups} updateGroupList={getThreeGroupApi} />
                 </View>
 
                 {/* 分类小组 */}

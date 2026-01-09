@@ -6,7 +6,13 @@ import { Image, StyleSheet, View } from 'react-native'
 import GroupList from './components/group-list'
 import Search from './components/search'
 
-const SearchGroup = ({ groupList = [] }: { groupList: GroupInfoType[] }) => {
+const SearchGroup = ({
+    groupList = [],
+    updateGroupList,
+}: {
+    groupList: GroupInfoType[]
+    updateGroupList: () => void
+}) => {
     return (
         <>
             <View>
@@ -25,7 +31,10 @@ const SearchGroup = ({ groupList = [] }: { groupList: GroupInfoType[] }) => {
                 <View style={styles.searchContainer}>
                     <Search />
                 </View>
-                <GroupList groupList={groupList} />
+                <GroupList
+                    groupList={groupList}
+                    updateGroupList={updateGroupList}
+                />
             </View>
         </>
     )

@@ -8,7 +8,7 @@ import Avatar from '@/components/mine/avatar'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { Button, Card, Icon } from '@rneui/themed'
-import { useLocalSearchParams } from 'expo-router'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import moment from 'moment'
 import { useState } from 'react'
 import {
@@ -24,6 +24,7 @@ import {
 } from 'react-native'
 
 export default function ClockPage() {
+    const router = useRouter()
     const [loading, setLoading] = useState(false)
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const { id } = useLocalSearchParams()
@@ -42,7 +43,7 @@ export default function ClockPage() {
     const clock = async () => {
         try {
             const formData = new FormData()
-            images.forEach((value) => {
+            images?.forEach((value) => {
                 formData.append('images', {
                     uri: value,
                     name: 'image.jpeg',
@@ -73,6 +74,7 @@ export default function ClockPage() {
             }
 
             // TODO： 跳到详情页面
+            router.replace(`/more-cpages/group/c-pages/group-detail?id=${id}`)
 
             await ClockCalendarApi(data)
 
@@ -87,7 +89,7 @@ export default function ClockPage() {
                 ToastAndroid.SHORT,
                 ToastAndroid.TOP,
             )
-            console.log(error)
+            console.log(error, 'error')
         } finally {
             setLoading(false)
         }
@@ -107,6 +109,7 @@ export default function ClockPage() {
                             <TextInput
                                 style={styles.textInput}
                                 placeholder={'请输入打卡内容'}
+                                placeholderTextColor={'#999'}
                                 textAlignVertical="top"
                                 multiline={true}
                                 numberOfLines={5}
@@ -233,6 +236,7 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     textInput: {
+        color: '#000',
         borderRadius: 20,
         backgroundColor: theme.colors.secondary,
         minHeight: 150,

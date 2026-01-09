@@ -5,6 +5,7 @@ import {
 import AutoText from '@/common/components/AutoText'
 import theme from '@/styles/theme/color'
 import { Icon } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { memo, useEffect, useState } from 'react'
 import { Image, StyleSheet, TouchableOpacity, View } from 'react-native'
 import GroupItem from '../search-group/components/group-item'
@@ -18,9 +19,12 @@ const CategoryGroup = ({
     const [groupCategory, setGroupCategory] = useState<
         groupSingleClassificationType[][]
     >([])
+    const router = useRouter()
 
     const handleGoMore = (category: string) => {
-        console.log(category)
+        router.navigate(
+            `/more-cpages/group/c-pages/search?category=${category}`,
+        )
     }
 
     const setGroup = () => {

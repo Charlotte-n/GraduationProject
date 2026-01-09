@@ -2,7 +2,7 @@ import MyImagePicker from '@/common/components/image-picker'
 import { useLoginRegisterStore } from '@/store'
 import { Icon } from '@rneui/themed'
 import { Fragment, memo } from 'react'
-import type { ImageStyle } from 'react-native'
+import type { ImageStyle, TextStyle } from 'react-native'
 import {
     Image,
     StyleProp,
@@ -13,10 +13,16 @@ import {
 
 function Avatar({
     showIcon = true,
+    avatarUrl,
     avatarStyle,
+    textStyle,
+    name,
 }: {
     showIcon?: boolean
+    avatarUrl?: string
     avatarStyle?: StyleProp<ImageStyle>
+    textStyle?: StyleProp<TextStyle>
+    name?: string
 }) {
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const getImage = (image: string) => {
@@ -29,8 +35,8 @@ function Avatar({
             <MyImagePicker type="avatar" getImage={getImage}>
                 <Image
                     source={
-                        userInfo.avatar
-                            ? { uri: userInfo.avatar }
+                        avatarUrl || userInfo.avatar
+                            ? { uri: avatarUrl || userInfo.avatar }
                             : require('@/assets/images/bg_login_header.png')
                     }
                     style={[
@@ -41,16 +47,19 @@ function Avatar({
             </MyImagePicker>
             <TouchableOpacity style={styles.usernameContainer}>
                 <Text
-                    style={{
-                        fontSize: 20,
-                        marginRight: 50,
-                        fontWeight: '300',
-                        width: 100,
-                    }}
+                    style={[
+                        {
+                            fontSize: 20,
+                            marginRight: 50,
+                            fontWeight: '300',
+                            width: 100,
+                        },
+                        textStyle,
+                    ]}
                     ellipsizeMode={'tail'}
                     numberOfLines={1}
                 >
-                    {userInfo.username}
+                    {name || userInfo.username}
                 </Text>
 
                 {showIcon && (

@@ -3,13 +3,23 @@ import { memo } from 'react'
 import { ScrollView, StyleSheet, View } from 'react-native'
 import GroupItem from './group-item'
 
-const GroupList = ({ groupList = [] }: { groupList: GroupInfoType[] }) => {
+const GroupList = ({
+    groupList = [],
+    updateGroupList,
+}: {
+    groupList: GroupInfoType[]
+    updateGroupList: () => void
+}) => {
     return (
         <>
             <ScrollView style={styles.container}>
                 {groupList.map((item) => (
                     <View style={{ marginBottom: 30 }}>
-                        <GroupItem key={item.id} groupItem={item} />
+                        <GroupItem
+                            key={item.id}
+                            groupItem={item}
+                            updateGroupList={updateGroupList}
+                        />
                     </View>
                 ))}
             </ScrollView>

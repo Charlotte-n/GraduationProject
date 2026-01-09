@@ -1,4 +1,5 @@
 export * from './diet'
 export * from './food'
+export * from './group'
 export * from './home'
 export * from './loginRegister'

@@ -22,6 +22,7 @@ export default function CalendarPage() {
         }
         ClockCalendarApi(ClockCalendarBody)
             .then((res) => {
+                console.log(res.data, res)
                 if (res.code !== 1 || !res.data) {
                     ToastAndroid.show('获取打卡记录失败', ToastAndroid.SHORT)
                     return

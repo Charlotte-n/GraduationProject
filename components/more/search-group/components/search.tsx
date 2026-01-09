@@ -1,12 +1,15 @@
 import { windowWidth } from '@/common/common'
 import theme from '@/styles/theme/color'
 import { Button } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { memo } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 
 const Search = () => {
+    const router = useRouter()
+
     const goToSearch = () => {
-        // TODO: 跳转搜索页面
+        router.navigate('/more-cpages/group/c-pages/search')
     }
     return (
         <View style={styles.container}>

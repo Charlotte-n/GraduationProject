@@ -1,3 +1,4 @@
+import { RecognizeFood } from '@/apis/types'
 import { SingleFoodListType } from '@/types/home'
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { create } from 'zustand'
@@ -10,6 +11,8 @@ interface DietStore {
     dinnerList: SingleFoodListType
     fruitList: SingleFoodListType
     otherList: SingleFoodListType
+    recognizeFoodList: RecognizeFood[]
+    setRecognizeFoodList: (list: RecognizeFood[]) => void
     setFoodList: (list: SingleFoodListType, index: number) => void
     setUrl: (url: string) => void
 }
@@ -18,6 +21,7 @@ export const useDietStore = create<DietStore>()(
     persist(
         (set) => ({
             url: '',
+            recognizeFoodList: [] as RecognizeFood[],
             breakfastList: [] as SingleFoodListType,
             lunchList: [] as SingleFoodListType,
             dinnerList: [] as SingleFoodListType,
@@ -44,6 +48,9 @@ export const useDietStore = create<DietStore>()(
             },
             setUrl: (url: string) => {
                 set({ url })
+            },
+            setRecognizeFoodList: (list: RecognizeFood[]) => {
+                set({ recognizeFoodList: list })
             },
         }),
         {

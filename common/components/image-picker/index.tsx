@@ -1,6 +1,6 @@
 import * as ImagePicker from 'expo-image-picker'
 import { useRouter } from 'expo-router'
-import { memo, PropsWithChildren, useEffect, useRef } from 'react'
+import { memo, PropsWithChildren, useEffect, useRef, useState } from 'react'
 import { Alert, Linking, ToastAndroid, TouchableOpacity } from 'react-native'
 import { useCameraPermission } from 'react-native-vision-camera'
 
@@ -18,7 +18,7 @@ const MyImagePicker = ({
     const { hasPermission, requestPermission } = useCameraPermission()
     const router = useRouter()
     const result = useRef<ImagePicker.ImagePickerResult | null>(null)
-    const image = useRef<string | null>(null)
+    const [image, setImage] = useState<string | null>(null)
 
     const checkPermission = async () => {
         try {
@@ -71,17 +71,23 @@ const MyImagePicker = ({
             })
             result.current = res
             if (result.current.canceled) return
-            image.current = result.current?.assets?.[0]?.uri
-            getImage(image.current)
-
-            if (type === 'camera') {
-                // 跳转到识别食物页面
-            }
+            setImage(result.current?.assets?.[0]?.uri ?? '')
+            getImage(image ?? '')
         } catch (error) {
             ToastAndroid.show('图片获取失败', ToastAndroid.SHORT)
             console.error(error)
         }
     }
+
+    //获取到识别的食物
+    useEffect(() => {
+        if (image) {
+            getImage(image ?? '')
+            if (type === 'camera') {
+                router.navigate('/recognize-food/index')
+            }
+        }
+    }, [image])
 
     return <TouchableOpacity onPress={pickImage}>{children}</TouchableOpacity>
 }

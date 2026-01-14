@@ -17,12 +17,14 @@ function Avatar({
     avatarStyle,
     textStyle,
     name,
+    showName = true,
 }: {
     showIcon?: boolean
     avatarUrl?: string
     avatarStyle?: StyleProp<ImageStyle>
     textStyle?: StyleProp<TextStyle>
     name?: string
+    showName?: boolean
 }) {
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const getImage = (image: string) => {
@@ -45,32 +47,34 @@ function Avatar({
                     ]}
                 />
             </MyImagePicker>
-            <TouchableOpacity style={styles.usernameContainer}>
-                <Text
-                    style={[
-                        {
-                            fontSize: 20,
-                            marginRight: 50,
-                            fontWeight: '300',
-                            width: 100,
-                        },
-                        textStyle,
-                    ]}
-                    ellipsizeMode={'tail'}
-                    numberOfLines={1}
-                >
-                    {name || userInfo.username}
-                </Text>
+            {showName && (
+                <TouchableOpacity style={styles.usernameContainer}>
+                    <Text
+                        style={[
+                            {
+                                fontSize: 20,
+                                marginRight: 50,
+                                fontWeight: '300',
+                                width: 100,
+                            },
+                            textStyle,
+                        ]}
+                        ellipsizeMode={'tail'}
+                        numberOfLines={1}
+                    >
+                        {name || userInfo.username}
+                    </Text>
 
-                {showIcon && (
-                    <Icon
-                        name={'right'}
-                        type={'antdesign'}
-                        size={20}
-                        color={'#888888'}
-                    />
-                )}
-            </TouchableOpacity>
+                    {showIcon && (
+                        <Icon
+                            name={'right'}
+                            type={'antdesign'}
+                            size={20}
+                            color={'#888888'}
+                        />
+                    )}
+                </TouchableOpacity>
+            )}
         </Fragment>
     )
 }

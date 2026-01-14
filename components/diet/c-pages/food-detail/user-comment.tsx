@@ -60,14 +60,24 @@ const UserComment = (
     }))
     return (
         <>
-            {comments.length > 0 &&
+            {comments &&
+                comments.length > 0 &&
                 comments.map((comment) => {
                     return (
                         <View
                             key={comment.id}
                             style={styles.commentItemContainer}
                         >
-                            <Avatar />
+                            <Avatar
+                                avatarUrl={comment.avatar}
+                                showIcon={false}
+                                showName={false}
+                                avatarStyle={{
+                                    width: 30,
+                                    height: 30,
+                                    marginRight: 10,
+                                }}
+                            />
                             <View style={styles.commentUserInfoContainer}>
                                 {/* 自己的评论 */}
                                 <View
@@ -98,78 +108,91 @@ const UserComment = (
                                     </TouchableOpacity>
                                 </View>
                                 {/* 子评论 */}
-                                {comment.children.length > 0 && (
-                                    <View style={styles.childCommentContainer}>
-                                        {comment.children[0].avatar && (
-                                            <Avatar />
-                                        )}
+                                {comment.children &&
+                                    comment.children.length > 0 && (
                                         <View
-                                            style={
-                                                styles.childCommentContentContainer
-                                            }
+                                            style={styles.childCommentContainer}
                                         >
-                                            <AutoText
-                                                numberOfLines={1}
-                                                fontSize={4.3}
-                                                style={{
-                                                    color: '#cccccc',
-                                                    marginBottom: 5,
-                                                }}
-                                            >
-                                                {comment.children[0].username}
-                                            </AutoText>
-                                            <AutoText fontSize={4.3}>
-                                                {comment.children[0].content}
-                                            </AutoText>
-                                            {comment.children.length > 1 && (
-                                                <TouchableOpacity
-                                                    style={{ marginTop: 5 }}
-                                                    onPress={() =>
-                                                        goCommentComply(
-                                                            comment.id,
-                                                        )
-                                                    }
-                                                >
-                                                    <AutoText
-                                                        fontSize={4.3}
-                                                        style={{
-                                                            color: theme.colors
-                                                                .deep01Primary,
-                                                        }}
-                                                    >
-                                                        查看全部 (
-                                                        {
-                                                            comment.children
-                                                                .length
-                                                        }
-                                                        )
-                                                    </AutoText>
-                                                </TouchableOpacity>
+                                            {comment.children[0].avatar && (
+                                                <Avatar />
                                             )}
+                                            <View
+                                                style={
+                                                    styles.childCommentContentContainer
+                                                }
+                                            >
+                                                <AutoText
+                                                    numberOfLines={1}
+                                                    fontSize={4.3}
+                                                    style={{
+                                                        color: '#cccccc',
+                                                        marginBottom: 5,
+                                                    }}
+                                                >
+                                                    {
+                                                        comment.children[0]
+                                                            .username
+                                                    }
+                                                </AutoText>
+                                                <AutoText fontSize={4.3}>
+                                                    {
+                                                        comment.children[0]
+                                                            .content
+                                                    }
+                                                </AutoText>
+                                                {comment.children.length >
+                                                    1 && (
+                                                    <TouchableOpacity
+                                                        style={{ marginTop: 5 }}
+                                                        onPress={() =>
+                                                            goCommentComply(
+                                                                comment.id,
+                                                            )
+                                                        }
+                                                    >
+                                                        <AutoText
+                                                            fontSize={4.3}
+                                                            style={{
+                                                                color: theme
+                                                                    .colors
+                                                                    .deep01Primary,
+                                                            }}
+                                                        >
+                                                            查看全部 (
+                                                            {
+                                                                comment.children
+                                                                    .length
+                                                            }
+                                                            )
+                                                        </AutoText>
+                                                    </TouchableOpacity>
+                                                )}
+                                            </View>
+                                            {/* 喜欢不喜欢 */}
+                                            <LikeDislike
+                                                isShowNum={false}
+                                                likeData={comment.children[0]}
+                                                likeImages={{
+                                                    like: '@/assets/icon/zan2.png',
+                                                    unlike: '@/assets/icon/zan1.png',
+                                                }}
+                                                ImageStyle={{
+                                                    width: 15,
+                                                    height: 15,
+                                                    marginRight: 5,
+                                                    marginBottom: 28,
+                                                }}
+                                                handleLike={() =>
+                                                    handleLike(
+                                                        comment.children[0].id,
+                                                    )
+                                                }
+                                            />
                                         </View>
-                                        {/* 喜欢不喜欢 */}
-                                        <LikeDislike
-                                            likeData={comment.children[0]}
-                                            likeImages={{
-                                                like: '@/assets/icon/zan2.png',
-                                                unlike: '@/assets/icon/zan1.png',
-                                            }}
-                                            ImageStyle={{
-                                                width: 15,
-                                                height: 15,
-                                                marginRight: 5,
-                                                marginBottom: 28,
-                                            }}
-                                            handleLike={() =>
-                                                handleLike(
-                                                    comment.children[0].id,
-                                                )
-                                            }
-                                        />
-                                    </View>
-                                )}
+                                    )}
                             </View>
                             <LikeDislike
+                                isShowNum={false}
                                 likeData={comment}
                                 likeImages={{
                                     like: '@/assets/icon/zan2.png',

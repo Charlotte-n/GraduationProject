@@ -89,3 +89,21 @@ export const updateUserName = ({
         },
     })
 }
+
+interface uploadAvatarParamType {
+    image: string
+}
+/**
+ * 上传头像
+ * @param param
+ * @param id
+ */
+export const uploadAvatar = (param: uploadAvatarParamType, id: number) => {
+    return hyRequest.post({
+        url: URL.UPLOADAVATAR + '/' + id,
+        data: param,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
+}

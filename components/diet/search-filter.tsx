@@ -4,6 +4,7 @@ import { SingleFoodListType } from '@/apis/types/food'
 import { screenWidth } from '@/common/common'
 import theme from '@/styles/theme/color'
 import { Icon } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { useState } from 'react'
 import {
     StyleSheet,
@@ -33,6 +34,7 @@ const SearchFilter = ({
     category_id,
 }: SearchFilterProps) => {
     const [search, setSearch] = useState('')
+    const router = useRouter()
     const commonInputProps = {
         style: { width: (screenWidth - 40) / 1.4 },
         value: search,
@@ -52,6 +54,7 @@ const SearchFilter = ({
 
     const gotoCamera = () => {
         console.log('gotoCamera')
+        router.navigate('/camera/index')
     }
 
     const handleResponse = (

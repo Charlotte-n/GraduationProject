@@ -4,14 +4,12 @@ import {
     DefaultTheme,
     ThemeProvider,
 } from '@react-navigation/native'
-import { Stack, useRouter, useSegments } from 'expo-router'
+import { Stack } from 'expo-router'
 import { StatusBar } from 'expo-status-bar'
-import { useEffect } from 'react'
 import 'react-native-reanimated'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 
 import { useColorScheme } from '@/hooks/use-color-scheme'
-import { useLoginRegisterStore } from '@/store'
 
 export const unstable_settings = {
     anchor: 'tabs',
@@ -19,23 +17,6 @@ export const unstable_settings = {
 
 export default function RootLayout() {
     const colorScheme = useColorScheme()
-    // 改為使用響應式的 hook
-    const { token } = useLoginRegisterStore.getState()
-    const segments = useSegments()
-    const router = useRouter()
-
-    useEffect(() => {
-        const inAuthGroup = segments[0] === 'login-register'
-
-        if (!token && !inAuthGroup) {
-            // 未登入，重定向到登入頁面
-            router.replace('/login-register')
-        } else if (token && inAuthGroup) {
-            // 已登入，重定向到主頁
-            // router.replace('/login-register')
-            router.replace('/tabs/home')
-        }
-    }, [token, segments])
 
     return (
         <SafeAreaProvider>
@@ -43,6 +24,7 @@ export default function RootLayout() {
                 value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
             >
                 <Stack screenOptions={{ headerShown: false }}>
+                    <Stack.Screen name="index" />
                     <Stack.Screen name="login-register" />
                     <Stack.Screen name="tabs" />
                     <Stack.Screen name="mine-cpage" />

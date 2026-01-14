@@ -1,5 +1,4 @@
 import { PostCommentsApi } from '@/apis'
-import { PostFoodCommentData } from '@/apis/types/food'
 import { useFoodStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { BottomSheet, Button, Icon } from '@rneui/themed'
@@ -21,8 +20,10 @@ const CommentModal = ({
     onClose,
     foodId,
     getComment,
+    logId,
 }: {
-    foodId: number
+    logId?: number
+    foodId?: number
     isVisible: boolean
     onClose: () => void
     getComment: () => void
@@ -47,11 +48,12 @@ const CommentModal = ({
             return
         }
         try {
-            const data: PostFoodCommentData = {
+            const data = {
                 content: comment.current,
-                dishId: foodId,
                 userId: userInfo.id as number,
                 parentId: parentId,
+                dishId: foodId as number,
+                logId: logId as number,
             }
 
             await PostCommentsApi(data)

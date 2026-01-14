@@ -14,8 +14,12 @@ interface HotRecommendProps {
 
 const hotRecommend = ({ title, data }: HotRecommendProps) => {
     const router = useRouter()
-    const handlePress = () => {}
-    const handleMorePress = () => {}
+    const handlePress = (id: number) => {
+        router.navigate(`/diet-cpages/food-detail?id=${id}`)
+    }
+    const handleMorePress = () => {
+        router.navigate('/tabs/health-meal')
+    }
 
     return (
         <View>
@@ -49,7 +53,7 @@ const hotRecommend = ({ title, data }: HotRecommendProps) => {
                             style={{
                                 width: (windowWidth - 30) / 3,
                             }}
-                            onPress={handlePress}
+                            onPress={() => handlePress(item.id as number)}
                         >
                             <HotRecommendItem data={item} />
                         </TouchableOpacity>

@@ -76,21 +76,23 @@ export default function TabLayout() {
                 <Tabs.Screen
                     name="more/index"
                     options={{
-                        title: 'More',
                         tabBarActiveTintColor: theme.colors.deep01Primary,
-
                         tabBarButton: (props) => (
                             <TouchableOpacity
                                 {...(props as TouchableOpacityProps)}
                                 activeOpacity={1}
                                 onPress={() => setIsMoreVisible(!isMoreVisible)}
+                                style={{
+                                    position: 'relative',
+                                    top: -15,
+                                }}
                             >
                                 <View>
                                     <Image
                                         source={require('@/assets/images/add2.png')}
                                         style={{
-                                            width: 50,
-                                            height: 50,
+                                            width: 60,
+                                            height: 60,
                                         }}
                                     ></Image>
                                 </View>

@@ -2,10 +2,10 @@ import { windowWidth } from '@/common/common'
 import theme from '@/styles/theme/color'
 import { SingleFoodListType } from '@/types/home'
 import { Icon, Skeleton } from '@rneui/themed'
+import { useRouter } from 'expo-router'
 import { Fragment, memo } from 'react'
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import HotRecommendItem from '../home/components/HotRecommend/hotRecommendItem'
-import { useRouter } from 'expo-router'
 
 const LoadingScheme = ({
     data,
@@ -17,15 +17,11 @@ const LoadingScheme = ({
     const router = useRouter()
 
     const handlePress = (id: number) => {
-        // TODO: 跳转到菜品详情页面
-        // console.log(id)
         router.navigate(`/diet-cpages/food-detail?id=${id}`)
-        
     }
 
     const handleMorePress = () => {
-        // TODO: 跳转到更多页面
-        // console.log('更多')
+        router.navigate('/tabs/health-meal')
     }
     return (
         <Fragment>

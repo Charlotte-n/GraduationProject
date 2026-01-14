@@ -45,6 +45,7 @@ const SearchFilter = ({
             }
         },
         placeholder: '搜索相关菜品食物的热量',
+        placeholderTextColor: '#999',
     }
 
     const clearAll = () => {
@@ -54,7 +55,7 @@ const SearchFilter = ({
 
     const gotoCamera = () => {
         console.log('gotoCamera')
-        router.navigate('/camera/index')
+        router.navigate('/camera')
     }
 
     const handleResponse = (

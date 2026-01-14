@@ -65,6 +65,7 @@ const getMoreFunctionList = () => {
 }
 
 export default function More({
+    isVisible,
     onClose,
 }: {
     isVisible: boolean
@@ -74,7 +75,7 @@ export default function More({
 
     return (
         <View style={{ flex: 1, backgroundColor: 'white' }}>
-            <BottomSheet isVisible={true}>
+            <BottomSheet isVisible={isVisible} onBackdropPress={onClose}>
                 <Card containerStyle={styles.cardCotainer}>
                     {/* 标题 */}
                     <View style={styles.titleContainer}>

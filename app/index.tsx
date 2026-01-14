@@ -1,6 +1,6 @@
 import { useLoginRegisterStore } from '@/store'
 import { useRouter, useSegments } from 'expo-router'
-import { useEffect } from 'react'
+import { useLayoutEffect } from 'react'
 import { InteractionManager, StyleSheet, View } from 'react-native'
 
 export default function Index() {
@@ -9,7 +9,7 @@ export default function Index() {
     const { token } = useLoginRegisterStore.getState()
     const segments = useSegments()
 
-    useEffect(() => {
+    useLayoutEffect(() => {
         // 確保 Root Layout 已經掛載後再執行導航
         const interaction = InteractionManager.runAfterInteractions(() => {
             const inAuthGroup = segments[0] === 'login-register'

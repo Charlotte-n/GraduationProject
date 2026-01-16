@@ -115,7 +115,9 @@ export default function AI() {
             },
         ]
     })
-    const ws = useRef(new WebSocket('ws://127.0.0.1/api/ws/' + userInfo.id))
+    const ws = useRef(
+        new WebSocket('ws://149.104.29.34:8080/ws/' + userInfo.id),
+    )
     const msg = useRef('')
     const first = useRef(true)
 
@@ -177,6 +179,7 @@ export default function AI() {
         }
 
         ws.current.onmessage = (event) => {
+            console.log('event', event)
             // 收到结束标记 '|'，标记消息完成并重置状态
             if (event.data === '|') {
                 first.current = true
@@ -197,9 +200,9 @@ export default function AI() {
             }
         }
 
-        ws.current.onclose = () => {
-            console.log('连接关闭')
-        }
+        // ws.current.onclose = () => {
+        //     console.log('连接关闭')
+        // }
 
         ws.current.onerror = (error) => {
             console.log('WebSocket错误:', error)

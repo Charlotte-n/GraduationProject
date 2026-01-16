@@ -20,6 +20,7 @@ import {
     useCameraDevice,
 } from 'react-native-vision-camera'
 
+import { useDietStore, useLoginRegisterStore } from '@/store'
 import { getImage, getSearchImage } from '@/utils/uploadImg'
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 
@@ -29,9 +30,15 @@ export default function CameraPage() {
     const [selectedImage, setSelectedImage] = useState('')
     const [sizeImage, setSizeImage] = useState('')
     const router = useRouter()
-
+    const loginStoreState = useLoginRegisterStore.getState()
+    const dietStoreState = useDietStore.getState()
     const goBack = () => {
         router.back()
+    }
+
+    // 跳转
+    const goToFoodList = () => {
+        router.navigate('/recognize-food')
     }
 
     const upload = async () => {
@@ -42,14 +49,16 @@ export default function CameraPage() {
                 { compress: 0.8, format: SaveFormat.JPEG },
             )
             setSizeImage(compressedImage.uri)
+            goToFoodList()
         } catch (error) {
             console.error('Error compressing image', error)
             setSelectedImage(selectedImage)
         }
     }
+
     useEffect(() => {
         if (sizeImage) {
-            getSearchImage(sizeImage)
+            getSearchImage(sizeImage, dietStoreState)
                 .then((res) => {
                     console.log(res)
                 })
@@ -59,12 +68,21 @@ export default function CameraPage() {
                 })
             setSelectedImage('')
         }
+        return () => {
+            setSelectedImage('')
+            setSizeImage('')
+        }
     }, [sizeImage])
 
     const takePicture = async () => {
         try {
             const photo = await cameraRef.current?.takePhoto()
-            setSelectedImage(photo?.path ?? '')
+            const imageUri = photo?.path
+                ? photo.path.startsWith('file://')
+                    ? photo.path
+                    : `file://${photo.path}`
+                : ''
+            setSelectedImage(imageUri)
         } catch (error) {
             console.log(error)
             ToastAndroid.show('拍照失败', ToastAndroid.SHORT)
@@ -126,7 +144,12 @@ export default function CameraPage() {
                     <View style={styles.photoContainer}>
                         <Text style={styles.photoTitle}> 餐前拍一拍</Text>
                         <View style={styles.photoButton}>
-                            <ImagePicker type="camera" getImage={getImage}>
+                            <ImagePicker
+                                type="camera"
+                                getImage={(image) =>
+                                    getImage(image, loginStoreState)
+                                }
+                            >
                                 <Image
                                     style={{
                                         width: 40,

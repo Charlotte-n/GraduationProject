@@ -54,7 +54,6 @@ const SearchFilter = ({
     }
 
     const gotoCamera = () => {
-        console.log('gotoCamera')
         router.navigate('/camera')
     }
 

@@ -1,5 +1,6 @@
 import MyImagePicker from '@/common/components/image-picker'
 import { useLoginRegisterStore } from '@/store'
+import getImage from '@/utils/uploadImg'
 import { Icon } from '@rneui/themed'
 import { Fragment, memo } from 'react'
 import type { ImageStyle, TextStyle } from 'react-native'
@@ -26,15 +27,15 @@ function Avatar({
     name?: string
     showName?: boolean
 }) {
-    const userInfo = useLoginRegisterStore((state) => state.userInfo)
-    const getImage = (image: string) => {
-        console.log(image)
-    }
-
+    const loginStoreState = useLoginRegisterStore.getState()
+    const { userInfo } = loginStoreState
     return (
         <Fragment>
             {/*  头像 */}
-            <MyImagePicker type="avatar" getImage={getImage}>
+            <MyImagePicker
+                type="avatar"
+                getImage={(image) => getImage(image, loginStoreState)}
+            >
                 <Image
                     source={
                         avatarUrl || userInfo.avatar

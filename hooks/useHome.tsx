@@ -3,63 +3,97 @@ import { useHomeStore, useLoginRegisterStore } from '@/store'
 import { SingleFoodListType } from '@/types/home'
 import { transformAdaption } from '@/utils/adaption'
 import { Image } from '@rneui/themed'
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ToastAndroid } from 'react-native'
 
+interface IntakeItem {
+    id: number
+}
+
+type IntakeFood = [IntakeItem[], IntakeItem[], IntakeItem[]]    
 export const useHome = () => {
     const [open, setOpen] = useState(false)
     const [RecipeFood, setRecipeFood] = useState<SingleFoodListType>([])
     const [dialogVisible, setDialogVisible] = useState(false)
     const { dailyIntake } = useHomeStore.getState()
     const { userInfo } = useLoginRegisterStore.getState()
+    const [IntakeFoodList, setIntakeFoodList] = useState<IntakeFood>([
+        [],
+        [],
+        [],
+    ] as IntakeFood)
+
+    const GetDailyIntakeList = () => {
+        getDailyIntakeApi(userInfo?.id as number)
+            .then((res) => {
+                const result = [
+                    res.data.breakfast,
+                    res.data.lunch,
+                    res.data.dinner,
+                ]
+                setIntakeFoodList(result as IntakeFood)
+            })
+            .catch((err) => {
+                ToastAndroid.show('获取今日摄入失败', ToastAndroid.SHORT)
+                console.log(err)
+            })
+    }
+
+
+
     //静态资源
-    const foodList = [
-        {
-            id: '0',
-            icon: (
-                <Image
-                    source={require('@/assets/icon/breakfast.png')}
-                    style={{
-                        width: transformAdaption(30),
-                        height: transformAdaption(30),
-                        marginRight: transformAdaption(10),
-                    }}
-                ></Image>
-            ),
-            name: '早餐',
-            recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
-        },
-        {
-            id: '1',
-            icon: (
-                <Image
-                    source={require('@/assets/icon/lunch.png')}
-                    style={{
-                        width: transformAdaption(30),
-                        height: transformAdaption(30),
-                        marginRight: transformAdaption(10),
-                    }}
-                ></Image>
-            ),
-            name: '午餐',
-            recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
-        },
-        {
-            id: '2',
-            icon: (
-                <Image
-                    source={require('@/assets/icon/fruit.png')}
-                    style={{
-                        width: transformAdaption(30),
-                        height: transformAdaption(30),
-                        marginRight: transformAdaption(10),
-                    }}
-                ></Image>
-            ),
-            name: '晚餐',
-            recommend: ((dailyIntake?.calories || 0) / 5).toFixed(0),
-        },
-    ]
+    const foodList = useMemo(()=>{
+        return  [
+            {
+                id: '0',
+                icon: (
+                    <Image
+                        source={require('@/assets/icon/breakfast.png')}
+                        style={{
+                            width: transformAdaption(30),
+                            height: transformAdaption(30),
+                            marginRight: transformAdaption(10),
+                        }}
+                    ></Image>
+                ),
+                name: '早餐',
+                recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
+                intakeFoodList: IntakeFoodList[0],
+            },
+            {
+                id: '1',
+                icon: (
+                    <Image
+                        source={require('@/assets/icon/lunch.png')}
+                        style={{
+                            width: transformAdaption(30),
+                            height: transformAdaption(30),
+                            marginRight: transformAdaption(10),
+                        }}
+                    ></Image>
+                ),
+                name: '午餐',
+                recommend: (((dailyIntake?.calories || 0) * 2) / 5).toFixed(0),
+                intakeFoodList: IntakeFoodList[1],
+            },
+            {
+                id: '2',
+                icon: (
+                    <Image
+                        source={require('@/assets/icon/fruit.png')}
+                        style={{
+                            width: transformAdaption(30),
+                            height: transformAdaption(30),
+                            marginRight: transformAdaption(10),
+                        }}
+                    ></Image>
+                ),
+                name: '晚餐',
+                recommend: ((dailyIntake?.calories || 0) / 5).toFixed(0),
+                intakeFoodList: IntakeFoodList[2],
+            },
+        ]
+    },[IntakeFoodList,dailyIntake])
 
     const toggleDialog = async () => {
         const { height, weight, exercise = 0, target = 0 } = userInfo
@@ -87,7 +121,6 @@ export const useHome = () => {
 
     //获取摄入列表
     const GetDailyIntake = () => {
-        console.log(dailyIntake, 'dailyIntake', userInfo.id, 'userInfo.id')
         getDailyIntakeApi(userInfo.id as number)
             .then((res) => {
                 console.log(res, 'res')
@@ -142,6 +175,7 @@ export const useHome = () => {
     useEffect(() => {
         toggleDialog()
         getRecipeData()
+        GetDailyIntakeList()
     }, [])
 
     useEffect(() => {

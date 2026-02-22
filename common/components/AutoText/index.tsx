@@ -18,7 +18,7 @@ const AutoText = ({
 }: PropsWithChildren<IProps>) => {
     const size = PixelRatio.get() * transformAdaption(fontSize ? fontSize : 5)
     return (
-        <Text style={[style, { fontSize: size }]} {...props}>
+        <Text style={[style, { fontSize: size}]} {...props}>
             {children}
         </Text>
     )

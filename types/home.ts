@@ -1,10 +1,18 @@
 import React from 'react'
 
+interface IntakeItem {
+    id: number
+    title: string
+    image: string
+    g: number
+}
+
 interface FoodItemType {
     id: string
     icon: React.JSX.Element
     name: string
     recommend: string
+    intakeFoodList: IntakeItem[]
 }
 
 type FoodListType = FoodItemType[]
@@ -30,4 +38,5 @@ export interface SingleFoodItemType {
 
 export type SingleFoodListType = SingleFoodItemType[]
 
-export type { FoodItemType, FoodListType }
+export type { FoodItemType, FoodListType, IntakeItem }
+

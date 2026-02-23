@@ -11,7 +11,7 @@ import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { SingleFoodItemType } from '@/types/home'
 import { BottomSheet, Button, Card, Dialog, Icon } from '@rneui/themed'
-import { memo, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import {
     Image,
     StyleSheet,
@@ -27,10 +27,11 @@ interface RecordFoodProps {
     isVisible: boolean
     onClose: () => void
     id: number
-    type?: string
+    time?: number
+    showDelete?: boolean
 }
 
-const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
+const RecordFood = ({ isVisible, onClose, id, time, showDelete = false }: RecordFoodProps) => {
     const [visible, setVisible] = useState(false)
     const [foodDetail, setfoodDetail] = useState<SingleFoodItemType>(
         {} as SingleFoodItemType,
@@ -61,7 +62,7 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
     }
 
     const handleSave = () => {
-        addFood()
+        changeFoodOperator(1)
     }
 
     const danwei = (value: string | number) => {
@@ -85,33 +86,37 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
     }
 
 
-    const addFood = () => {
-        const data: CaloriesBodyData = {
+    const changeFood: CaloriesBodyData = useMemo(() => {
+        return {
             fat: danwei(foodDetail.fat as number), //脂肪
             calories: danwei(foodDetail.calories as number), //热量
             carbohydrate: danwei(foodDetail.carbohydrate as number), //碳水化合物
             cellulose: danwei(foodDetail.cellulose as number), //纤维素
-            type: selectedIndex, //时间
+            type: time || selectedIndex, //时间
             protein: danwei(foodDetail.protein as number), //蛋白质
             id: userId as number, //用户id
             foodId: foodDetail.id as number, //食物id
             operator: 1,
-            g: g.current, //克数
+            g: g.current || 0, //克数
         }
+    }, [foodDetail, time, selectedIndex, userId, g.current])
 
-        addCaloriesApi(data)
+
+    const changeFoodOperator = (operator: 0 | 1) => {
+        changeFood.operator = operator
+        addCaloriesApi(changeFood)
             .then((res) => {
                 if (!res.data) {
-                    ToastAndroid.show('添加失败', ToastAndroid.SHORT)
+                    ToastAndroid.show(operator === 1 ? '添加失败' : '删除失败', ToastAndroid.SHORT)
                     return
                 }
-                ToastAndroid.show('添加成功', ToastAndroid.SHORT)
+                ToastAndroid.show(operator === 1 ? '添加成功' : '删除成功', ToastAndroid.SHORT)
                 GetDailyIntakeList()
                 onClose()
                 g.current = 100
             })
             .catch((err) => {
-                ToastAndroid.show('添加失败', ToastAndroid.SHORT)
+                ToastAndroid.show(operator === 1 ? '添加失败' : '删除失败', ToastAndroid.SHORT)
                 console.log(err)
             })
     }
@@ -124,8 +129,15 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
     return (
         <BottomSheet isVisible={isVisible}>
             <Card containerStyle={cardContainerStyle}>
-                {/* close and icon */}
+                {/* delete and close and icon */}
                 <View style={styles.topContainer}>
+                    {
+                        showDelete && (
+                            <TouchableOpacity style={styles.deleteContainer} onPress={() => changeFoodOperator(0)}>
+                                <AutoText fontSize={4.5} style={{ color: theme.colors.deep01Primary }}>删除此记录</AutoText>
+                            </TouchableOpacity>
+                        )
+                    }
                     <TouchableOpacity
                         style={styles.iconContainer}
                         onPress={() => {
@@ -133,7 +145,7 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
                         }}
                     >
                         <Text style={styles.iconText}>
-                            {foodTime[selectedIndex]}
+                            {foodTime[time || selectedIndex]}
                         </Text>
                         <Icon type={'antdesign'} name={'down'} size={15} />
                     </TouchableOpacity>
@@ -263,6 +275,11 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+    },
+    deleteContainer: {
+        position: 'absolute',
+        left: 0,
+        top: 0,
     },
     topContainer: {
         flexDirection: 'row',

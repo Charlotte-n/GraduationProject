@@ -28,8 +28,7 @@ export default function CommunicateDetail() {
     const [RecordDetail, setRecordDetail] = useState<GetRecordDetail>(
         {} as GetRecordDetail,
     )
-    const { id, type: topicId, likeType: likeTypeParam } = useLocalSearchParams()
-    const likeType = useRef<number>(Number(likeTypeParam))
+    const { id, type: topicId } = useLocalSearchParams()
     const topicWidth =
         Number(topicId) === 1 ? windowWidth / 4.5 : windowWidth / 4
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
@@ -53,10 +52,6 @@ export default function CommunicateDetail() {
         }
         getCommentApi(param)
             .then((res) => {
-                if (!res.data) {
-                    ToastAndroid.show('获取评论失败', ToastAndroid.SHORT)
-                    return
-                }
                 setComments(res?.data || [])
             })
             .catch((err) => {
@@ -180,11 +175,7 @@ export default function CommunicateDetail() {
                     </TouchableOpacity>
 
                     <UserButton
-                        data={{
-                            type: likeType.current,
-                            id: Number(id),
-                        }}
-                        likeType={likeType}
+                        id={Number(id)}
                     />
                 </View>
 

@@ -33,10 +33,6 @@ const UserComment = (
     const getComment = () => {
         getCommentsApi(foodId, userInfo.id as number)
             .then((res) => {
-                if (!res.data) {
-                    ToastAndroid.show('获取评论失败', ToastAndroid.SHORT)
-                    return
-                }
                 setComments(res.data)
             })
             .catch((err) => {
@@ -142,31 +138,31 @@ const UserComment = (
                                                 </AutoText>
                                                 {comment.children.length >
                                                     1 && (
-                                                    <TouchableOpacity
-                                                        style={{ marginTop: 5 }}
-                                                        onPress={() =>
-                                                            goCommentComply(
-                                                                comment.id,
-                                                            )
-                                                        }
-                                                    >
-                                                        <AutoText
-                                                            fontSize={4.3}
-                                                            style={{
-                                                                color: theme
-                                                                    .colors
-                                                                    .deep01Primary,
-                                                            }}
-                                                        >
-                                                            查看全部 (
-                                                            {
-                                                                comment.children
-                                                                    .length
+                                                        <TouchableOpacity
+                                                            style={{ marginTop: 5 }}
+                                                            onPress={() =>
+                                                                goCommentComply(
+                                                                    comment.id,
+                                                                )
                                                             }
-                                                            )
-                                                        </AutoText>
-                                                    </TouchableOpacity>
-                                                )}
+                                                        >
+                                                            <AutoText
+                                                                fontSize={4.3}
+                                                                style={{
+                                                                    color: theme
+                                                                        .colors
+                                                                        .deep01Primary,
+                                                                }}
+                                                            >
+                                                                查看全部 (
+                                                                {
+                                                                    comment.children
+                                                                        .length
+                                                                }
+                                                                )
+                                                            </AutoText>
+                                                        </TouchableOpacity>
+                                                    )}
                                             </View>
                                             {/* 喜欢不喜欢 */}
                                             <LikeDislike

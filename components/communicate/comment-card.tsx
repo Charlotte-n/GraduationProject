@@ -2,10 +2,10 @@ import { getCommentApi, LogCommentApi, LogCommentSingleApi } from '@/apis'
 import { CommunicateSingleContentData, FoodCommentListData } from '@/apis/types'
 import { windowWidth } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
-import { useLoginRegisterStore } from '@/store'
+import { useCommunicateStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { useRouter } from 'expo-router'
-import { memo, RefObject, useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useState } from 'react'
 import {
     Image,
     StyleSheet,
@@ -30,13 +30,14 @@ enum LikeMap {
 }
 
 const buttonsConfig = (
-    likes: number[],
+    likeCounts: [number, number],
     currentType: LikeMap,
     getLikes: (type: LikeMap) => void,
 ) => {
+    const [eatMore = 0, eatLess = 0] = likeCounts
     return [
         {
-            title: ` 要少吃 ${likes.length ? likes[1] : 0}人`,
+            title: ` 要少吃 ${eatLess}人`,
             handlePress: () => getLikes(LikeMap.DISLIKE),
             style: {
                 backgroundColor:
@@ -49,7 +50,7 @@ const buttonsConfig = (
             },
         },
         {
-            title: ` 要多吃 ${likes.length ? likes[0] : 0}人`,
+            title: ` 要多吃 ${eatMore}人`,
             handlePress: () => getLikes(LikeMap.LIKE),
             style: {
                 backgroundColor:
@@ -65,10 +66,17 @@ const buttonsConfig = (
 }
 
 export const UserButton = memo(
-    ({ data, likeType }: { data: Partial<CommunicateSingleContentData>, likeType: RefObject<number> }) => {
-        const [likes, setLikes] = useState<number[]>([])
-        const [currentLikeType, setCurrentLikeType] = useState<number>(likeType.current)
+    ({ id }: { id: number }) => {
         const userInfo = useLoginRegisterStore((state) => state.userInfo)
+        const updateOneCommunicate = useCommunicateStore((state) => state.updateOneCommunicate)
+        const currentItem = useCommunicateStore((state) =>
+            state.communicate.find((item) => item.id === id),
+        )
+        const currentType = currentItem?.type ?? 0
+        const displayLikes: [number, number] = [
+            currentItem?.likeNum ?? 0,
+            currentItem?.disLikeNum ?? 0,
+        ]
 
         const logComment = (type?: number, lodId?: number) => {
             LogCommentApi(type || 0, userInfo.id as number, lodId!)
@@ -77,22 +85,24 @@ export const UserButton = memo(
                         ToastAndroid.show('操作失败', ToastAndroid.SHORT)
                         return
                     }
-                    setCurrentLikeType(res.data[2]!)
-                    setLikes(res.data)
+                    const counts = res.data as number[]
+                    updateOneCommunicate(id, {
+                        type: type ?? 0,
+                        likeNum: counts[0],
+                        disLikeNum: counts[1],
+                    })
                 })
                 .catch((err) => {
                     ToastAndroid.show('操作失败', ToastAndroid.SHORT)
                 })
         }
 
-        //获取喜欢
         const getLikes = (type?: number) => {
-            logComment(type, data.id)
-            likeType.current = type || 0 as number
+            logComment(type, id)
         }
 
         const logs = () => {
-            LogCommentSingleApi(userInfo.id as number, data.id!)
+            LogCommentSingleApi(userInfo.id as number, id)
                 .then((res) => {
                     if (!res.data) {
                         ToastAndroid.show(
@@ -101,7 +111,11 @@ export const UserButton = memo(
                         )
                         return
                     }
-                    setLikes(res.data)
+                    const counts = res.data as number[]
+                    updateOneCommunicate(id, {
+                        likeNum: counts[0],
+                        disLikeNum: counts[1],
+                    })
                 })
                 .catch((err) => {
                     ToastAndroid.show('获取单个评论失败', ToastAndroid.SHORT)
@@ -110,9 +124,9 @@ export const UserButton = memo(
 
         useEffect(() => {
             logs()
-        }, [data])
+        }, [id])
 
-        const buttons = buttonsConfig(likes, currentLikeType, getLikes)
+        const buttons = buttonsConfig(displayLikes, currentType, getLikes)
         return (
             <>
                 {buttons.map((item, index) => (
@@ -138,16 +152,14 @@ export const UserButton = memo(
     },
 )
 
-const CommentCard = ({ index, data }: Props) => {
+const CommentCard = ({ data, index }: Props) => {
     const [comments, setComments] = useState<FoodCommentListData>([])
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const router = useRouter()
-    const likeType = useRef<number>(data.type ?? 0)
-
 
     const gotoCommunicateDetail = () => {
         router.navigate(
-            `/more-cpages/communicate/c-pages/communicate-detail?id=${data.id}&type=${data.topicId}&likeType=${likeType.current}`,
+            `/more-cpages/communicate/c-pages/communicate-detail?id=${data.id}&type=${data.topicId}`,
         )
     }
 
@@ -213,9 +225,9 @@ const CommentCard = ({ index, data }: Props) => {
                 <View style={styles.imageContainer}>
                     {data.images &&
                         data.images instanceof Array &&
-                        (data.images as string[]).map((item, index) => (
+                        (data.images as string[]).map((item, imgIndex) => (
                             <Image
-                                key={index}
+                                key={imgIndex}
                                 source={{
                                     uri: item,
                                 }}
@@ -265,7 +277,7 @@ const CommentCard = ({ index, data }: Props) => {
                     </Text>
                 </TouchableOpacity>
                 {/* buttons */}
-                <UserButton data={data} likeType={likeType} />
+                <UserButton id={data.id} />
             </View>
         </TouchableOpacity>
     )

@@ -1,3 +1,4 @@
+export * from './communicate'
 export * from './diet'
 export * from './food'
 export * from './group'

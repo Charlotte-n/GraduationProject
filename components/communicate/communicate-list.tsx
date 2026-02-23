@@ -1,32 +1,53 @@
-import { CommunicateSingleContentData } from '@/apis/types'
+import {
+    CommunicateContentData,
+    CommunicateSingleContentData,
+} from '@/apis/types'
 import { memo } from 'react'
-import { StyleSheet, View } from 'react-native'
+import { FlatList, ListRenderItem, StyleSheet, View } from 'react-native'
 import Empty from '../diet/c-pages/search/empty'
 import CommentCard from './comment-card'
 
-interface Props {
-    data: CommunicateSingleContentData[]
-}
+const CommunicateList = ({
+    communicate,
+}: {
+    communicate: CommunicateContentData
+}) => {
+    const renderItem: ListRenderItem<CommunicateSingleContentData> = ({
+        item,
+        index,
+    }) => (
+        <View style={styles.communicateItem}>
+            <CommentCard data={item} index={index} />
+        </View>
+    )
 
-const CommunicateList = ({ data }: Props) => {
+    const keyExtractor = (item: CommunicateSingleContentData) =>
+        item.id.toString()
+
     return (
-        <>
-            {data.length > 0 ? (
-                data.map((item, index) => (
-                    <View key={index} style={styles.communicateItem}>
-                        <CommentCard data={item} index={index} />
-                    </View>
-                ))
-            ) : (
-                <Empty text="暂无人发布评论" />
-            )}
-        </>
+        <FlatList
+            data={communicate ?? []}
+            keyExtractor={keyExtractor}
+            renderItem={renderItem}
+            scrollEnabled={false}
+            style={styles.list}
+            contentContainerStyle={
+                communicate?.length ? undefined : styles.emptyContainer
+            }
+            ListEmptyComponent={<Empty text="暂无人发布评论" />}
+        />
     )
 }
 
 const styles = StyleSheet.create({
+    list: {
+        flex: 1,
+    },
     communicateItem: {
         marginBottom: 15,
+    },
+    emptyContainer: {
+        flexGrow: 1,
     },
 })
 

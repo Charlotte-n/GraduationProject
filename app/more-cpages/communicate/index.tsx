@@ -3,12 +3,12 @@ import {
     getRecordMemoryApi,
     getTopicApi,
 } from '@/apis'
-import { CommunicateContentData, GetCommunicateContentData } from '@/apis/types'
+import { GetCommunicateContentData } from '@/apis/types'
 import Container from '@/common/components/container'
 import CommunicateHeader from '@/components/communicate/communicate-header'
 import CommunicateList from '@/components/communicate/communicate-list'
 import StickyHeader from '@/components/communicate/sticky-header'
-import { useLoginRegisterStore } from '@/store'
+import { useCommunicateStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import {
@@ -27,7 +27,8 @@ export default function Communicate() {
         { id: string; title: string; desc: string }[]
     >([])
     const [topicId, setTopicId] = useState(0)
-    const [communicate, setCommunicate] = useState<CommunicateContentData>([])
+    const setCommunicate = useCommunicateStore((state) => state.setCommunicate)
+    const communicate = useCommunicateStore((state) => state.communicate)
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const [recordNumber, setRecordNumber] = useState([0, 0, 0])
 
@@ -160,11 +161,11 @@ export default function Communicate() {
                     getId={getId}
                 />
                 {/* 广场内容 */}
-                <View style={{ marginTop: 15 }}>
-                    <CommunicateList data={communicate} />
+                <View style={{ marginTop: 15, flex: 1 }}>
+                    <CommunicateList communicate={communicate} />
                 </View>
             </Animated.ScrollView>
-        </Container>
+        </Container >
     )
 }
 

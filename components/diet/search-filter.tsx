@@ -22,6 +22,7 @@ interface SearchFilterProps {
     setRecommendShowFood?: (isShow: boolean) => void
     setSearchFoodResult?: (food: any) => void
     setEmpty?: (isEmpty: boolean) => void
+    setLoading?: (isLoading: boolean) => void
 }
 
 const SearchFilter = ({
@@ -32,6 +33,7 @@ const SearchFilter = ({
     setSearchFoodResult,
     setEmpty,
     category_id,
+    setLoading,
 }: SearchFilterProps) => {
     const [search, setSearch] = useState('')
     const router = useRouter()
@@ -62,15 +64,16 @@ const SearchFilter = ({
         showRecommendShowFood: boolean = false,
     ) => {
         showRecommendShowFood && setRecommendShowFood?.(false)
-
         if ((res.data as FoodListByCategoryType).foods.length === 0)
             setEmpty?.(true)
         else setEmpty?.(false)
 
         setSearchFoodResult?.((res.data as FoodListByCategoryType).foods)
+
     }
 
     const searchFood = () => {
+        setLoading?.(true)
         FoodListByCategoryApi({ title: search })
             .then(
                 (
@@ -84,11 +87,14 @@ const SearchFilter = ({
             .catch((err) => {
                 ToastAndroid.show('搜索失败', ToastAndroid.SHORT)
                 console.log(err)
+            }).finally(() => {
+                setLoading?.(false)
             })
     }
 
     // 种类 + 文字搜索食物
     const searchFoodByCategoryTitle = () => {
+        setLoading?.(true)
         FoodListByCategoryApi({ title: search, category_id })
             .then((res) => {
                 handleResponse(res)
@@ -96,10 +102,13 @@ const SearchFilter = ({
             .catch((err) => {
                 ToastAndroid.show('搜索失败', ToastAndroid.SHORT)
                 console.log(err)
+            }).finally(() => {
+                setLoading?.(false)
             })
     }
 
     const searchFoodByCategory = () => {
+        setLoading?.(true)
         FoodListByCategoryApi({ category_id })
             .then((res) => {
                 handleResponse(res)
@@ -107,6 +116,9 @@ const SearchFilter = ({
             .catch((err) => {
                 ToastAndroid.show('搜索失败', ToastAndroid.SHORT)
                 console.log(err)
+            })
+            .finally(() => {
+                setLoading?.(false)
             })
     }
 

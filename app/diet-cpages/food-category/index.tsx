@@ -9,10 +9,12 @@ import Container from '@/common/components/container'
 import FoodContent from '@/components/diet/c-pages/food-category/food-content'
 import Empty from '@/components/diet/c-pages/search/empty'
 import SearchFilter from '@/components/diet/search-filter'
+import theme from '@/styles/theme/color'
 import { Skeleton } from '@rneui/themed'
 import { useLocalSearchParams } from 'expo-router'
 import { useEffect, useState } from 'react'
 import {
+    ActivityIndicator,
     StyleSheet,
     Text,
     ToastAndroid,
@@ -31,6 +33,7 @@ export default function FoodCategory() {
     const [activeIndex, setActiveIndex] = useState(() =>
         activeIndexParam ? Number(activeIndexParam) : 1,
     )
+    const [loading, setLoading] = useState(false)
 
     // 获取食物分类列表
     const getFoodCategory = () => {
@@ -52,6 +55,7 @@ export default function FoodCategory() {
     }
 
     const getFoodList = () => {
+        setLoading(true)
         FoodListByCategoryApi({ category_id: activeIndex })
             .then((res) => {
                 if (!res.data) {
@@ -66,6 +70,7 @@ export default function FoodCategory() {
             })
             .finally(() => {
                 setEmpty(false)
+                setLoading(false)
             })
     }
 
@@ -83,37 +88,38 @@ export default function FoodCategory() {
                 <View style={styles.leftContainer}>
                     {FoodCategory.length !== 0
                         ? FoodCategory.map((item) => (
-                              <TouchableOpacity
-                                  key={item.id}
-                                  style={
-                                      item.id === activeIndex
-                                          ? [
-                                                styles.foodCategoryItem,
-                                                styles.acitve,
-                                            ]
-                                          : styles.foodCategoryItem
-                                  }
-                                  onPress={() => setActiveIndex(item.id)}
-                              >
-                                  <Text>{item.title}</Text>
-                              </TouchableOpacity>
-                          ))
+                            <TouchableOpacity
+                                key={item.id}
+                                style={
+                                    item.id === activeIndex
+                                        ? [
+                                            styles.foodCategoryItem,
+                                            styles.acitve,
+                                        ]
+                                        : styles.foodCategoryItem
+                                }
+                                onPress={() => setActiveIndex(item.id)}
+                            >
+                                <Text>{item.title}</Text>
+                            </TouchableOpacity>
+                        ))
                         : new Array(8).fill(0).map((item, index) => (
-                              <Skeleton
-                                  key={index}
-                                  LinearGradientComponent={LinearGradient}
-                                  animation="wave"
-                                  width={94}
-                                  height={50}
-                                  style={{
-                                      marginBottom: 10,
-                                  }}
-                              ></Skeleton>
-                          ))}
+                            <Skeleton
+                                key={index}
+                                LinearGradientComponent={LinearGradient}
+                                animation="wave"
+                                width={94}
+                                height={50}
+                                style={{
+                                    marginBottom: 10,
+                                }}
+                            ></Skeleton>
+                        ))}
                 </View>
 
                 {/* 右侧食物列表 */}
                 <View style={styles.rightContainer}>
+
                     <View style={styles.searchFilterContainer}>
                         <SearchFilter
                             type="category"
@@ -121,14 +127,22 @@ export default function FoodCategory() {
                             category_id={activeIndex}
                             setEmpty={setEmpty}
                             setSearchFoodResult={setFoodList}
+                            setLoading={setLoading}
                         />
                     </View>
                     {empty ? (
                         <Empty text="没有找到相关食物" />
                     ) : (
-                        <View style={styles.foodContentContainer}>
-                            <FoodContent FoodList={FoodList} />
-                        </View>
+                        loading ? (
+                            <View style={styles.loadingContainer}>
+                                <ActivityIndicator size="large" color={theme.colors.deep01Primary} />
+                                <Text>加载中...</Text>
+                            </View>
+                        ) : (
+                            <View style={styles.foodContentContainer}>
+                                <FoodContent FoodList={FoodList} />
+                            </View>
+                        )
                     )}
                 </View>
             </View>
@@ -164,5 +178,11 @@ const styles = StyleSheet.create({
     },
     foodContentContainer: {
         marginBottom: 160,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        transform: [{ translateY: -50 }],
     },
 })

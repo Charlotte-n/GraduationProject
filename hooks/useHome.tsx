@@ -16,7 +16,7 @@ export const useHome = () => {
     const dailyIntake = useHomeStore((state) => state.dailyIntake)
     const IntakeFoodList = useHomeStore((state) => state.IntakeFoodList)
     const { userInfo } = useLoginRegisterStore.getState()
-    
+
 
     const GetDailyIntakeList = () => {
         getDailyIntakeApi(userInfo?.id as number)
@@ -27,6 +27,7 @@ export const useHome = () => {
                     res.data.dinner,
                 ]
 
+
                 const dailyIntaked = {
                     fat: res.data.calories[2],
                     calories: res.data.calories[4],
@@ -36,7 +37,7 @@ export const useHome = () => {
                 }
 
 
-                useHomeStore.getState().setDailyIntake(dailyIntaked)
+                useHomeStore.getState().setDailyIntaked(dailyIntaked)
                 useHomeStore.getState().setIntakeFoodList(result as IntakeFoodType)
                 useHomeStore.getState().setTotal(res.data.calories as number[])
             })
@@ -48,9 +49,10 @@ export const useHome = () => {
 
 
 
+
     //静态资源
-    const foodList = useMemo(()=>{
-        return  [
+    const foodList = useMemo(() => {
+        return [
             {
                 id: '0',
                 icon: (
@@ -100,7 +102,7 @@ export const useHome = () => {
                 intakeFoodList: IntakeFoodList[2],
             },
         ]
-    },[IntakeFoodList,dailyIntake])
+    }, [IntakeFoodList, dailyIntake])
 
     const toggleDialog = async () => {
         const { height, weight, exercise = 0, target = 0 } = userInfo

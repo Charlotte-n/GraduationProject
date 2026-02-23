@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import Svg from 'react-native-svg'
 
 import { screenWidth } from '@/common/common'
@@ -15,11 +15,11 @@ const EchartsBigPie: FC<IProps> = () => {
     const dailyIntake = useHomeStore((state) => state.dailyIntake)
     const dailyIntaked = useHomeStore((state) => state.dailyIntaked)
 
-    const sampleData = [
-        Math.floor(
+    const sampleData = useMemo(() => {
+        return [
             (dailyIntaked?.calories || 0) / (dailyIntake?.calories || 1),
-        ) || 0,
-    ]
+        ]
+    }, [dailyIntaked, dailyIntake])
 
     return (
         <View style={styles.container}>
@@ -60,9 +60,9 @@ const EchartsBigPie: FC<IProps> = () => {
                             </Text>
                         </View>
                     ) : !(isNaN(
-                          (dailyIntake?.calories || 0) -
-                              (dailyIntaked?.calories || 0),
-                      ) as unknown as number) ? (
+                        (dailyIntake?.calories || 0) -
+                        (dailyIntaked?.calories || 0),
+                    ) as unknown as number) ? (
                         <View>
                             <Text
                                 style={{

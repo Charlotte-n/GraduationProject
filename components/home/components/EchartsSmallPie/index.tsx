@@ -16,21 +16,20 @@ const EchartSmallPie: FC<IProps> = () => {
     const { dailyIntake, dailyIntaked } = useHomeStore()
     const sampleData = [
         [
-            Math.floor(
-                (dailyIntaked?.carbohydrate || 0) /
-                    (dailyIntake?.carbohydrate || 1),
-            ) || 0,
+
+            (dailyIntaked?.carbohydrate || 0) /
+            (dailyIntake?.carbohydrate || 1),
+
+        ], [
+
+            (dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1),
+
         ],
+        [(dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1)],
         [
-            Math.floor(
-                (dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1),
-            ) || 0,
-        ],
-        [Math.floor((dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1)) || 0],
-        [
-            Math.floor(
-                (dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1),
-            ) || 0,
+
+            (dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1),
+
         ],
     ]
     //以后这是一个动态的数据

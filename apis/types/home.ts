@@ -1,4 +1,5 @@
 export interface GetDailyIntakeData {
+    id?: number
     birth: string
     exercise: string | number
     fat?: number

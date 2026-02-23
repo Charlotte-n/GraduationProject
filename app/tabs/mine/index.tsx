@@ -21,7 +21,6 @@ export default function MineScreen() {
     const { reset, userInfo, setUserInfo } = useLoginRegisterStore.getState()
     const insets = useSafeAreaInsets()
     const checkout = () => {
-        console.log('checkout')
         Alert.alert('', '确定要退出登录吗', [
             {
                 text: '取消',

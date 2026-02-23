@@ -1,27 +1,22 @@
 import { DailyIntakeApi, getDailyIntakeApi, getRandomRecipeApi } from '@/apis'
 import { useHomeStore, useLoginRegisterStore } from '@/store'
-import { SingleFoodListType } from '@/types/home'
+import { IntakeItem, SingleFoodListType } from '@/types/home'
 import { transformAdaption } from '@/utils/adaption'
 import { Image } from '@rneui/themed'
 import { useEffect, useMemo, useState } from 'react'
 import { ToastAndroid } from 'react-native'
 
-interface IntakeItem {
-    id: number
-}
 
-type IntakeFood = [IntakeItem[], IntakeItem[], IntakeItem[]]    
+
+type IntakeFoodType = [IntakeItem[], IntakeItem[], IntakeItem[]]
 export const useHome = () => {
     const [open, setOpen] = useState(false)
     const [RecipeFood, setRecipeFood] = useState<SingleFoodListType>([])
     const [dialogVisible, setDialogVisible] = useState(false)
-    const { dailyIntake } = useHomeStore.getState()
+    const dailyIntake = useHomeStore((state) => state.dailyIntake)
+    const IntakeFoodList = useHomeStore((state) => state.IntakeFoodList)
     const { userInfo } = useLoginRegisterStore.getState()
-    const [IntakeFoodList, setIntakeFoodList] = useState<IntakeFood>([
-        [],
-        [],
-        [],
-    ] as IntakeFood)
+    
 
     const GetDailyIntakeList = () => {
         getDailyIntakeApi(userInfo?.id as number)
@@ -31,7 +26,19 @@ export const useHome = () => {
                     res.data.lunch,
                     res.data.dinner,
                 ]
-                setIntakeFoodList(result as IntakeFood)
+
+                const dailyIntaked = {
+                    fat: res.data.calories[2],
+                    calories: res.data.calories[4],
+                    carbohydrate: res.data.calories[1],
+                    protein: res.data.calories[0],
+                    cellulose: res.data.calories[3],
+                }
+
+
+                useHomeStore.getState().setDailyIntake(dailyIntaked)
+                useHomeStore.getState().setIntakeFoodList(result as IntakeFoodType)
+                useHomeStore.getState().setTotal(res.data.calories as number[])
             })
             .catch((err) => {
                 ToastAndroid.show('获取今日摄入失败', ToastAndroid.SHORT)
@@ -123,7 +130,6 @@ export const useHome = () => {
     const GetDailyIntake = () => {
         getDailyIntakeApi(userInfo.id as number)
             .then((res) => {
-                console.log(res, 'res')
                 if (res.code === 1) {
                     const dailyIntaked = {
                         fat: res.data.calories[2],
@@ -193,5 +199,6 @@ export const useHome = () => {
         dailyIntake,
         cancel,
         handleDrawerToggle,
+        GetDailyIntakeList,
     }
 }

@@ -90,6 +90,26 @@ export const updateUserName = ({
     })
 }
 
+export interface updateUserProfileParamType {
+    id: number
+    sex?: number
+    height?: string
+    birth?: string
+    weight?: string
+    habit?: string
+    exercise?:number
+    target?:number
+    gym?: number
+    userid?: number
+}
+export const updateUserProfile = (param: updateUserProfileParamType) => {
+    return hyRequest.post({
+        url: URL.UPDATEUSERINFO,
+        data: param,
+    })
+}
+
+
 interface uploadAvatarParamType {
     image: string
 }

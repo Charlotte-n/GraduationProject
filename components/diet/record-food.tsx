@@ -1,13 +1,13 @@
 import {
     addCaloriesApi,
-    FoodListByCategoryApi,
-    getDailyIntakeApi,
+    FoodListByCategoryApi
 } from '@/apis'
 import { CaloriesBodyData, FoodListByCategoryType } from '@/apis/types'
 import { screenWidth } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
 import { FoodNutrition, FoodNutritionData, foodTime } from '@/constants/diet'
-import { useHomeStore, useLoginRegisterStore } from '@/store'
+import { useHome } from '@/hooks/useHome'
+import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { SingleFoodItemType } from '@/types/home'
 import { BottomSheet, Button, Card, Dialog, Icon } from '@rneui/themed'
@@ -38,6 +38,7 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
     const g = useRef(100)
     const [selectedIndex, setSelectedIndex] = useState(0)
     const { id: userId } = useLoginRegisterStore((state) => state.userInfo)
+    const { GetDailyIntakeList } = useHome()
 
     const cardContainerStyle = {
         width: screenWidth,
@@ -83,28 +84,6 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
             })
     }
 
-    // 更新摄入
-    const GetDailyIntake = () => {
-        getDailyIntakeApi(userId as number)
-            .then((res) => {
-                if (!res.data) {
-                    ToastAndroid.show('获取摄入失败', ToastAndroid.SHORT)
-                    return
-                }
-                const dailyIntaked = {
-                    fat: res.data.calories[2],
-                    calories: res.data.calories[4],
-                    carbohydrate: res.data.calories[1],
-                    protein: res.data.calories[0],
-                    cellulose: res.data.calories[3],
-                }
-                useHomeStore.getState().setDailyIntaked(dailyIntaked)
-            })
-            .catch((err) => {
-                ToastAndroid.show('获取摄入失败', ToastAndroid.SHORT)
-                console.log(err)
-            })
-    }
 
     const addFood = () => {
         const data: CaloriesBodyData = {
@@ -127,7 +106,7 @@ const RecordFood = ({ isVisible, onClose, id, type }: RecordFoodProps) => {
                     return
                 }
                 ToastAndroid.show('添加成功', ToastAndroid.SHORT)
-                GetDailyIntake()
+                GetDailyIntakeList()
                 onClose()
                 g.current = 100
             })

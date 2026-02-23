@@ -10,7 +10,7 @@ export default function Body() {
         // 更新用户信息
         ref.current?.updateUserProfile()
     }
-    const ref = useRef<{ updateUserProfile: () => void }>(null)
+    const ref = useRef<{ updateUserProfile: () => Promise<void | React.JSX.Element> }>(null)
     return (
         <ScrollView style={styles.container}>
             <BodyContent ref={ref} />

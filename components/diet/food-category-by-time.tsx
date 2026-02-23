@@ -80,7 +80,6 @@ const FoodCategoryByTime = ({
         const newFoods = foods.filter((food) => !existingIds.has(food.id))
         const mergedFoods = [...FoodList.current, ...newFoods]
         useDietStore.getState().setFoodList(mergedFoods, activeId)
-        console.log('mergedFoods', activeId)
         FoodList.current = mergedFoods
     }
 
@@ -107,7 +106,6 @@ const FoodCategoryByTime = ({
             pageSize,
             category_id: activeId,
         }
-        console.log('param', param)
 
         FoodListByCategoryApi(param)
             .then((res) => {
@@ -118,7 +116,6 @@ const FoodCategoryByTime = ({
                 const { num, foods } = res.data as FoodListByCategoryType
                 setFoodNum(num)
                 const currentFoodList = getCurrentFoodList(activeId)
-                console.log('currentFoodList', currentFoodList, foods)
                 if (currentFoodList.length > 0) {
                     dispatchSecond(foods)
                 } else {
@@ -132,7 +129,6 @@ const FoodCategoryByTime = ({
     }
 
     const loadMore = async () => {
-        console.log('loadMore', num.current, FoodNum)
         if (num.current >= FoodNum) {
             setPageLoadingFull(true)
             return

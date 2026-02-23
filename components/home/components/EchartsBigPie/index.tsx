@@ -15,7 +15,6 @@ const EchartsBigPie: FC<IProps> = () => {
     const dailyIntake = useHomeStore((state) => state.dailyIntake)
     const dailyIntaked = useHomeStore((state) => state.dailyIntaked)
 
-    console.log(dailyIntake, dailyIntaked)
     const sampleData = [
         Math.floor(
             (dailyIntaked?.calories || 0) / (dailyIntake?.calories || 1),

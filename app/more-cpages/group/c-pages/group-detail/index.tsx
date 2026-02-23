@@ -96,8 +96,6 @@ export default function GroupDetailPage() {
     const getGroupDetail = () => {
         GroupDetailApi(Number(id), userInfo?.id as number)
             .then((res) => {
-                console.log(res.data, '小组详情')
-
                 if (!res.data) {
                     setGroupDetail({} as GroupInfoType)
                     return
@@ -142,7 +140,6 @@ export default function GroupDetailPage() {
                     ToastAndroid.show('获取打卡率前三失败', ToastAndroid.SHORT)
                     return
                 }
-                console.log(res.data)
                 setRateTopThree(res.data)
             })
             .catch((err) => {

@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar'
 import { screenHeight, windowHeight } from '@/common/common'
 import { useLoginRegisterStore } from '@/store'
 import type { InputRef } from '@/types'
-import { useEffect, useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import {
     Alert,
     Dimensions,
@@ -38,9 +38,6 @@ export default function Login() {
         setIsSee(value)
     }
 
-    useEffect(() => {
-        console.log('Login')
-    }, [])
 
     // 验证邮箱规则
     const verifyEmailRule = () => {
@@ -69,7 +66,6 @@ export default function Login() {
     // 跳转
     const goToMine = () => {
         verifyLogin()
-        console.log(isEmail, isPassWord)
         if (!isEmail || !isPassWord) {
             return
         }

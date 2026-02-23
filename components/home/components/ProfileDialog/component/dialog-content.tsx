@@ -6,7 +6,9 @@ import HabitPicker from './habit-picker'
 import HighPicker from './high-picker'
 import SexPicker from './sex-picker'
 
-import { getIntakeDailyApi, getUserInfo } from '@/apis/index'
+import { getIntakeDailyApi, getUserInfo, updateUserProfile, updateUserProfileParamType } from '@/apis/index'
+import { User } from '@/apis/types'
+import { GetDailyIntakeData } from '@/apis/types/home'
 import { useHomeStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { Button } from '@rneui/themed'
@@ -27,42 +29,47 @@ const DialogContent: FC<IProps> = ({ children }) => {
     const [target, setTarget] = useState('')
     //收集信息就可以了
     const getDailyIntake = async () => {
-        const param = {
-            sex: String(sex),
+        const parame: updateUserProfileParamType | GetDailyIntakeData = {
+            sex: Number(sex),
             birth: birth,
             height: String(height),
             weight: String(weight),
             userid: userInfo.id as number,
             exercise: Number(habit),
-            target: String(target),
+            target: Number(target),
             gym: 0,
+            id: userInfo.id as number,
         }
+
         try {
-            const res = await getIntakeDailyApi(param)
+            const res = await getIntakeDailyApi(parame as GetDailyIntakeData)
             //更新用户的信息
             if (res.code === 1) {
                 useHomeStore.getState().setDailyIntake(res.data)
-                //重新获取用户信息
-                getUserInfo(userInfo.id as number)
-                    .then((res) => {
-                        useLoginRegisterStore
-                            .getState()
-                            .setUserInfo(res.data.user)
-                        ToastAndroid.showWithGravity(
-                            '更新成功',
-                            ToastAndroid.SHORT,
-                            ToastAndroid.CENTER,
-                        )
+                updateUserProfile(parame as updateUserProfileParamType).then(async (resUpdate) => {
+                    if (resUpdate.code === 1) {
+                        const user = await getUserInfo(userInfo.id as number)
+                        if (user.code === 1) {
+                            useLoginRegisterStore
+                                .getState()
+                                .setUserInfo(user.data.user as User)
+                            ToastAndroid.showWithGravity(
+                                '更新成功',
+                                ToastAndroid.SHORT,
+                                ToastAndroid.CENTER,
+                            )
+                        }
                         cancel()
-                    })
-                    .catch((error) => {
-                        console.log('获取用户信息失败', error)
-                        ToastAndroid.showWithGravity(
-                            '获取用户信息失败',
-                            ToastAndroid.SHORT,
-                            ToastAndroid.CENTER,
-                        )
-                    })
+                    }
+                }).catch((error) => {
+                    console.log('更新用户信息失败', error)
+                    ToastAndroid.showWithGravity(
+                        '更新用户信息失败',
+                        ToastAndroid.SHORT,
+                        ToastAndroid.CENTER,
+                    )
+                })
+
             } else {
                 //填写
                 Alert.alert('所有的项目都要填写')

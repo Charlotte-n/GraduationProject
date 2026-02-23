@@ -5,7 +5,7 @@ import AutoText from '@/common/components/AutoText'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { useRouter } from 'expo-router'
-import { memo, useEffect, useState } from 'react'
+import { memo, RefObject, useEffect, useRef, useState } from 'react'
 import {
     Image,
     StyleSheet,
@@ -65,19 +65,19 @@ const buttonsConfig = (
 }
 
 export const UserButton = memo(
-    ({ data }: { data: Partial<CommunicateSingleContentData> }) => {
+    ({ data, likeType }: { data: Partial<CommunicateSingleContentData>, likeType: RefObject<number> }) => {
         const [likes, setLikes] = useState<number[]>([])
-        const [currentType, setCurrentType] = useState(data.type)
+        const [currentLikeType, setCurrentLikeType] = useState<number>(likeType.current)
         const userInfo = useLoginRegisterStore((state) => state.userInfo)
 
         const logComment = (type?: number, lodId?: number) => {
-            LogCommentApi(type!, userInfo.id as number, lodId!)
+            LogCommentApi(type || 0, userInfo.id as number, lodId!)
                 .then((res) => {
                     if (!res.data) {
                         ToastAndroid.show('操作失败', ToastAndroid.SHORT)
                         return
                     }
-                    setCurrentType(res.data[2]!)
+                    setCurrentLikeType(res.data[2]!)
                     setLikes(res.data)
                 })
                 .catch((err) => {
@@ -88,6 +88,7 @@ export const UserButton = memo(
         //获取喜欢
         const getLikes = (type?: number) => {
             logComment(type, data.id)
+            likeType.current = type || 0 as number
         }
 
         const logs = () => {
@@ -111,7 +112,7 @@ export const UserButton = memo(
             logs()
         }, [data])
 
-        const buttons = buttonsConfig(likes, currentType!, getLikes)
+        const buttons = buttonsConfig(likes, currentLikeType, getLikes)
         return (
             <>
                 {buttons.map((item, index) => (
@@ -141,10 +142,12 @@ const CommentCard = ({ index, data }: Props) => {
     const [comments, setComments] = useState<FoodCommentListData>([])
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const router = useRouter()
+    const likeType = useRef<number>(data.type ?? 0)
+
 
     const gotoCommunicateDetail = () => {
         router.navigate(
-            `/more-cpages/communicate/c-pages/communicate-detail?id=${data.id}&type=${data.topicId}`,
+            `/more-cpages/communicate/c-pages/communicate-detail?id=${data.id}&type=${data.topicId}&likeType=${likeType.current}`,
         )
     }
 
@@ -262,7 +265,7 @@ const CommentCard = ({ index, data }: Props) => {
                     </Text>
                 </TouchableOpacity>
                 {/* buttons */}
-                <UserButton data={data} />
+                <UserButton data={data} likeType={likeType} />
             </View>
         </TouchableOpacity>
     )

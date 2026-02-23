@@ -28,7 +28,8 @@ export default function CommunicateDetail() {
     const [RecordDetail, setRecordDetail] = useState<GetRecordDetail>(
         {} as GetRecordDetail,
     )
-    const { id, type: topicId, likeType } = useLocalSearchParams()
+    const { id, type: topicId, likeType: likeTypeParam } = useLocalSearchParams()
+    const likeType = useRef<number>(Number(likeTypeParam))
     const topicWidth =
         Number(topicId) === 1 ? windowWidth / 4.5 : windowWidth / 4
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
@@ -152,7 +153,7 @@ export default function CommunicateDetail() {
                         {comments && comments.length > 0 ? (
                             <UserComment
                                 comments={comments}
-                                showCommentModal={() => {}}
+                                showCommentModal={() => { }}
                                 foodId={Number(topicId)}
                             />
                         ) : (
@@ -180,9 +181,10 @@ export default function CommunicateDetail() {
 
                     <UserButton
                         data={{
-                            type: Number(likeType),
+                            type: likeType.current,
                             id: Number(id),
                         }}
+                        likeType={likeType}
                     />
                 </View>
 

@@ -23,7 +23,7 @@ const CategoryGroup = ({
 
     const handleGoMore = (category: string) => {
         router.navigate(
-            `/more-cpages/group/c-pages/search?category=${category}`,
+            `/more-cpages/group/c-pages/more-group?category=${category}`,
         )
     }
 
@@ -96,7 +96,7 @@ const CategoryGroup = ({
                                                     : undefined,
                                             borderBottomWidth:
                                                 index ===
-                                                groupCategory.length - 1
+                                                    groupCategory.length - 1
                                                     ? 0
                                                     : 1,
                                         },
@@ -129,23 +129,23 @@ const CategoryGroup = ({
                                                                 }
                                                                 stylesGroup={{
                                                                     groupItemStyle:
-                                                                        {
-                                                                            flexDirection:
-                                                                                'column',
-                                                                            justifyContent:
-                                                                                'center',
-                                                                            alignItems:
-                                                                                'center',
-                                                                        },
+                                                                    {
+                                                                        flexDirection:
+                                                                            'column',
+                                                                        justifyContent:
+                                                                            'center',
+                                                                        alignItems:
+                                                                            'center',
+                                                                    },
                                                                     ImageStyles:
-                                                                        {
-                                                                            marginRight: 0,
-                                                                        },
+                                                                    {
+                                                                        marginRight: 0,
+                                                                    },
                                                                     containerStyle:
-                                                                        {
-                                                                            justifyContent:
-                                                                                'center',
-                                                                        },
+                                                                    {
+                                                                        justifyContent:
+                                                                            'center',
+                                                                    },
                                                                 }}
                                                             />
                                                         </View>

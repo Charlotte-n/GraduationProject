@@ -25,12 +25,12 @@ export default function SearchPage() {
     const router = useRouter()
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
 
+
     const handleChangeSearchTitle = (text: string) => {
         searchTitle.current = text
     }
 
     const searchGroup = () => {
-        console.log(searchTitle.current, '是否搜索')
         searchGroupApi(searchTitle.current, userInfo?.id as number)
             .then((res) => {
                 if (!res.data) {
@@ -61,6 +61,7 @@ export default function SearchPage() {
     const goGroupDetail = (id: number) => {
         router.navigate(`/more-cpages/group/c-pages/group-detail?id=${id}`)
     }
+
     return (
         <Container>
             <ScrollView style={styles.container}>
@@ -179,9 +180,9 @@ export default function SearchPage() {
                                                 item.isInner
                                                     ? goGroupDetail(item.id)
                                                     : () =>
-                                                          JoinGroup(
-                                                              item.codeInfo,
-                                                          )
+                                                        JoinGroup(
+                                                            item.codeInfo,
+                                                        )
                                             }
                                             title={
                                                 item.isInner ? '进入' : '加入'

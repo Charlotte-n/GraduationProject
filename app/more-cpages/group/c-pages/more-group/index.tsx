@@ -82,6 +82,7 @@ export default function MoreGroupPage() {
                                         showIcon={false}
                                         avatarUrl={group.avatar}
                                         avatarStyle={styles.groupAvatar}
+                                        showName={false}
                                     />
                                     <View>
                                         <AutoText

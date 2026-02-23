@@ -194,7 +194,7 @@ export default function GroupDetailPage() {
         <Container>
             <View style={styles.container}>
                 {/* 小组信息 */}
-                <ScrollView showsVerticalScrollIndicator={false}>
+                <View>
                     <View style={styles.groupInfo}>
                         <Image
                             source={
@@ -207,16 +207,15 @@ export default function GroupDetailPage() {
                         />
                         <View style={styles.groupInfoContent}></View>
                     </View>
-                    <View style={styles.groupContentContainer}>
+                    <ScrollView scrollEnabled={true} showsVerticalScrollIndicator={false} style={styles.groupContentContainer}>
                         <GroupInfo groupDetail={groupDetail} />
-
                         {/* 小组打卡内容 */}
                         <GroupDaily
                             groupDetail={groupDetail}
                             showSetting={showSetting}
                         />
-                    </View>
-                </ScrollView>
+                    </ScrollView>
+                </View>
                 {/* 固定按钮 */}
                 <View style={styles.fixedButtonContainer}>
                     <Button

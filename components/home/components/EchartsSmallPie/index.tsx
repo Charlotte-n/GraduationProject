@@ -1,5 +1,5 @@
 import type { FC, ReactNode } from 'react'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { StyleSheet, Text, View } from 'react-native'
 import Svg from 'react-native-svg'
 
@@ -14,24 +14,24 @@ interface IProps {
 
 const EchartSmallPie: FC<IProps> = () => {
     const { dailyIntake, dailyIntaked } = useHomeStore()
-    const sampleData = [
-        [
+    const sampleData = useMemo(() => {
+        return [
+            [
 
-            (dailyIntaked?.carbohydrate || 0) /
-            (dailyIntake?.carbohydrate || 1),
+                Math.max((dailyIntaked?.carbohydrate || 0) / (dailyIntake?.carbohydrate || 1), 0),
 
-        ], [
+            ], [
 
-            (dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1),
+                Math.max((dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1), 0),
 
-        ],
-        [(dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1)],
-        [
+            ],
+            [Math.max((dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1), 0)],
+            [
+                Math.max((dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1), 0)
+            ],
+        ]
+    }, [dailyIntake, dailyIntaked])
 
-            (dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1),
-
-        ],
-    ]
     //以后这是一个动态的数据
     const data = [
         {
@@ -53,7 +53,6 @@ const EchartSmallPie: FC<IProps> = () => {
     ]
     const yuansu = ['carbohydrate', 'protein', 'fat', 'cellulose']
 
-    console.log(sampleData)
 
     return (
         <View style={styles.container}>
@@ -76,9 +75,9 @@ const EchartSmallPie: FC<IProps> = () => {
                                         top: -5,
                                     }}
                                 >
-                                    {(dailyIntaked as any)[
+                                    {Math.max((dailyIntaked as any)[
                                         yuansu[index]
-                                    ]?.toFixed(0) || 0}
+                                    ]?.toFixed(0) || 0, 0)}
                                 </AutoText>
                                 <Text
                                     style={{

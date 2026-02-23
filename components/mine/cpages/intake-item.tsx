@@ -7,13 +7,15 @@ import type {
 import AutoText from '@/common/components/AutoText'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
+import { IntakeItem as IntakeItemType } from '@/types/home'
 import { Icon } from '@rneui/themed'
 import { useEffect, useState } from 'react'
 import { StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native'
 
+
 interface IntakeItemProps {
     time: number
-    data: SingleFoodListType
+    data: IntakeItemType
     GetDailyIntake: () => void
 }
 
@@ -50,11 +52,12 @@ const IntakeItem = ({ time, data, GetDailyIntake }: IntakeItemProps) => {
         carbohydrate: foodDetail?.carbohydrate || (0 as number),
         operator: 0,
         type: time,
-        g: 100,
+        g: data?.g || 0,
     }
 
     const handleOperateFood = async (operation: 0 | 1) => {
         try {
+            console.log("changeFood", changeFood)
             changeFood.operator = operation
             await addCaloriesApi(changeFood)
             await GetDailyIntake()
@@ -94,6 +97,7 @@ const IntakeItem = ({ time, data, GetDailyIntake }: IntakeItemProps) => {
                     alignItems: 'center',
                 }}
             >
+                <AutoText style={{ marginRight: 10 }} fontSize={4.3}>{data?.g || 0}g</AutoText>
                 <TouchableOpacity onPress={() => handleOperateFood(0)}>
                     <Icon
                         type={'antdesign'}
@@ -102,14 +106,14 @@ const IntakeItem = ({ time, data, GetDailyIntake }: IntakeItemProps) => {
                         color={theme.colors.deep01Primary}
                     />
                 </TouchableOpacity>
-                <TouchableOpacity onPress={() => handleOperateFood(1)}>
+                {/* <TouchableOpacity onPress={() => handleOperateFood(1)}>
                     <Icon
                         type={'antdesign'}
                         name={'plus-circle'}
                         size={20}
                         color={theme.colors.deep01Primary}
                     />
-                </TouchableOpacity>
+                </TouchableOpacity> */}
             </View>
         </View>
     )

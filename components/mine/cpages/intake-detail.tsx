@@ -10,17 +10,19 @@ import {
 } from 'react-native'
 import IntakeItem from './intake-item'
 
+
 interface IntakeDetailProps {
     IntakeFoodList: IntakeFood
     GetDailyIntake: () => void
     total: number[]
 }
 
-interface IntakeItem {
+interface IntakeItemType {
     id: number
+    g: number
 }
 
-type IntakeFood = [IntakeItem[], IntakeItem[], IntakeItem[]]
+type IntakeFood = [IntakeItemType[], IntakeItemType[], IntakeItemType[]]
 
 const time = ['早餐', '午餐', '晚餐']
 
@@ -44,16 +46,16 @@ const IntakeDetail = ({
     return (
         <Fragment>
             {IntakeFoodList.length > 0 ? (
-                IntakeFoodList.map((list, index) => {
+                IntakeFoodList.map((list, Timeindex) => {
                     if (!list || !Array.isArray(list)) return null
                     return (
-                        <View key={index}>
+                        <View key={Timeindex}>
                             <AutoText
                                 style={{
                                     marginBottom: 10,
                                 }}
                             >
-                                {time[index]}
+                                {time[Timeindex]}
                             </AutoText>
                             {list.map((item, index) => (
                                 <TouchableOpacity
@@ -66,7 +68,7 @@ const IntakeDetail = ({
                                     }}
                                 >
                                     <IntakeItem
-                                        time={index}
+                                        time={Timeindex}
                                         data={item}
                                         GetDailyIntake={GetDailyIntake}
                                     />

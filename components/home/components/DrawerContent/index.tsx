@@ -3,7 +3,7 @@ import { BodyData, targetData } from '@/constants/body'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import type { FC, ReactNode } from 'react'
-import React, { memo } from 'react'
+import React, { memo, useMemo } from 'react'
 import { Image, StyleSheet, Text, View } from 'react-native'
 
 interface IProps {
@@ -11,54 +11,56 @@ interface IProps {
 }
 
 const DrawerContent: FC<IProps> = () => {
-    const { profile } = useLoginRegisterStore.getState()
+    const { userInfo } = useLoginRegisterStore.getState()
 
-    const birth = profile.birth
-        ? profile.birth[0] +
-          '-' +
-          '0' +
-          profile.birth[1] +
-          '-' +
-          profile.birth[2]
+    const birth = userInfo.birth
+        ? userInfo.birth[0] +
+        '-' +
+        '0' +
+        userInfo.birth[1] +
+        '-' +
+        userInfo.birth[2]
         : ''
-    const profileData = [
-        {
-            id: '0',
-            title: '性别',
-            content: profile.sex === 0 ? '男' : '女',
-        },
-        {
-            id: '1',
-            title: '身高',
-            content: profile.height ? profile.height + 'cm' : '无',
-        },
-        {
-            id: '2',
-            title: '体重',
-            content: profile.weight ? profile.weight + 'kg' : '无',
-        },
-        {
-            id: '3',
-            title: '出生日期',
-            content: profile.birth ? birth : '无',
-        },
-        {
-            id: '4',
-            title: '运动习惯',
-            content: BodyData[Number(profile.exercise)],
-        },
-        {
-            id: '5',
-            title: '健康目标',
-            content: targetData[Number(profile.target)],
-        },
-    ]
+    const profileData = useMemo(() => {
+        return [
+            {
+                id: '0',
+                title: '性别',
+                content: userInfo.sex === 0 ? '男' : '女',
+            },
+            {
+                id: '1',
+                title: '身高',
+                content: userInfo.height ? userInfo.height + 'cm' : '无',
+            },
+            {
+                id: '2',
+                title: '体重',
+                content: userInfo.weight ? userInfo.weight + 'kg' : '无',
+            },
+            {
+                id: '3',
+                title: '出生日期',
+                content: userInfo.birth ? birth : '无',
+            },
+            {
+                id: '4',
+                title: '运动习惯',
+                content: BodyData[Number(userInfo.exercise)],
+            },
+            {
+                id: '5',
+                title: '健康目标',
+                content: targetData[Number(userInfo.target)],
+            },
+        ]
+    }, [userInfo])
     return (
         <View style={styles.container}>
             <View style={styles.header}>
-                {profile.avatar ? (
+                {userInfo.avatar ? (
                     <Image
-                        source={{ uri: profile.avatar }}
+                        source={{ uri: userInfo.avatar }}
                         style={{
                             width: 70,
                             height: 70,
@@ -81,11 +83,11 @@ const DrawerContent: FC<IProps> = () => {
                 <AutoText
                     fontSize={5}
                     style={{
-                        width: 120,
+                        width: 80,
                     }}
                     numberOfLines={1}
                 >
-                    {profile.username}
+                    {userInfo.username}
                 </AutoText>
             </View>
             {/*    身体数据*/}

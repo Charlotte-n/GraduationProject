@@ -2,14 +2,16 @@ import { screenHeight, screenWidth, windowHeight } from '@/common/common'
 import EchartsBigPie from '@/components/home/components/EchartsBigPie'
 import EchartsSmallPie from '@/components/home/components/EchartsSmallPie'
 import { useHome } from '@/hooks/useHome'
+import { Icon } from '@rneui/themed'
 import { StatusBar } from 'expo-status-bar'
-import { ScrollView, StyleSheet, View } from 'react-native'
+import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import DrawerContent from '../../../components/home/components/DrawerContent'
 import FoodList from '../../../components/home/components/FoodList'
 import HotRecommend from '../../../components/home/components/HotRecommend'
 import ProfileDialog from '../../../components/home/components/ProfileDialog'
+
 export default function Home() {
     const {
         open,
@@ -42,6 +44,9 @@ export default function Home() {
                         height: insets.top,
                     }}
                 />
+                <TouchableOpacity style={styles.menuButton} onPress={() => handleDrawerToggle(true)}>
+                    <Icon type={'antdesign'} name={'menu'} size={30} color={'#888888'} />
+                </TouchableOpacity>
 
                 {/* echarts表 */}
                 <EchartsBigPie />
@@ -77,5 +82,13 @@ const styles = StyleSheet.create({
     },
     hotRecommend: {
         paddingHorizontal: 10,
+    },
+    menuButton: {
+        zIndex: 10,
+        position: 'absolute',
+        left: 10,
+        top: 10,
+        justifyContent: 'center',
+        alignItems: 'center',
     },
 })

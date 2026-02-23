@@ -245,6 +245,7 @@ export default function FoodDetail() {
                     </View>
                     {/* 评论区域 */}
                     <View style={styles.commentContainer}>
+
                         <Comment
                             ref={commentRef}
                             foodId={Number(foodId)}
@@ -307,7 +308,7 @@ const styles = StyleSheet.create({
         marginHorizontal: 15,
     },
     commentContainer: {
-        marginBottom: 20,
+        marginBottom: 100,
         paddingHorizontal: 15,
     },
     bottomContainer: {

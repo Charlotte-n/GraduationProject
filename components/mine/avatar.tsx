@@ -54,7 +54,7 @@ function Avatar({
                         style={[
                             {
                                 fontSize: 20,
-                                marginRight: 50,
+                                marginRight: 0,
                                 fontWeight: '300',
                                 width: 100,
                             },

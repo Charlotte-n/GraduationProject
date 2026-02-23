@@ -1,6 +1,7 @@
 import AutoText from '@/common/components/AutoText'
 import Avatar from '@/components/mine/avatar'
 import { useFoodStore } from '@/store'
+import theme from '@/styles/theme/color'
 import {
     ComponentRef,
     forwardRef,
@@ -51,21 +52,20 @@ const Comment = (
             </AutoText>
             {/*用户发评论的帖子*/}
             <View style={styles.commentContainer}>
-                <Avatar showIcon={false} />
-                <TouchableOpacity style={styles.commentUserInfoContainer}>
+                <Avatar showIcon={false} avatarStyle={styles.avatar} textStyle={styles.text} />
+                <TouchableOpacity style={styles.commentUserInfoContainer} onPress={showCommentModal}>
                     <TextInput
                         editable={false}
                         style={{
                             backgroundColor: '#F6F6F6',
                             borderRadius: 30,
                             flex: 1,
-                            marginLeft: 10,
                             paddingHorizontal: 10,
-                            borderBottomWidth: 1,
                             minHeight: 35,
                         }}
                         placeholder="喜欢评论的人,做饭一定很好吃~"
                         defaultValue={comment.current}
+                        placeholderTextColor={theme.colors.deep01Primary}
                         onChangeText={handleComment}
                     ></TextInput>
                 </TouchableOpacity>
@@ -93,6 +93,18 @@ const styles = StyleSheet.create({
     commentUserInfoContainer: {
         flex: 1,
         minHeight: 35,
+    },
+    avatar: {
+        width: 40,
+        height: 40,
+        borderRadius: 100,
+        marginRight: 10,
+    },
+    text: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        marginRight: 10,
+        maxWidth: 50,
     },
 })
 

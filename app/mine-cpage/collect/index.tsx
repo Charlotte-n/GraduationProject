@@ -1,4 +1,5 @@
 import AutoText from '@/common/components/AutoText'
+import Container from '@/common/components/container'
 import theme from '@/styles/theme/color'
 import { useRouter } from 'expo-router'
 import { StyleSheet, TouchableOpacity, View } from 'react-native'
@@ -24,21 +25,23 @@ export default function Collect() {
     }
 
     return (
-        <View style={[styles.container]}>
-            {COLLECT_ITEMS.map((item, index) => (
-                <TouchableOpacity
-                    key={item.id}
-                    style={[
-                        styles.button,
-                        index !== COLLECT_ITEMS.length - 1 &&
+        <Container>
+            <View style={[styles.container]}>
+                {COLLECT_ITEMS.map((item, index) => (
+                    <TouchableOpacity
+                        key={item.id}
+                        style={[
+                            styles.button,
+                            index !== COLLECT_ITEMS.length - 1 &&
                             styles.buttonMargin,
-                    ]}
-                    onPress={() => handlePress(item.type)}
-                >
-                    <AutoText>{item.label}</AutoText>
-                </TouchableOpacity>
-            ))}
-        </View>
+                        ]}
+                        onPress={() => handlePress(item.type)}
+                    >
+                        <AutoText>{item.label}</AutoText>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </Container>
     )
 }
 

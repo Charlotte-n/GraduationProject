@@ -1,4 +1,5 @@
 import { screenHeight } from '@/common/common'
+import Container from '@/common/components/container'
 import BodyContent from '@/components/mine/cpages/body-content'
 import theme from '@/styles/theme/color'
 import { Button } from '@rneui/themed'
@@ -12,18 +13,20 @@ export default function Body() {
     }
     const ref = useRef<{ updateUserProfile: () => Promise<void | React.JSX.Element> }>(null)
     return (
-        <ScrollView style={styles.container}>
-            <BodyContent ref={ref} />
-            <Button
-                title="确认提交"
-                color={theme.colors.deep01Primary}
-                containerStyle={{
-                    borderRadius: 32,
-                    marginTop: 40,
-                }}
-                onPress={updateUserProfile}
-            />
-        </ScrollView>
+        <Container>
+            <ScrollView style={styles.container}>
+                <BodyContent ref={ref} />
+                <Button
+                    title="确认提交"
+                    color={theme.colors.deep01Primary}
+                    containerStyle={{
+                        borderRadius: 32,
+                        marginTop: 40,
+                    }}
+                    onPress={updateUserProfile}
+                />
+            </ScrollView>
+        </Container>
     )
 }
 

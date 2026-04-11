@@ -26,8 +26,6 @@ export default function HealthMeal() {
     const pageSize = 10
     const { pageState, setPageState, pageStateRef } = usePageStatus()
 
-
-
     // 加载更多食物
     const loadMore = () => {
         if (pageLoading.current || pageLoadingFull) return
@@ -148,7 +146,6 @@ export default function HealthMeal() {
             )}
             {pageState === PageState.error && <ErrorPage retry={() => { getRecipeList() }} />}
             {pageState === PageState.empty && <EmptyPage text="暂无数据" />}
-
         </>
     )
 }

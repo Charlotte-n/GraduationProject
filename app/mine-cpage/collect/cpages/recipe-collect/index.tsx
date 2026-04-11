@@ -42,6 +42,11 @@ enum PageState {
 
 type currentPageState = 'loading' | 'empty' | 'error' | 'success'
 
+enum PageType {
+    FOOD,
+    RECIPE,
+}
+
 export default function RecipeCollect() {
     const [refresh, setRefresh] = useState(false)
     const { type } = useLocalSearchParams()
@@ -49,7 +54,6 @@ export default function RecipeCollect() {
     const [dishes, setDishes] = useState<Dish[]>([] as Dish[])
     const router = useRouter()
     const insets = useSafeAreaInsets()
-    // 页面状态
     const [pageState, setPageState] = useState<currentPageState>(PageState.loading)
     const pageStateRef = useRef<currentPageState>(PageState.loading)
 
@@ -82,8 +86,11 @@ export default function RecipeCollect() {
 
 
     const gotoRecipeDetail = (id: number) => {
-        // TODO
-        // router.navigate('')
+        if (type === PageType.FOOD.toString()) {
+            router.navigate(`/diet-cpages/food-nutrition?id=${id}`)
+        } else {
+            router.navigate(`/diet-cpages/food-detail?id=${id}`)
+        }
     }
 
     useEffect(() => {

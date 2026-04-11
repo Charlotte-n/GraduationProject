@@ -4,8 +4,11 @@ import Container from '@/common/components/container'
 import CategoryGroup from '@/components/more/category-group'
 import SearchGroup from '@/components/more/search-group'
 import { useGroupStore, useLoginRegisterStore } from '@/store'
+import theme from '@/styles/theme/color'
+import { Icon } from '@rneui/base'
+import { useRouter } from 'expo-router'
 import { useEffect, useState } from 'react'
-import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native'
+import { ScrollView, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function Group() {
@@ -15,6 +18,11 @@ export default function Group() {
     const [groupClassification, setGroupClassification] =
         useState<groupClassificationType>([])
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
+    const router = useRouter()
+
+    const gotoCreateGroup = () => {
+        router.navigate('/more-cpages/group/c-pages/create-group')
+    }
 
     const getThreeGroups = async () => {
         getThreeGroupApi(userInfo?.id as number)
@@ -67,6 +75,10 @@ export default function Group() {
                     paddingBottom: insets.bottom || 25,
                 }}
             >
+                {/* 创建小组 */}
+                <TouchableOpacity style={styles.createGroupContainer} onPress={gotoCreateGroup}>
+                    <Icon name="plus-circle" type="antdesign" size={25} color={theme.colors.deep01Primary} />
+                </TouchableOpacity>
                 {/* 推荐小组 */}
                 <View style={styles.recommendGroupContainer}>
                     <SearchGroup updateGroupList={getThreeGroups} />
@@ -82,6 +94,14 @@ export default function Group() {
 }
 
 const styles = StyleSheet.create({
+    createGroupContainer: {
+        position: 'absolute',
+        right: 5,
+        top: 10,
+        width: 50,
+        height: 50,
+        zIndex: 10,
+    },
     recommendGroupContainer: {
         marginBottom: 10,
     },

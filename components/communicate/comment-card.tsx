@@ -223,8 +223,7 @@ const CommentCard = ({ data, index }: Props) => {
                 </Text>
                 {/* 图片 */}
                 <View style={styles.imageContainer}>
-                    {data.images &&
-                        data.images instanceof Array &&
+                    {data?.images instanceof Array &&
                         (data.images as string[]).map((item, imgIndex) => (
                             <Image
                                 key={imgIndex}

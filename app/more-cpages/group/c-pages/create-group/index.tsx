@@ -95,6 +95,8 @@ export default function CreateGroupPage() {
                     keyboardType={
                         (item?.keyboardType as KeyboardTypeOptions) || 'default'
                     }
+                    placeholderTextColor={'#999'}
+                    cursorColor={theme.colors.deep01Primary}
                     multiline={item.multiline || false}
                     numberOfLines={
                         item.multiline ? item.numberOfLines : undefined
@@ -168,7 +170,6 @@ export default function CreateGroupPage() {
                 25,
                 50,
             )
-            console.log(e, '创建小组失败')
         } finally {
             setLoading(false)
         }
@@ -251,7 +252,7 @@ export default function CreateGroupPage() {
                         }}
                     >
                         小组创建者一旦解散了小组，一周之内不能创建小组。
-                    </AutoText>{' '}
+                    </AutoText>
                 </View>
             </Card>
         </Container>
@@ -260,7 +261,7 @@ export default function CreateGroupPage() {
 
 const styles = StyleSheet.create({
     groupBackgroundImage: {
-        width: 200,
+        width: '100%',
         height: '100%',
     },
     groupCardContainer: {
@@ -288,6 +289,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         height: 40,
         paddingHorizontal: 5,
+        color: '#000',
     },
     groupCardMemberInput: {
         borderWidth: 1,
@@ -297,6 +299,7 @@ const styles = StyleSheet.create({
         height: 40,
         paddingHorizontal: 5,
         marginBottom: 20,
+        color: '#000',
     },
     groupCardTypeInput: {
         borderWidth: 1,
@@ -306,6 +309,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         height: 40,
         paddingHorizontal: 5,
+        color: '#000',
     },
     groupCardDescriptionInput: {
         borderWidth: 1,
@@ -315,6 +319,7 @@ const styles = StyleSheet.create({
         borderRadius: 20,
         paddingHorizontal: 10,
         paddingVertical: 10,
+        color: '#000',
     },
     groupCardImageContainer: {
         marginVertical: 15,

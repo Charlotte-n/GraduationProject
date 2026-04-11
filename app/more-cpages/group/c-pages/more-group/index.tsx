@@ -3,7 +3,7 @@ import { GroupInfoType } from '@/apis/types'
 import AutoText from '@/common/components/AutoText'
 import Container from '@/common/components/container'
 import Avatar from '@/components/mine/avatar'
-import { useLoginRegisterStore } from '@/store'
+import { useGroupStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { Button } from '@rneui/themed'
 import { useLocalSearchParams, useRouter } from 'expo-router'
@@ -22,6 +22,7 @@ export default function MoreGroupPage() {
     const router = useRouter()
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
     const { category } = useLocalSearchParams()
+    const { setOperateGroupNumber } = useGroupStore.getState()
 
     const gotoGroupDetail = (id: number) => {
         router.navigate(`/more-cpages/group/c-pages/group-detail?id=${id}`)
@@ -30,6 +31,7 @@ export default function MoreGroupPage() {
     const getCategoryGroup = () => {
         getCategoryGroupsApi(category as string)
             .then((res) => {
+                console.log("res111", res)
                 if (!res.data) {
                     ToastAndroid.show('获取小组失败', ToastAndroid.SHORT)
                     return
@@ -47,7 +49,7 @@ export default function MoreGroupPage() {
             })
     }
 
-    const joinGroup = (id: number, codeInfo: string) => {
+    const joinGroup = (codeInfo: string) => {
         JoinGroupByCodeApi(userInfo?.id as number, codeInfo)
             .then((res) => {
                 if (res.code !== 1) {
@@ -56,6 +58,7 @@ export default function MoreGroupPage() {
                 }
                 getCategoryGroup()
                 Alert.alert('加入小组成功')
+                setOperateGroupNumber(1)
             })
             .catch((err) => {
                 ToastAndroid.show('加入小组失败', ToastAndroid.SHORT)
@@ -69,7 +72,7 @@ export default function MoreGroupPage() {
     return (
         <Container>
             <ScrollView style={styles.container}>
-                {groups.length > 0 &&
+                {groups?.length > 0 &&
                     groups.map((group) => {
                         return (
                             <TouchableOpacity
@@ -79,6 +82,7 @@ export default function MoreGroupPage() {
                             >
                                 <View style={styles.groupInfo}>
                                     <Avatar
+                                        isImagePickerType={false}
                                         showIcon={false}
                                         avatarUrl={group.avatar}
                                         avatarStyle={styles.groupAvatar}
@@ -98,7 +102,7 @@ export default function MoreGroupPage() {
                                 <View>
                                     <Button
                                         color={'white'}
-                                        title="加入"
+                                        title={(group.isInner || group.isOwner) ? '进入' : '加入'}
                                         containerStyle={{
                                             borderRadius: 20,
                                             width: 70,
@@ -113,7 +117,7 @@ export default function MoreGroupPage() {
                                             lineHeight: 10,
                                         }}
                                         onPress={() => {
-                                            joinGroup(group.id, group.codeInfo)
+                                            group.isInner ? gotoGroupDetail(group.id) : joinGroup(group.codeInfo)
                                         }}
                                     />
                                 </View>

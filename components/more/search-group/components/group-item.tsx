@@ -33,7 +33,7 @@ const GroupItem = ({
         containerStyle?: StyleProp<ViewStyle>
         ImageStyles?: StyleProp<ImageStyle>
     }
-    updateGroupList: () => void
+    updateGroupList?: () => void
 }) => {
     const router = useRouter()
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
@@ -49,7 +49,7 @@ const GroupItem = ({
                     return
                 }
                 Alert.alert('加入小组成功')
-                updateGroupList()
+                updateGroupList?.()
             })
             .catch((err) => {
                 ToastAndroid.show('加入小组失败', ToastAndroid.SHORT)

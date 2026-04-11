@@ -12,6 +12,7 @@ import {
     TouchableOpacity,
 } from 'react-native'
 
+
 function Avatar({
     showIcon = true,
     avatarUrl,
@@ -19,6 +20,7 @@ function Avatar({
     textStyle,
     name,
     showName = true,
+    isImagePickerType = true,
 }: {
     showIcon?: boolean
     avatarUrl?: string
@@ -26,28 +28,41 @@ function Avatar({
     textStyle?: StyleProp<TextStyle>
     name?: string
     showName?: boolean
+    isImagePickerType?: boolean
 }) {
     const loginStoreState = useLoginRegisterStore.getState()
     const { userInfo } = loginStoreState
+
+    const ImageView = () => {
+        return (
+            <Image
+                source={
+                    avatarUrl || userInfo.avatar
+                        ? { uri: avatarUrl || userInfo.avatar }
+                        : require('@/assets/images/bg_login_header.png')
+                }
+                style={[
+                    { width: 100, height: 100, borderRadius: 50 },
+                    avatarStyle,
+                ]}
+            />
+        )
+    }
+
     return (
         <Fragment>
             {/*  头像 */}
-            <MyImagePicker
-                type="avatar"
-                getImage={(image) => getImage(image, loginStoreState)}
-            >
-                <Image
-                    source={
-                        avatarUrl || userInfo.avatar
-                            ? { uri: avatarUrl || userInfo.avatar }
-                            : require('@/assets/images/bg_login_header.png')
-                    }
-                    style={[
-                        { width: 100, height: 100, borderRadius: 50 },
-                        avatarStyle,
-                    ]}
-                />
-            </MyImagePicker>
+            {
+                isImagePickerType ? (<MyImagePicker
+                    type="avatar"
+                    getImage={(image) => getImage(image, loginStoreState)}
+                >
+                    <ImageView />
+                </MyImagePicker>)
+                    : (
+                        <ImageView />
+                    )
+            }
             {showName && (
                 <TouchableOpacity style={styles.usernameContainer}>
                     <Text

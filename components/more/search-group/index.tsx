@@ -1,18 +1,17 @@
-import { GroupInfoType } from '@/apis/types'
 import { windowWidth } from '@/common/common'
+import { useGroupStore } from '@/store'
 import theme from '@/styles/theme/color'
-import { memo } from 'react'
 import { Image, StyleSheet, View } from 'react-native'
 import GroupList from './components/group-list'
 import Search from './components/search'
 
 const SearchGroup = ({
-    groupList = [],
     updateGroupList,
 }: {
-    groupList: GroupInfoType[]
     updateGroupList: () => void
 }) => {
+    const threeGroups = useGroupStore((state) => state.threeGroups)
+
     return (
         <>
             <View>
@@ -32,7 +31,7 @@ const SearchGroup = ({
                     <Search />
                 </View>
                 <GroupList
-                    groupList={groupList}
+                    groupList={threeGroups}
                     updateGroupList={updateGroupList}
                 />
             </View>
@@ -56,4 +55,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default memo(SearchGroup)
+export default SearchGroup

@@ -30,7 +30,7 @@ export default function GroupDetailPage() {
         {} as GroupInfoType,
     )
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
-    const { setRateTopThree } = useGroupStore.getState()
+    const { setRateTopThree, setOperateGroupNumber } = useGroupStore.getState()
     const { id } = useLocalSearchParams()
     const [isJoin, setIsJoin] = useState(false)
     const [showBottomSheet, setShowBottomSheet] = useState(false)
@@ -72,7 +72,7 @@ export default function GroupDetailPage() {
                     isVisible={showBottomSheet}
                     onBackdropPress={() => setShowBottomSheet(false)}
                 >
-                    {bottomConfigData?.length > 0 &&
+                    {bottomConfigData.length > 0 &&
                         bottomConfigData.map((item, index) => {
                             return (
                                 <TouchableOpacity
@@ -126,6 +126,7 @@ export default function GroupDetailPage() {
                 getRateTopThree()
                 Alert.alert('加入小组成功')
                 getGroupDetail()
+                setOperateGroupNumber(1)
             })
             .catch((err) => {
                 ToastAndroid.show('加入小组失败', ToastAndroid.SHORT)
@@ -157,6 +158,7 @@ export default function GroupDetailPage() {
                 // 获取前三小组信息
                 getRateTopThree()
                 ToastAndroid.show('退出小组成功', ToastAndroid.SHORT)
+                setOperateGroupNumber(1)
             })
             .catch((err) => {
                 ToastAndroid.show('退出小组失败', ToastAndroid.SHORT)

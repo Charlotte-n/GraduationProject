@@ -42,6 +42,8 @@ const GroupInfo = ({ groupDetail }: { groupDetail: GroupInfoType }) => {
                 </TouchableOpacity>
                 <View style={styles.groupDailyTitle}>
                     <Avatar
+                        isImagePickerType={groupDetail.isOwner === userInfo?.id ? true : false}
+                        avatarUrl={groupDetail.avatar}
                         showIcon={false}
                         avatarStyle={styles.groupDailyAvatar}
                         name={groupDetail.groupName}

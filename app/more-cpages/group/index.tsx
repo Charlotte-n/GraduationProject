@@ -1,22 +1,23 @@
 import { getClassGroupApi, getThreeGroupApi } from '@/apis'
-import { groupClassificationType, GroupInfoType } from '@/apis/types'
+import { groupClassificationType } from '@/apis/types'
 import Container from '@/common/components/container'
 import CategoryGroup from '@/components/more/category-group'
 import SearchGroup from '@/components/more/search-group'
-import { useLoginRegisterStore } from '@/store'
+import { useGroupStore, useLoginRegisterStore } from '@/store'
 import { useEffect, useState } from 'react'
 import { ScrollView, StyleSheet, ToastAndroid, View } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
 export default function Group() {
     const insets = useSafeAreaInsets()
-    const [threeGroups, setThreeGroups] = useState<GroupInfoType[]>([])
+    const opearateGroupNumber = useGroupStore((state) => state.opearateGroupNumber)
+    const setThreeGroups = useGroupStore((state) => state.setThreeGroups)
     const [groupClassification, setGroupClassification] =
         useState<groupClassificationType>([])
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
 
     const getThreeGroups = async () => {
-        getThreeGroupApi(userInfo.id as number)
+        getThreeGroupApi(userInfo?.id as number)
             .then((res) => {
                 if (!res.data) {
                     ToastAndroid.show('没有找到小组', ToastAndroid.SHORT)
@@ -49,6 +50,13 @@ export default function Group() {
         getThreeGroups()
         getGroupClassification()
     }, [])
+
+    useEffect(() => {
+        if (opearateGroupNumber > 0) {
+            getThreeGroups()
+            useGroupStore.getState().setOperateGroupNumber(0)
+        }
+    }, [opearateGroupNumber])
     return (
         <Container>
             <ScrollView
@@ -61,7 +69,7 @@ export default function Group() {
             >
                 {/* 推荐小组 */}
                 <View style={styles.recommendGroupContainer}>
-                    <SearchGroup groupList={threeGroups} updateGroupList={getThreeGroupApi} />
+                    <SearchGroup updateGroupList={getThreeGroups} />
                 </View>
 
                 {/* 分类小组 */}

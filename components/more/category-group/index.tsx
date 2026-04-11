@@ -61,7 +61,7 @@ const CategoryGroup = ({
             </View>
             {/* 分类小组 */}
             <View style={styles.categoryGroupContainer}>
-                {groupCategory.length > 0 &&
+                {groupCategory?.length > 0 &&
                     groupCategory
                         .slice(0, isShowMore ? groupCategory.length : 3)
                         ?.map((item: any, index) => (
@@ -157,7 +157,7 @@ const CategoryGroup = ({
                         ))}
             </View>
             {/* 更多分类 */}
-            {groupCategory.length > 3 && (
+            {groupCategory?.length > 3 && (
                 <TouchableOpacity
                     style={{
                         flexDirection: 'row',

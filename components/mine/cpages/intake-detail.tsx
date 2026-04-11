@@ -45,7 +45,7 @@ const IntakeDetail = ({
 
     return (
         <Fragment>
-            {IntakeFoodList.length > 0 ? (
+            {IntakeFoodList?.length > 0 ? (
                 IntakeFoodList.map((list, Timeindex) => {
                     if (!list || !Array.isArray(list)) return null
                     return (

@@ -49,6 +49,7 @@ export default function TabLayout() {
                                 <Icon name={'home'} type={'feather'} />
                             )
                         },
+                        tabBarActiveTintColor: theme.colors.deep01Primary,
                     }}
                 />
 
@@ -70,6 +71,7 @@ export default function TabLayout() {
                                 />
                             )
                         },
+                        tabBarActiveTintColor: theme.colors.deep01Primary,
                     }}
                 />
 

@@ -21,7 +21,7 @@ export const getImage = async (
             //上传图片,更新个人信息
             await uploadAvatar(formData, userInfo.id as number)
             const res = await getUserInfo(userInfo.id as number)
-            setUserInfo(res.data.user)
+            setUserInfo(res?.data?.user)
             ToastAndroid.show('更新成功', ToastAndroid.SHORT)
         }
         await uploadImage()
@@ -55,7 +55,7 @@ export const getSearchImage = async (
         //上传到
         const res = await recognizeFood(formData)
         //将食材信息放到仓库
-        setRecognizeFoodList(res.data.result)
+        setRecognizeFoodList(res?.data?.result)
     }
     await uploadImage()
 }

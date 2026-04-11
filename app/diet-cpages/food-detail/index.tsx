@@ -62,15 +62,15 @@ export default function FoodDetail() {
                     return
                 }
                 //数据的处理
-                let materials = (res.data.dishes[0].materials as string)
+                let materials = (res.data?.dishes?.[0]?.materials as string)
                     .trim()
                     .split('\\n')
                 materials.pop()
-                let stepImage = (res.data.dishes[0].stepImg as string)
+                let stepImage = (res.data?.dishes?.[0]?.stepImg as string)
                     .trim()
                     .split('\\n')
                 stepImage.pop()
-                let result: SingleDish = res.data.dishes.map((item) => {
+                let result: SingleDish = res.data?.dishes?.map((item) => {
                     return {
                         id: item.id,
                         materials: materials,
@@ -200,8 +200,7 @@ export default function FoodDetail() {
                             {RecipeDetail.name}
                         </Text>
                         {/* 步骤 */}
-                        {RecipeDetail.stepImg &&
-                            RecipeDetail.stepImg.length > 0 &&
+                        {RecipeDetail.stepImg?.length > 0 &&
                             (RecipeDetail.stepImg as string[]).map(
                                 (item, index) => {
                                     return (

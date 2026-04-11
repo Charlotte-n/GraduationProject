@@ -87,7 +87,7 @@ export default function RankingPage() {
 
     const renderRankingListHeader = useCallback(() => {
         return (
-            rankingListHeader.length > 0 &&
+            rankingListHeader?.length > 0 &&
             rankingListHeader.map((item) => {
                 return (
                     <AutoText fontSize={4} style={item.style}>

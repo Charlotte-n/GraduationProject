@@ -25,7 +25,7 @@ const hotRecommend = ({ title, data }: HotRecommendProps) => {
         <View>
             {title && (
                 <View style={styles.container}>
-                    <Text
+                    <View
                         style={{
                             marginRight: 2,
                             width: 2,
@@ -45,7 +45,7 @@ const hotRecommend = ({ title, data }: HotRecommendProps) => {
                 </View>
             )}
 
-            {data.length > 0 && (
+            {data?.length > 0 && (
                 <View style={styles.foodListContainer}>
                     {data.map((item) => (
                         <TouchableOpacity

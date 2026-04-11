@@ -1,4 +1,3 @@
-import { screenHeight } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
 import Container from '@/common/components/container'
 import IntakeDetail from '@/components/mine/cpages/intake-detail'
@@ -19,39 +18,33 @@ export default function Intake() {
 
     return (
         <Container>
-            <ScrollView style={styles.container}>
-                <View
+            <View
+                style={styles.container}
+            >
+                <AutoText
+                    fontSize={7}
                     style={{
-                        height: screenHeight,
-                        justifyContent: 'flex-end',
+                        marginBottom: 8,
                     }}
                 >
-                    <AutoText
-                        fontSize={7}
-                        style={{
-                            marginBottom: 8,
-                        }}
-                    >
-                        今日摄入
-                    </AutoText>
-                    <ScrollView
-                        showsVerticalScrollIndicator={false}
-                        style={{ flex: 1, marginBottom: 10 }}
-                    >
-                        <IntakeDetail
-                            IntakeFoodList={IntakeFoodList}
-                            GetDailyIntake={GetDailyIntakeList}
-                            total={total}
-                        />
-                    </ScrollView>
-                    {total.length > 0 && (
-                        <View style={styles.totalContainer}>
-                            <IntakeTotal data={total} />
-                        </View>
-                    )}
-                </View>
-
-            </ScrollView>
+                    今日摄入
+                </AutoText>
+                <ScrollView
+                    showsVerticalScrollIndicator={false}
+                    style={{ flex: 1, marginBottom: 10 }}
+                >
+                    <IntakeDetail
+                        IntakeFoodList={IntakeFoodList}
+                        GetDailyIntake={GetDailyIntakeList}
+                        total={total}
+                    />
+                </ScrollView>
+                {total?.length > 0 && (
+                    <View style={styles.totalContainer}>
+                        <IntakeTotal data={total} />
+                    </View>
+                )}
+            </View>
         </Container>
 
     )
@@ -64,7 +57,7 @@ const styles = StyleSheet.create({
         paddingHorizontal: 20,
     },
     totalContainer: {
-        paddingTop: 10,
+        paddingVertical: 10,
         justifyContent: 'flex-end',
     },
 })

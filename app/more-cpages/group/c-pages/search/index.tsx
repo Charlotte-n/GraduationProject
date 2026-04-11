@@ -84,7 +84,7 @@ export default function SearchPage() {
                 </View>
                 {/* 搜索结果 */}
                 <View style={styles.searchResult}>
-                    {searchGroupInfo.length > 0 &&
+                    {searchGroupInfo?.length > 0 &&
                         searchGroupInfo.map((item) => {
                             return (
                                 <TouchableOpacity

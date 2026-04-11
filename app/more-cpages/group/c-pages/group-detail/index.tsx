@@ -72,7 +72,7 @@ export default function GroupDetailPage() {
                     isVisible={showBottomSheet}
                     onBackdropPress={() => setShowBottomSheet(false)}
                 >
-                    {bottomConfigData.length > 0 &&
+                    {bottomConfigData?.length > 0 &&
                         bottomConfigData.map((item, index) => {
                             return (
                                 <TouchableOpacity

@@ -140,7 +140,7 @@ const FoodTab = ({
                     )
                 }}
             >
-                {foodList.length > 0 ? (
+                {foodList?.length > 0 ? (
                     foodList.map((item) => (
                         <FoodItem key={item.id} data={item} />
                     ))
@@ -151,7 +151,7 @@ const FoodTab = ({
                         color={theme.colors.deep01Primary}
                     />
                 )}
-                {foodList.length > 0 && (
+                {foodList?.length > 0 && (
                     <View
                         style={{
                             height: 50,

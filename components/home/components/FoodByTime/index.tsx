@@ -37,7 +37,7 @@ const FoodByTime = ({ image, baseData, type, intakeFoodList = [] }: FoodByTimePr
     }
     return (
         <View style={styles.container}>
-            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: intakeFoodList && intakeFoodList.length > 0 ? transformAdaption(20) : 0 }}>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: intakeFoodList?.length > 0 ? transformAdaption(20) : 0 }}>
                 <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     {image}
                     <View style={{ display: 'flex', flexDirection: 'column' }}>
@@ -60,11 +60,13 @@ const FoodByTime = ({ image, baseData, type, intakeFoodList = [] }: FoodByTimePr
             <View style={{ display: 'flex', flexDirection: 'column' }}>
                 {intakeFoodList && intakeFoodList.length > 0 && intakeFoodList.map((item, index) => (
                     <TouchableOpacity key={item.id} onPress={() => handleShowRecord(true, item)}>
-                        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: index !== intakeFoodList.length - 1 ? transformAdaption(20) : 0 }}>
+                        <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginBottom: index !== intakeFoodList?.length - 1 ? transformAdaption(20) : 0 }}>
                             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                                 <Image source={{ uri: item.image }} style={{ width: transformAdaption(50), height: transformAdaption(50) }} />
                                 <AutoText numberOfLines={1} style={{ maxWidth: '60%', marginLeft: transformAdaption(10) }}>{item.title}</AutoText>
                                 <AutoText>{item.g}g</AutoText>
+                                {/* 热量 */}
+                                {/* <AutoText>{item.calories}千卡</AutoText> */}
                             </View>
                             <Icon type={'antdesign'} name={'right'} size={transformAdaption(20)} color={theme.colors.deep01Primary} />
                         </View>

@@ -161,8 +161,7 @@ export default function FoodNutritionComponent() {
                                             </AutoText>
                                         </View>
                                         <View style={styles.foodNutritionContainer}>
-                                            {FoodNutritionData &&
-                                                FoodNutritionData.length > 0 &&
+                                            {FoodNutritionData?.length > 0 &&
                                                 FoodNutritionData.map((item) => (
                                                     <View
                                                         key={item}

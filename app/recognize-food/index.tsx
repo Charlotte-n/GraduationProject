@@ -11,7 +11,7 @@ export default function RecognizeFood() {
         <Container>
             <View style={styles.container}>
                 {recognizeFoodList &&
-                    recognizeFoodList.length > 0 &&
+                    recognizeFoodList?.length > 0 &&
                     (recognizeFoodList[0].name !== '非菜' ? (
                         <View style={styles.nonVegetableContainer}>
                             {recognizeFoodList.map((item, index) => (

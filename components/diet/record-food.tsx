@@ -133,7 +133,7 @@ const RecordFood = ({ isVisible, onClose, id, time, showDelete = false }: Record
                 <View style={styles.topContainer}>
                     {
                         showDelete && (
-                            <TouchableOpacity style={styles.deleteContainer} onPress={() => changeFoodOperator(0)}>
+                            <TouchableOpacity onPress={() => changeFoodOperator(0)}>
                                 <AutoText fontSize={4.5} style={{ color: theme.colors.deep01Primary }}>删除此记录</AutoText>
                             </TouchableOpacity>
                         )
@@ -276,11 +276,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
     },
-    deleteContainer: {
-        position: 'absolute',
-        left: 0,
-        top: 0,
-    },
     topContainer: {
         flexDirection: 'row',
         margin: 'auto',
@@ -294,6 +289,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
     },
     iconText: {
+        position: 'absolute',
+        left: '30%',
+        top: 0,
         textAlign: 'center',
         marginRight: 10,
     },

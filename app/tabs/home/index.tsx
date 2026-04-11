@@ -1,16 +1,16 @@
 import { screenHeight, screenWidth, windowHeight } from '@/common/common'
 import EchartsBigPie from '@/components/home/components/EchartsBigPie'
 import EchartsSmallPie from '@/components/home/components/EchartsSmallPie'
+import FoodList from '@/components/home/components/FoodList'
+import HotRecommend from '@/components/home/components/HotRecommend'
+import ProfileDialog from '@/components/home/components/ProfileDialog'
 import { useHome } from '@/hooks/useHome'
-import { Icon } from '@rneui/themed'
+import { Icon } from '@rneui/base'
 import { StatusBar } from 'expo-status-bar'
 import { ScrollView, StyleSheet, TouchableOpacity, View } from 'react-native'
 import { Drawer } from 'react-native-drawer-layout'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 import DrawerContent from '../../../components/home/components/DrawerContent'
-import FoodList from '../../../components/home/components/FoodList'
-import HotRecommend from '../../../components/home/components/HotRecommend'
-import ProfileDialog from '../../../components/home/components/ProfileDialog'
 
 export default function Home() {
     const {
@@ -52,13 +52,13 @@ export default function Home() {
                 <EchartsBigPie />
                 <EchartsSmallPie />
                 {/* 早餐、午餐、晚餐 */}
-                {foodList.length > 0 && (
+                {foodList?.length > 0 && (
                     <View style={styles.foodListContainer}>
                         <FoodList foodList={foodList} />
                     </View>
                 )}
                 {/* 热门推荐 */}
-                {RecipeFood.length > 0 && (
+                {RecipeFood?.length > 0 && (
                     <View style={styles.hotRecommend}>
                         <HotRecommend title="热门推荐" data={RecipeFood} />
                     </View>

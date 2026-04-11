@@ -41,7 +41,7 @@ export default function Profile() {
                                 //重新获取用户信息
                                 useLoginRegisterStore
                                     .getState()
-                                    ?.setUserInfo?.(res.data.user)
+                                    ?.setUserInfo?.(res.data?.user)
                                 ToastAndroid.show(
                                     '修改成功',
                                     ToastAndroid.SHORT,
@@ -105,7 +105,7 @@ export default function Profile() {
                 if (res.code === 1 || res.data) {
                     useLoginRegisterStore
                         .getState()
-                        ?.setUserInfo?.(res.data.user)
+                        ?.setUserInfo?.(res.data?.user)
                 }
             })
             .catch((error: any) => {

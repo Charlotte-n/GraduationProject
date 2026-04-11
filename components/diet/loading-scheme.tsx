@@ -42,7 +42,7 @@ const LoadingScheme = ({
                     ))}
                 </View>
             ) : (
-                data.length > 0 && (
+                data?.length > 0 && (
                     <View style={styles.listContainer}>
                         {data.map((item) => (
                             <TouchableOpacity

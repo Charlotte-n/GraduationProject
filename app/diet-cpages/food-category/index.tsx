@@ -86,7 +86,7 @@ export default function FoodCategory() {
             <View style={styles.container}>
                 {/* 左侧分类列表 */}
                 <View style={styles.leftContainer}>
-                    {FoodCategory.length !== 0
+                    {FoodCategory?.length !== 0
                         ? FoodCategory.map((item) => (
                             <TouchableOpacity
                                 key={item.id}

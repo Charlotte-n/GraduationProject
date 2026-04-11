@@ -74,8 +74,8 @@ export default function Login() {
             .then((res) => {
                 if (res) {
                     // 存储token & 跳转
-                    useLoginRegisterStore.getState()?.setUserInfo?.(res.user)
-                    useLoginRegisterStore.getState()?.setToken?.(res.token)
+                    useLoginRegisterStore.getState()?.setUserInfo?.(res?.user)
+                    useLoginRegisterStore.getState()?.setToken?.(res?.token)
                     router.navigate('/tabs/home')
                 } else {
                     Alert.alert('', '邮箱或者密码错误,请重新输入', [

@@ -237,7 +237,7 @@ const CommentCard = ({ data, index }: Props) => {
                 </View>
             </View>
             {/* 展示部分用户评论 */}
-            {comments.length > 0 && (
+            {comments?.length > 0 && (
                 <View style={styles.commentContainer}>
                     <Text
                         style={{

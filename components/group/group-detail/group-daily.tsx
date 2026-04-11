@@ -110,7 +110,7 @@ const GroupDaily = ({
                 </View>
             </View>
             {/* 打卡内容 */}
-            {ClockContent.length > 0 ? (
+            {ClockContent?.length > 0 ? (
                 ClockContent.map((item) => {
                     return (
                         <View
@@ -148,8 +148,7 @@ const GroupDaily = ({
                                             styles.clockContentImageContainer
                                         }
                                     >
-                                        {item.image &&
-                                            item.image.length > 0 &&
+                                        {item.image?.length > 0 &&
                                             (item.image as string[]).map(
                                                 (image, index) => {
                                                     return (

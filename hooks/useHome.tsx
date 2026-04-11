@@ -21,6 +21,10 @@ export const useHome = () => {
     const GetDailyIntakeList = () => {
         getDailyIntakeApi(userInfo?.id as number)
             .then((res) => {
+                if (!res.data) {
+                    ToastAndroid.show('获取今日摄入失败', ToastAndroid.SHORT)
+                    return
+                }
                 const result = [
                     res.data.breakfast,
                     res.data.lunch,
@@ -35,7 +39,6 @@ export const useHome = () => {
                     protein: res.data.calories[0],
                     cellulose: res.data.calories[3],
                 }
-
 
                 useHomeStore.getState().setDailyIntaked(dailyIntaked)
                 useHomeStore.getState().setIntakeFoodList(result as IntakeFoodType)

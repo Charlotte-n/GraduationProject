@@ -4,7 +4,8 @@ import AutoText from '@/common/components/AutoText'
 import Container from '@/common/components/container'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
-import { useLocalSearchParams } from 'expo-router'
+import { Button } from '@rneui/base'
+import { useLocalSearchParams, useRouter } from 'expo-router'
 import moment from 'moment'
 import { useEffect, useState } from 'react'
 import { StyleSheet, ToastAndroid, View } from 'react-native'
@@ -14,12 +15,18 @@ export default function CalendarPage() {
     const { name, id } = useLocalSearchParams()
     const [date, setDate] = useState({})
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
+    const router = useRouter()
+
+    const clock = () => {
+        router.navigate(`/more-cpages/group/c-pages/clock?id=${id}`)
+    }
 
     const ClockCalendar = () => {
         const ClockCalendarBody: ClockCalendarParams = {
             userId: userInfo.id as number,
             groupId: Number(id),
         }
+        console.log("ClockCalendarBody", ClockCalendarBody)
         ClockCalendarApi(ClockCalendarBody)
             .then((res) => {
                 console.log(res.data, res)
@@ -35,7 +42,7 @@ export default function CalendarPage() {
                         })
                         .map((value) => {
                             setDate((prevState) => {
-                                ;(prevState as any)[value.trim()] = {
+                                ; (prevState as any)[value.trim()] = {
                                     selectedColor: theme.colors.deep01Primary,
                                     selected: true,
                                 }
@@ -84,6 +91,7 @@ export default function CalendarPage() {
                     <View style={styles.dot}></View>
                     <AutoText>已经打卡</AutoText>
                 </View>
+                <Button buttonStyle={styles.button} containerStyle={styles.buttonContainer} title="打卡" onPress={clock} />
             </View>
         </Container>
     )
@@ -105,6 +113,7 @@ const styles = StyleSheet.create({
     dotContainer: {
         marginLeft: 50,
         flexDirection: 'row',
+        marginBottom: 20,
     },
     dot: {
         width: 20,
@@ -112,5 +121,17 @@ const styles = StyleSheet.create({
         marginRight: 20,
         borderRadius: 10,
         backgroundColor: theme.colors.deep01Primary,
+    },
+    button: {
+        width: '50%',
+        margin: 'auto',
+        backgroundColor: theme.colors.deep01Primary,
+    },
+    buttonContainer: {
+        backgroundColor: theme.colors.deep01Primary,
+        width: '50%',
+        margin: 0,
+        alignSelf: 'center',
+        borderRadius: 20,
     },
 })

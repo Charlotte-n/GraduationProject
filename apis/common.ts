@@ -1,6 +1,6 @@
 import hyRequest from '../services'
 import { CommonResponseType } from './types'
-import { addCollectBody, AiQuestionBody } from './types/common'
+import { addCollectBody, AiQuestionBody, DeepSeekQuestionBody } from './types/common'
 
 enum BASEURL {
     COLLECT = '/food/dosave',
@@ -8,6 +8,7 @@ enum BASEURL {
     DELETE_COLLECT = '/food/rmsave',
     AI = '/common/ai',
     JUDGE_COLLECT = '/food/cansave',
+    DEEP_SEEK_QUESTION = '/api/ai/chat',
 }
 
 /**
@@ -62,6 +63,16 @@ export const JudgeCollectApi = (data: addCollectBody) => {
 export const AiQuestionApi = (data: AiQuestionBody) => {
     return hyRequest.post<CommonResponseType<any>>({
         url: BASEURL.AI,
+        data,
+    })
+}
+
+// deepseek问答
+export const DeepSeekQuestionApi = (data: DeepSeekQuestionBody) => {
+    return hyRequest.post<CommonResponseType<{
+        content: string
+    }>>({
+        url: BASEURL.DEEP_SEEK_QUESTION,
         data,
     })
 }

@@ -84,7 +84,7 @@ const MyImagePicker = ({
         if (image) {
             getImage(image ?? '')
             if (type === 'camera') {
-                router.navigate('/recognize-food/index')
+                router.navigate('/recognize-food')
             }
         }
     }, [image])

@@ -1,10 +1,9 @@
-import { AiQuestionApi } from '@/apis'
 import { screenHeight } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
 import Container from '@/common/components/container'
 import { useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
-import { Button, Icon } from '@rneui/themed'
+import { Button, Icon, Text } from '@rneui/themed'
 import { memo, useCallback, useEffect, useRef, useState } from 'react'
 import {
     Animated,
@@ -15,9 +14,8 @@ import {
     ScrollView,
     StyleSheet,
     TextInput,
-    ToastAndroid,
     TouchableOpacity,
-    View,
+    View
 } from 'react-native'
 import { useSafeAreaInsets } from 'react-native-safe-area-context'
 
@@ -106,6 +104,7 @@ export default function AI() {
     const [isSending, setIsSending] = useState(false)
     const inputRef = useRef<TextInput>(null)
     const userInfo = useLoginRegisterStore((state) => state.userInfo)
+    const scrollViewRef = useRef<ScrollView>(null)
     const [message, setMessage] = useState<messageType[]>(() => {
         return [
             {
@@ -116,7 +115,7 @@ export default function AI() {
         ]
     })
     const ws = useRef(
-        new WebSocket('ws://149.104.29.34:8080/ws/' + userInfo.id),
+        null as unknown as WebSocket,
     )
     const msg = useRef('')
     const first = useRef(true)
@@ -125,24 +124,16 @@ export default function AI() {
         return <ChatItem data={item} />
     }, [])
 
-    const handleSend = useCallback(() => {
+
+    const handleSend = useCallback(async () => {
         if (isSending) return
         setIsSending(true)
         // 获取ai回复
+        console.log('inputContent', inputContent)
         addNewMessage(inputContent, 'user')
-        AiQuestionApi({
-            question: inputContent,
-            userid: userInfo.id as number,
-        })
-            .catch((err) => {
-                console.log(err)
-                ToastAndroid.show('获取回复失败', ToastAndroid.SHORT)
-            })
-            .finally(() => {
-                setIsSending(false)
-                setInputContent('')
-            })
-    }, [])
+        ws.current?.send(inputContent)
+        setInputContent('')
+    }, [inputContent, isSending])
 
     const clearMsg = useCallback(() => {
         msg.current = ''
@@ -174,15 +165,18 @@ export default function AI() {
     }, [])
 
     useEffect(() => {
+        ws.current = new WebSocket('ws://10.178.89.117:8080/ws/' + userInfo?.id)
         ws.current.onopen = () => {
             console.log('连接成功')
         }
 
         ws.current.onmessage = (event) => {
-            console.log('event', event)
+            scrollViewRef.current?.scrollToEnd({ animated: true })
+            console.log('event前端收到消息', event)
             // 收到结束标记 '|'，标记消息完成并重置状态
             if (event.data === '|') {
                 first.current = true
+                setIsSending(false)
                 markMessageEnd()
                 clearMsg()
                 return
@@ -200,20 +194,20 @@ export default function AI() {
             }
         }
 
-        // ws.current.onclose = () => {
-        //     console.log('连接关闭')
-        // }
+        ws.current.onclose = () => {
+            console.log('连接关闭')
+        }
 
         ws.current.onerror = (error) => {
             console.log('WebSocket错误:', error)
         }
 
         return () => {
-            ws.current.close()
-            ws.current.onmessage = null
-            ws.current.onclose = null
-            ws.current.onerror = null
-            ws.current.onopen = null
+            ws.current?.close()
+            ws.current.onmessage = null as any
+            ws.current.onclose = null as any
+            ws.current.onerror = null as any
+            ws.current.onopen = null as any
         }
     }, [])
     return (
@@ -229,6 +223,7 @@ export default function AI() {
                 <ScrollView
                     style={styles.aiConversation}
                     showsVerticalScrollIndicator={false}
+                    ref={scrollViewRef}
                 >
                     {/* 首先ai显示自我介绍 */}
                     <FlatList
@@ -264,12 +259,14 @@ export default function AI() {
                         {inputContent.trim().length > 0 && (
                             <TouchableOpacity
                                 style={styles.clearButton}
-                                onPress={() => setInputContent('')}
                                 hitSlop={{
                                     top: 10,
                                     bottom: 10,
                                     left: 10,
                                     right: 10,
+                                }}
+                                onPress={() => {
+                                    setInputContent('')
                                 }}
                             >
                                 <Icon
@@ -282,13 +279,11 @@ export default function AI() {
                         )}
                     </View>
                     <Button
-                        onPress={handleSend}
-                        disabled={!inputContent.trim() || isSending}
+                        onPress={(inputContent.length === 0 || isSending) ? () => { } : handleSend}
                         loading={isSending}
                         buttonStyle={[
                             styles.sendButton,
-                            (!inputContent.trim() || isSending) &&
-                                styles.sendButtonDisabled,
+                            (inputContent.length === 0 || isSending) && styles.sendButtonDisabled
                         ]}
                         titleStyle={styles.sendButtonText}
                         icon={
@@ -303,7 +298,7 @@ export default function AI() {
                             )
                         }
                     >
-                        {isSending ? '發送中...' : '發送'}
+                        <Text>{isSending ? '发送中...' : '发送'}</Text>
                     </Button>
                 </View>
             </KeyboardAvoidingView>
@@ -353,7 +348,7 @@ const styles = StyleSheet.create({
         borderRadius: 10,
         backgroundColor: theme.colors.secondary,
         flexDirection: 'row',
-        alignItems: 'center',
+        alignItems: 'flex-end',
     },
     userBubble: {
         maxWidth: 280,
@@ -414,7 +409,7 @@ const styles = StyleSheet.create({
         backgroundColor: theme.colors.deep01Primary,
     },
     sendButtonDisabled: {
-        backgroundColor: '#ccc',
+        backgroundColor: theme.colors.deep01Primary,
         opacity: 0.6,
     },
     sendButtonText: {

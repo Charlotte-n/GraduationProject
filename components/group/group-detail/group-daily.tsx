@@ -73,7 +73,8 @@ const GroupDaily = ({
                     {groupDetail.groupName || ''}
                 </AutoText>
                 <View style={styles.titleRightContainer}>
-                    <TouchableOpacity
+
+                    {groupDetail.isInner && <TouchableOpacity
                         style={styles.calendarButton}
                         onPress={goCalendar}
                     >
@@ -92,7 +93,7 @@ const GroupDaily = ({
                         >
                             日历
                         </AutoText>
-                    </TouchableOpacity>
+                    </TouchableOpacity>}
 
                     <TouchableOpacity
                         style={styles.settingButton}
@@ -208,6 +209,7 @@ const styles = StyleSheet.create({
     clockContentContainer: {
         alignItems: 'center',
         paddingHorizontal: 20,
+        marginBottom: 30,
     },
     clockContentTitleContainer: {
         width: windowWidth - 15,

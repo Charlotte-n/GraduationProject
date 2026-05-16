@@ -21,7 +21,7 @@ import {
 } from 'react-native-vision-camera'
 
 import { useDietStore, useLoginRegisterStore } from '@/store'
-import { getImage, getSearchImage } from '@/utils/uploadImg'
+import { getSearchImage } from '@/utils/uploadImg'
 import { manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 
 export default function CameraPage() {
@@ -147,7 +147,7 @@ export default function CameraPage() {
                             <ImagePicker
                                 type="camera"
                                 getImage={(image) =>
-                                    getImage(image, loginStoreState)
+                                    getSearchImage(image, dietStoreState)
                                 }
                             >
                                 <Image

@@ -10,44 +10,44 @@ export default function RecognizeFood() {
     return (
         <Container>
             <View style={styles.container}>
-                {recognizeFoodList &&
-                    recognizeFoodList?.length > 0 &&
-                    (recognizeFoodList[0].name !== '非菜' ? (
-                        <View style={styles.nonVegetableContainer}>
-                            {recognizeFoodList.map((item, index) => (
-                                <View
-                                    style={styles.nonVegetableItem}
-                                    key={index}
-                                >
-                                    <View style={styles.info}>
-                                        <AutoText
-                                            numberOfLines={1}
-                                            style={{
-                                                width: 120,
-                                            }}
-                                        >
-                                            {item.name}
-                                        </AutoText>
-                                        <Text style={{ fontSize: 12 }}>
-                                            {item.calorie}Kcal/100g
-                                        </Text>
-                                    </View>
+                {(recognizeFoodList?.[0]?.name !== '非菜' ? (
+                    <View style={styles.nonVegetableContainer}>
+                        {recognizeFoodList?.map((item, index) => (
+                            <View
+                                style={styles.nonVegetableItem}
+                                key={index}
+                            >
+                                <View style={styles.info}>
+                                    <AutoText
+                                        numberOfLines={1}
+                                        style={{
+                                            width: 120,
+                                            height: 120,
+                                            marginBottom: 30,
+                                        }}
+                                    >
+                                        {item.name}
+                                    </AutoText>
+                                    <Text style={{ fontSize: 12 }}>
+                                        {item.calorie}Kcal/100g
+                                    </Text>
                                 </View>
-                            ))}
-                        </View>
-                    ) : (
-                        <View style={styles.emptyContainer}>
-                            <Image
-                                style={{
-                                    width: 200,
-                                    height: 200,
-                                    marginBottom: 20,
-                                }}
-                                source={require('@/assets/images/search.png')}
-                            />
-                            <AutoText fontSize={6}>不能识别到该食物</AutoText>
-                        </View>
-                    ))}
+                            </View>
+                        ))}
+                    </View>
+                ) : (
+                    <View style={styles.emptyContainer}>
+                        <Image
+                            style={{
+                                width: 200,
+                                height: 200,
+                                marginBottom: 20,
+                            }}
+                            source={require('@/assets/images/search.png')}
+                        />
+                        <AutoText fontSize={6}>不能识别到该食物</AutoText>
+                    </View>
+                ))}
             </View>
         </Container>
     )

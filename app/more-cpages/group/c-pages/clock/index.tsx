@@ -74,10 +74,10 @@ export default function ClockPage() {
                 newDateTime: moment(new Date()).format('YYYY-MM-DD'),
             }
 
-            // TODO： 跳到详情页面
+            await ClockCalendarApi(data)
+
             router.replace(`/more-cpages/group/c-pages/group-detail?id=${id}`)
 
-            await ClockCalendarApi(data)
 
             ToastAndroid.showWithGravity(
                 '创建成功',

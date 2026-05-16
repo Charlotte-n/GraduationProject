@@ -24,7 +24,9 @@ export default function RootLayout() {
             <ThemeProvider
                 value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}
             >
-                <Stack screenOptions={{ headerShown: false }}>
+                <Stack screenOptions={{
+                    headerShown: false
+                }}>
                     <Stack.Screen name="login-register" />
                     <Stack.Screen name="tabs" />
                 </Stack>

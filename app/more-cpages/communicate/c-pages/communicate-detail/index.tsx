@@ -96,6 +96,7 @@ export default function CommunicateDetail() {
                             textStyle={styles.text}
                             name={RecordDetail.username}
                             showIcon={false}
+                            isImagePickerType={false}
                         />
                     </View>
                     {/* 内容 */}
@@ -148,8 +149,10 @@ export default function CommunicateDetail() {
                         {comments && comments.length > 0 ? (
                             <UserComment
                                 comments={comments}
-                                showCommentModal={() => { }}
+                                showCommentModal={() => setIsCommentModalVisible(true)}
                                 foodId={Number(topicId)}
+                                getComment={getComment}
+                                type={1}
                             />
                         ) : (
                             <Empty text="暂无评论,快来评论吧!" />

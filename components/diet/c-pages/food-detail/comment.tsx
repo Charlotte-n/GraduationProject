@@ -3,12 +3,8 @@ import Avatar from '@/components/mine/avatar'
 import { useFoodStore } from '@/store'
 import theme from '@/styles/theme/color'
 import {
-    ComponentRef,
-    forwardRef,
     memo,
-    Ref,
-    useImperativeHandle,
-    useRef,
+    useRef
 } from 'react'
 import { StyleSheet, TextInput, TouchableOpacity, View } from 'react-native'
 import UserComment from './user-comment'
@@ -16,27 +12,19 @@ import UserComment from './user-comment'
 interface CommentProps {
     foodId: number
     showCommentModal: () => void
+    getComment: () => void
 }
 
 const Comment = (
-    { foodId, showCommentModal }: CommentProps,
-    ref: Ref<{ getComment: () => void }>,
+    { foodId, showCommentModal, getComment }: CommentProps,
 ) => {
     const comments = useFoodStore((state) => state.comments)
     const comment = useRef('')
-    const userCommentRef = useRef<ComponentRef<typeof UserComment>>(null)
 
     const handleComment = (text: string) => {
         comment.current = text
     }
 
-    const getComment = () => {
-        userCommentRef.current?.getComment()
-    }
-
-    useImperativeHandle(ref, () => ({
-        getComment,
-    }))
 
     return (
         <View>
@@ -72,10 +60,10 @@ const Comment = (
             </View>
             {/* 用户的评论 */}
             <UserComment
-                ref={userCommentRef}
                 comments={comments}
                 showCommentModal={showCommentModal}
                 foodId={foodId}
+                getComment={getComment}
             />
         </View>
     )
@@ -89,6 +77,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         paddingHorizontal: 5,
+        marginBottom: 30
     },
     commentUserInfoContainer: {
         flex: 1,
@@ -108,4 +97,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default memo(forwardRef(Comment))
+export default memo(Comment)

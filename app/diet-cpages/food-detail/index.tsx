@@ -1,15 +1,15 @@
-import { RecipeListApi } from '@/apis'
+import { getCommentsApi, RecipeListApi } from '@/apis'
 import { SingleDish } from '@/apis/types'
 import { screenWidth } from '@/common/common'
-import Container from '@/common/components/container'
 import LoadingPage from '@/common/components/loading-page'
 import CollectWrite from '@/components/diet/c-pages/food-detail/collect-write'
 import Comment from '@/components/diet/c-pages/food-detail/comment'
 import CommentModal from '@/components/diet/c-pages/food-detail/comment-modal'
 import { PageState, usePageStatus } from '@/hooks/usePageStatus'
+import { useFoodStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { Card } from '@rneui/themed'
-import { useLocalSearchParams } from 'expo-router'
+import { Stack, useLocalSearchParams } from 'expo-router'
 import { ComponentRef, useCallback, useEffect, useRef, useState } from 'react'
 import {
     Image,
@@ -38,9 +38,10 @@ export default function FoodDetail() {
         {} as SingleDish,
     )
     const { id: foodId } = useLocalSearchParams()
+    const { setComments } = useFoodStore()
+    const userInfo = useLoginRegisterStore(state => state.userInfo)
     const [isVisible, setIsVisible] = useState(false)
     const collectWriteRef = useRef<ComponentRef<typeof CollectWrite>>(null)
-    const commentRef = useRef<ComponentRef<typeof Comment>>(null)
     const { pageState, setPageState, pageStateRef } = usePageStatus()
 
     const handleCloseCommentModal = useCallback(() => {
@@ -52,9 +53,16 @@ export default function FoodDetail() {
         setIsVisible(true)
     }, [])
 
-    const getComment = useCallback(() => {
-        commentRef.current?.getComment()
-    }, [])
+    const getComment = () => {
+        getCommentsApi(Number(foodId), userInfo.id as number)
+            .then((res) => {
+                setComments(res.data)
+            })
+            .catch((err) => {
+                ToastAndroid.show('获取评论失败', ToastAndroid.SHORT)
+                console.log(err)
+            })
+    }
 
     // 获取食谱数据
     const getRecipeDetail = () => {
@@ -106,15 +114,26 @@ export default function FoodDetail() {
 
     useEffect(() => {
         getRecipeDetail()
+        getComment()
     }, [])
 
     return (
-        <Container>
+        <>
             {pageState === PageState.success && <>
                 <ScrollView
                     style={styles.container}
                     showsVerticalScrollIndicator={false}
                 >
+                    <Stack.Screen
+                        options={{
+                            headerShown: true,           // 开启标题栏
+                            title: '食谱详情',            // 标题文字
+                            headerStyle: { backgroundColor: theme.colors.deep01Primary, },
+                            headerTintColor: '#fff',
+                            headerTitleAlign: 'center',
+
+                        }}
+                    />
                     <Card containerStyle={cardContainerStyle}>
                         {/* <ViewShot
                         ref={ViewShotRef}
@@ -258,11 +277,10 @@ export default function FoodDetail() {
                         </View>
                         {/* 评论区域 */}
                         <View style={styles.commentContainer}>
-
                             <Comment
-                                ref={commentRef}
                                 foodId={Number(foodId)}
                                 showCommentModal={showCommentModal}
+                                getComment={getComment}
                             />
                         </View>
                     </Card>
@@ -282,7 +300,7 @@ export default function FoodDetail() {
                     getComment={getComment}
                 /></>}
             {pageState === PageState.loading && <LoadingPage text="加载中..." />}
-        </Container>
+        </>
     )
 }
 

@@ -1,4 +1,4 @@
-import { PostCommentsApi } from '@/apis'
+import { postCommentApi, PostCommentsApi } from '@/apis'
 import { useFoodStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
 import { BottomSheet, Button, Icon } from '@rneui/themed'
@@ -20,7 +20,7 @@ const CommentModal = ({
     onClose,
     foodId,
     getComment,
-    logId,
+    logId
 }: {
     logId?: number
     foodId?: number
@@ -54,9 +54,9 @@ const CommentModal = ({
                 parentId: parentId,
                 dishId: foodId as number,
                 logId: logId as number,
+                parentCommentId: parentId
             }
-
-            await PostCommentsApi(data)
+            logId ? await postCommentApi(data) : await PostCommentsApi(data)
             await getComment()
             comment.current = ''
             ToastAndroid.show('评论成功', ToastAndroid.SHORT)

@@ -1,12 +1,11 @@
 import hyRequest from '../services'
+import { CommonResponseType } from './types'
 import {
-    CommentsType,
     CommunicateContentData,
     GetCommunicateContentData,
     GetRecordDetail,
-    UploadCommentData,
+    UploadCommentData
 } from './types/communicate'
-import { CommonResponseType } from './types'
 import { FoodCommentListData } from './types/food'
 
 enum BASEURL {
@@ -107,7 +106,7 @@ export const getRecordDetailApi = (id: number) => {
  * 获取评论
  * @param data
  */
-export const getCommentApi = (data: { logId: number; userId: number }) => {
+export const getCommentApi = (data: { logId: number; userId: number,logCommentId:number}) => {
     return hyRequest.post<CommonResponseType<FoodCommentListData>>({
         url: BASEURL.GET_COMMENT,
         data,

@@ -67,8 +67,6 @@ export default function HealthMeal() {
                 } else {
                     setMealList([...new Set([...MealList, ...res.data?.dishes || []])])
                 }
-                pageStateRef.current = PageState.success
-                setPageState(PageState.success)
             })
             .catch((err) => {
                 console.log(err)
@@ -77,10 +75,8 @@ export default function HealthMeal() {
             })
             .finally(() => {
                 setRefresh(false)
-                if (pageStateRef.current === PageState.loading) {
-                    setPageState(PageState.empty)
-                    pageStateRef.current = PageState.empty
-                }
+                pageStateRef.current = PageState.success
+                setPageState(PageState.success)
             })
     }
 

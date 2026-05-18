@@ -1,55 +1,72 @@
+import { RecognizeFood as RecognizeFoodType } from '@/apis/types'
 import { windowHeight } from '@/common/common'
 import AutoText from '@/common/components/AutoText'
-import Container from '@/common/components/container'
 import { useDietStore } from '@/store'
 import theme from '@/styles/theme/color'
-import { Image, StyleSheet, Text, View } from 'react-native'
+import { Stack, useRouter } from 'expo-router'
+import { Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 
 export default function RecognizeFood() {
     const recognizeFoodList = useDietStore((state) => state.recognizeFoodList)
+    const router = useRouter()
+
+    const goFoodDetailPage = (item: RecognizeFoodType) => {
+        router.navigate(`/diet-cpages/food-nutrition?id=${item.matchedFoodId}&fat=${item.fat}&carbohydrate=${item.carbohydrate}&cellulose=${item.cellulose}&calories=${item.calories}&protein=${item.protein}&title=${item.title}`)
+    }
+
     return (
-        <Container>
-            <View style={styles.container}>
-                {(recognizeFoodList?.[0]?.name !== '非菜' ? (
-                    <View style={styles.nonVegetableContainer}>
-                        {recognizeFoodList?.map((item, index) => (
-                            <View
-                                style={styles.nonVegetableItem}
-                                key={index}
-                            >
-                                <View style={styles.info}>
-                                    <AutoText
-                                        numberOfLines={1}
-                                        style={{
-                                            width: 120,
-                                            height: 120,
-                                            marginBottom: 30,
-                                        }}
-                                    >
-                                        {item.name}
-                                    </AutoText>
-                                    <Text style={{ fontSize: 12 }}>
-                                        {item.calorie}Kcal/100g
-                                    </Text>
-                                </View>
-                            </View>
-                        ))}
-                    </View>
-                ) : (
-                    <View style={styles.emptyContainer}>
-                        <Image
-                            style={{
-                                width: 200,
-                                height: 200,
-                                marginBottom: 20,
+        <View style={styles.container}>
+            <Stack.Screen options={{
+                title: "识别详情",
+                headerShown: true,
+                headerStyle: { backgroundColor: theme.colors.deep01Primary },
+                headerTintColor: '#fff',
+                headerTitleAlign: 'center',
+
+            }} />
+            {(recognizeFoodList?.[0]?.title !== '非菜' ? (
+                <ScrollView style={styles.nonVegetableContainer}>
+                    {recognizeFoodList?.map((item, index) => (
+                        <TouchableOpacity
+                            style={styles.nonVegetableItem}
+                            key={index}
+                            onPress={() => {
+                                goFoodDetailPage(item)
                             }}
-                            source={require('@/assets/images/search.png')}
-                        />
-                        <AutoText fontSize={6}>不能识别到该食物</AutoText>
-                    </View>
-                ))}
-            </View>
-        </Container>
+
+                        >
+                            <View style={styles.info}>
+                                <AutoText
+                                    numberOfLines={1}
+                                    style={{
+                                        width: 120,
+                                        height: 120,
+                                        marginBottom: 30,
+                                    }}
+                                >
+                                    {item.title}
+                                </AutoText>
+                                <Text style={{ fontSize: 12 }}>
+                                    {item.calories}Kcal/100g
+                                </Text>
+                            </View>
+                        </TouchableOpacity>
+                    ))}
+                </ScrollView>
+            ) : (
+                <View style={styles.emptyContainer}>
+                    <Image
+                        style={{
+                            width: 200,
+                            height: 200,
+                            marginBottom: 20,
+                        }}
+                        source={require('@/assets/images/search.png')}
+                    />
+                    <AutoText fontSize={6}>不能识别到该食物</AutoText>
+                </View>
+            ))}
+        </View>
     )
 }
 
@@ -69,7 +86,7 @@ const styles = StyleSheet.create({
         borderColor: theme.colors.deep01Primary,
         borderRadius: 10,
         paddingHorizontal: 5,
-        paddingVertical: 10,
+        marginVertical: 10,
     },
     vegetableContainer: {
         flex: 1,

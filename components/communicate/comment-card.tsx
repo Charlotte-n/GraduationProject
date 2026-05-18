@@ -163,8 +163,8 @@ const CommentCard = ({ data, index }: Props) => {
         )
     }
 
-    const getComment = (logId: number) => {
-        getCommentApi({ logId, userId: userInfo.id as number })
+    const getComment = (logId: number, logCommentId: number) => {
+        getCommentApi({ logId, userId: userInfo.id as number, logCommentId })
             .then((res) => {
                 setComments(res?.data || [])
             })
@@ -174,7 +174,7 @@ const CommentCard = ({ data, index }: Props) => {
     }
 
     useEffect(() => {
-        getComment(data.id)
+        getComment(data.id, data?.logCommentId)
     }, [data.id])
 
     return (

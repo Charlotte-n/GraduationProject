@@ -8,7 +8,7 @@ import CommentModal from '@/components/diet/c-pages/food-detail/comment-modal'
 import { PageState, usePageStatus } from '@/hooks/usePageStatus'
 import { useFoodStore, useLoginRegisterStore } from '@/store'
 import theme from '@/styles/theme/color'
-import { Card } from '@rneui/themed'
+import { Card, Icon } from '@rneui/themed'
 import { Stack, useLocalSearchParams } from 'expo-router'
 import { ComponentRef, useCallback, useEffect, useRef, useState } from 'react'
 import {
@@ -19,6 +19,8 @@ import {
     ToastAndroid,
     View,
 } from 'react-native'
+import ViewShot from 'react-native-view-shot'
+
 
 const cardContainerStyle = {
     marginTop: 120,
@@ -112,6 +114,23 @@ export default function FoodDetail() {
             })
     }
 
+    const handleShare = async () => {
+        try {
+            // 截图
+            const uri = await ViewShotRef.current?.capture?.()
+            if (!uri) return
+
+            // 分享
+            // await Share.open({
+            //     url: `file://${uri}`,
+            //     type: 'image/png',
+            //     title: '打卡日历',
+            // })
+        } catch (err) {
+            console.log(err)
+        }
+    }
+
     useEffect(() => {
         getRecipeDetail()
         getComment()
@@ -131,95 +150,98 @@ export default function FoodDetail() {
                             headerStyle: { backgroundColor: theme.colors.deep01Primary, },
                             headerTintColor: '#fff',
                             headerTitleAlign: 'center',
+                            headerRight: () => <>
+                                <Icon type={'antdesign'} size={30} name='shareAltOutlined' onPress={handleShare} />
+                            </>
 
                         }}
                     />
                     <Card containerStyle={cardContainerStyle}>
-                        {/* <ViewShot
-                        ref={ViewShotRef}
-                        options={{
-                            fileName: 'food-detail-health',
-                            format: 'png',
-                            quality: 0.4,
-                            result: 'base64',
-                        }}
-                    > */}
-                        <View>
-                            <View style={styles.recipeHeaderContainer}>
-                                <View style={styles.recipeHeaderTitleContainer}>
-                                    {RecipeDetail.image && (
-                                        <Image
-                                            source={{
-                                                uri: RecipeDetail.image as string,
-                                            }}
-                                            style={{
-                                                width: 180,
-                                                height: 180,
-                                                borderRadius: 100,
-                                                marginBottom: 10,
-                                            }}
-                                        />
-                                    )}
-                                    {RecipeDetail.name && (
-                                        <Text
-                                            style={{
-                                                fontSize: 20,
-                                                minHeight: 100,
-                                            }}
-                                        >
-                                            {RecipeDetail.name?.trim()}
-                                        </Text>
-                                    )}
-                                </View>
-                            </View>
-                            {/* 食谱材料 */}
-                            <View style={styles.recipeMaterialContainer}>
-                                <Text
-                                    style={{
-                                        fontSize: 20,
-                                        fontWeight: 'bold',
-                                        color: '#C0AE7D',
-                                    }}
-                                >
-                                    材料
-                                </Text>
-
-                                <View style={styles.recipeMaterialListContainer}>
-                                    {RecipeDetail.materials &&
-                                        (RecipeDetail.materials as string[]).map(
-                                            (item, index) => {
-                                                return (
-                                                    <View
-                                                        key={index}
-                                                        style={
-                                                            styles.recipeMaterialItemContainer
-                                                        }
-                                                    >
-                                                        <Text
-                                                            style={{
-                                                                fontSize: 14,
-                                                                flex: 1,
-                                                            }}
-                                                        >
-                                                            {item?.trim()}
-                                                        </Text>
-                                                        <Text
-                                                            style={{
-                                                                fontSize: 14,
-                                                            }}
-                                                        >
-                                                            {RecipeDetail.amount[
-                                                                index
-                                                            ]?.trim()}
-                                                        </Text>
-                                                    </View>
-                                                )
-                                            },
+                        <ViewShot
+                            ref={ViewShotRef}
+                            options={{
+                                fileName: 'food-detail-health',
+                                format: 'png',
+                                quality: 0.4,
+                                result: 'base64',
+                            }}
+                        >
+                            <View>
+                                <View style={styles.recipeHeaderContainer}>
+                                    <View style={styles.recipeHeaderTitleContainer}>
+                                        {RecipeDetail.image && (
+                                            <Image
+                                                source={{
+                                                    uri: RecipeDetail.image as string,
+                                                }}
+                                                style={{
+                                                    width: 180,
+                                                    height: 180,
+                                                    borderRadius: 100,
+                                                    marginBottom: 10,
+                                                }}
+                                            />
                                         )}
+                                        {RecipeDetail.name && (
+                                            <Text
+                                                style={{
+                                                    fontSize: 20,
+                                                    minHeight: 100,
+                                                }}
+                                            >
+                                                {RecipeDetail.name?.trim()}
+                                            </Text>
+                                        )}
+                                    </View>
+                                </View>
+                                {/* 食谱材料 */}
+                                <View style={styles.recipeMaterialContainer}>
+                                    <Text
+                                        style={{
+                                            fontSize: 20,
+                                            fontWeight: 'bold',
+                                            color: '#C0AE7D',
+                                        }}
+                                    >
+                                        材料
+                                    </Text>
+
+                                    <View style={styles.recipeMaterialListContainer}>
+                                        {RecipeDetail.materials &&
+                                            (RecipeDetail.materials as string[]).map(
+                                                (item, index) => {
+                                                    return (
+                                                        <View
+                                                            key={index}
+                                                            style={
+                                                                styles.recipeMaterialItemContainer
+                                                            }
+                                                        >
+                                                            <Text
+                                                                style={{
+                                                                    fontSize: 14,
+                                                                    flex: 1,
+                                                                }}
+                                                            >
+                                                                {item?.trim()}
+                                                            </Text>
+                                                            <Text
+                                                                style={{
+                                                                    fontSize: 14,
+                                                                }}
+                                                            >
+                                                                {RecipeDetail.amount[
+                                                                    index
+                                                                ]?.trim()}
+                                                            </Text>
+                                                        </View>
+                                                    )
+                                                },
+                                            )}
+                                    </View>
                                 </View>
                             </View>
-                        </View>
-                        {/* </ViewShot> */}
+                        </ViewShot>
                         {/* 具体做法 */}
                         <View style={styles.recipeStepsContainer}>
                             <Text

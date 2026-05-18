@@ -30,8 +30,9 @@ function Avatar({
     showName?: boolean
     isImagePickerType?: boolean
 }) {
-    const loginStoreState = useLoginRegisterStore.getState()
-    const { userInfo } = loginStoreState
+    const userInfo = useLoginRegisterStore((state) => state.userInfo)
+    const { setUserInfo } = useLoginRegisterStore.getState()
+
 
     const ImageView = () => {
         return (
@@ -55,7 +56,7 @@ function Avatar({
             {
                 isImagePickerType ? (<MyImagePicker
                     type="avatar"
-                    getImage={(image) => getImage(image, loginStoreState)}
+                    getImage={(image) => getImage(image, userInfo, setUserInfo)}
                 >
                     <ImageView />
                 </MyImagePicker>)

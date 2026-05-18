@@ -1,16 +1,16 @@
 import { getUserInfo, uploadAvatar } from '@/apis'
-import { useDietStore, useLoginRegisterStore } from '@/store'
+import { useDietStore } from '@/store'
 import { FlipType, manipulateAsync, SaveFormat } from 'expo-image-manipulator'
 import { Alert, ToastAndroid } from 'react-native'
 import { uploadCommunicateImagApi } from '../apis/communicate'
-import { recognizeFood } from '../apis/diet'
+import { recognizeQW } from '../apis/diet'
 
 export const getImage = async (
     value: string,
-    storeState: ReturnType<typeof useLoginRegisterStore.getState>,
+    userInfo:{id:number},
+    setUserInfo:(iser:any)=>void
 ) => {
     try {
-        const { userInfo, setUserInfo } = storeState
         const uploadImage = async () => {
             const formData: any = new FormData()
             formData.append('avatar', {
@@ -47,15 +47,16 @@ export const getSearchImage = async (
             { compress: 1, format: SaveFormat.JPEG },
         )
         const formData: any = new FormData()
-        formData.append('image', {
+        formData.append('file', {
             uri: manipResult.uri,
             name: 'avatar.jpeg',
             type: 'image/jpeg',
         })
         //上传到
-        const res = await recognizeFood(formData)
+        // const res = await recognizeFood(formData)
+        const res = await recognizeQW(formData)
         //将食材信息放到仓库
-        setRecognizeFoodList(res?.data?.result)
+        setRecognizeFoodList(res?.data as any)
     }
     await uploadImage()
 }

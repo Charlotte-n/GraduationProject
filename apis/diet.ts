@@ -9,6 +9,7 @@ import {
 
 enum URL {
     RECOGNIZE_FOOD_URL = '/dish/parse',
+    RECOGNIZE_FOOD_QW_URL = '/api/ai/recognize',
     RANDOM_FOOD_URL = '/food/recommend',
     ADD_CALORIES = '/food/setcalorie',
     GET_DAILYINTAKE = '/food/getcalorie',
@@ -24,6 +25,17 @@ interface recognizeFoodParamType {
 export const recognizeFood = (param: recognizeFoodParamType) => {
     return hyRequest.post<CommonResponseType<RecognizeFoodResponse>>({
         url: URL.RECOGNIZE_FOOD_URL,
+        data: param,
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    })
+}
+
+// 千问识别食物
+export const recognizeQW = (param: recognizeFoodParamType)=>{
+    return hyRequest.post<CommonResponseType<RecognizeFoodResponse>>({
+        url: URL.RECOGNIZE_FOOD_QW_URL,
         data: param,
         headers: {
             'Content-Type': 'multipart/form-data',

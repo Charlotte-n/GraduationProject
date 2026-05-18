@@ -13,10 +13,14 @@ export type RecognizeFoodResponse = {
 }
 
 export type RecognizeFood = {
-    baiKeInfo: any
-    calorie: number
-    name: string
-    probability: number
+    title:string
+    calories: number
+    cellulose:number
+    fat:number
+    carbohydrate:number
+    grams:number
+    protein: number
+    matchedFoodId:number
 }
 //endregion
 

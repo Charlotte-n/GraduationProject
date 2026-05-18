@@ -25,6 +25,7 @@ export interface CommunicateSingleContentData {
     username: string
     id: number
     type: number
+    logCommentId: number
 }
 
 export interface GetRecordDetail {

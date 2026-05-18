@@ -30,7 +30,7 @@ import {
 
 
 export default function FoodNutritionComponent() {
-    const { id, type } = useLocalSearchParams<{ id: string; type: string }>()
+    const { id, type, calories, cellulose, grams, protein, title, carbohydrate, fat } = useLocalSearchParams<{ id: string; type: string, [key: string]: string }>()
     const [FoodDetail, setFoodDetail] = useState<SingleFoodItemType>(
         {} as SingleFoodItemType,
     )
@@ -41,6 +41,17 @@ export default function FoodNutritionComponent() {
 
 
     const getFoodDetail = (id: number) => {
+        if (calories) {
+            return setFoodDetail({
+                cellulose: Number(cellulose),
+                carbohydrate: Number(carbohydrate),
+                title,
+                fat: Number(fat),
+                calories: Number(calories),
+                protein: Number(protein)
+            })
+        }
+
         FoodListByCategoryApi({ id })
             .then((res) => {
                 if (!res.data) {
@@ -56,7 +67,7 @@ export default function FoodNutritionComponent() {
     }
 
     useEffect(() => {
-        id ? getFoodDetail(Number(id)) : setFoodDetail({} as SingleFoodItemType)
+        getFoodDetail(Number(id))
     }, [id])
 
 
@@ -114,7 +125,7 @@ export default function FoodNutritionComponent() {
                                                 }}
                                                 numberOfLines={1}
                                             >
-                                                {FoodDetail.title ?? ''}
+                                                {FoodDetail.title || title}
                                             </Text>
                                             <Text
                                                 style={{
@@ -135,8 +146,7 @@ export default function FoodNutritionComponent() {
                                                 fontSize: 13,
                                             }}
                                         >
-                                            {FoodDetail.calories?.toFixed(2) ??
-                                                '0.00'}
+                                            {FoodDetail.calories?.toFixed(2) || calories}
                                             Kcal/100g
                                         </AutoText>
                                     </View>
@@ -200,26 +210,28 @@ export default function FoodNutritionComponent() {
                                     </View>
                                 </View>
                                 <View style={styles.foodCollectContainer}>
-                                    <TouchableOpacity
-                                        style={{
-                                            marginLeft: 20,
-                                        }}
-                                        onPress={() =>
-                                            handleCollect(isCollect ? 0 : 1)
-                                        }
-                                    >
-                                        <Image
-                                            source={
-                                                isCollect
-                                                    ? require('@/assets/icon/collect1.png')
-                                                    : require('@/assets/icon/collect.png')
-                                            }
+                                    {
+                                        Number(id) && <TouchableOpacity
                                             style={{
-                                                height: 25,
-                                                width: 25,
+                                                marginLeft: 20,
                                             }}
-                                        />
-                                    </TouchableOpacity>
+                                            onPress={() =>
+                                                handleCollect(isCollect ? 0 : 1)
+                                            }
+                                        >
+                                            <Image
+                                                source={
+                                                    isCollect
+                                                        ? require('@/assets/icon/collect1.png')
+                                                        : require('@/assets/icon/collect.png')
+                                                }
+                                                style={{
+                                                    height: 25,
+                                                    width: 25,
+                                                }}
+                                            />
+                                        </TouchableOpacity>
+                                    }
                                     <View style={styles.foodCollectButtonContainer}>
                                         <Button
                                             title="记录饮食"

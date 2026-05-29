@@ -24,9 +24,10 @@ export default function GroupsManage() {
                     setMyGroups(res.data)
                 }
 
-                if (groupParams.userId) {
+                if (groupParams.userid) {
                     // 和自己的groups去重
-                    setGroups(res.data)
+                    const joinedGroups = res.data.filter(item => item.isInner && item.ownerId !== userInfo.id)
+                    setGroups(joinedGroups)
                 }
             }
         }).catch(error => {
@@ -44,7 +45,7 @@ export default function GroupsManage() {
             ownerId: userInfo.id
         })
         getGroupList({
-            userId: userInfo.id
+            userid: userInfo.id
         })
     }, [])
     return (

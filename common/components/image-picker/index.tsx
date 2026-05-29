@@ -72,7 +72,6 @@ const MyImagePicker = ({
             result.current = res
             if (result.current.canceled) return
             setImage(result.current?.assets?.[0]?.uri ?? '')
-            getImage(image ?? '')
         } catch (error) {
             ToastAndroid.show('图片获取失败', ToastAndroid.SHORT)
             console.error(error)
@@ -81,6 +80,7 @@ const MyImagePicker = ({
 
     //获取到识别的食物
     useEffect(() => {
+        console.log("iamge", image)
         if (image) {
             getImage(image ?? '')
             if (type === 'camera') {

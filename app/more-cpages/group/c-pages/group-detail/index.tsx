@@ -190,7 +190,7 @@ export default function GroupDetailPage() {
 
     useEffect(() => {
         getGroupDetail()
-    }, [])
+    })
 
     return (
         <Container>

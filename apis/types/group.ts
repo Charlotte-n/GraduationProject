@@ -111,7 +111,7 @@ export interface SingleClockContentType {
 
 export interface GroupQueryParams {
     id?: number;
-    userId?: number;
+    userid?: number;
     ownerId?: number;
     groupName?: string;
     introduce?: string;

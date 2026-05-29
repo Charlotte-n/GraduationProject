@@ -42,7 +42,6 @@ export default function ClockPage() {
     // 打卡上传
     const clock = async () => {
         try {
-            console.log("clockParam", clockParam)
             const formData = new FormData()
             images?.forEach((value) => {
                 formData.append('images', {
@@ -51,6 +50,7 @@ export default function ClockPage() {
                     type: 'image/jpeg',
                 } as any)
             })
+
 
             let res: any
             //文字或者图片上传

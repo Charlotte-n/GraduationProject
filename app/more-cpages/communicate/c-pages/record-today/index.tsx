@@ -73,10 +73,6 @@ const RecordToday = () => {
         return new Promise((resolve, reject) => {
             recordDietTextApi(recordDietParam)
                 .then((res) => {
-                    if (!res.data) {
-                        ToastAndroid.show('上传文字失败', ToastAndroid.SHORT)
-                        return
-                    }
                     resolve(res.data)
                 })
                 .catch((err) => {
@@ -129,7 +125,7 @@ const RecordToday = () => {
         // 清除选中图片
         setSelectedImages([])
         //返回上一页面
-        router.replace('/more-cpages/communicate')
+        router.dismissTo('/more-cpages/communicate')
     }
 
     useEffect(() => {

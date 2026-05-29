@@ -133,7 +133,7 @@ export default function Register() {
                     },
                     {
                         text: '确定',
-                        onPress: () => router.replace('/login-register/login'),
+                        onPress: () => router.dismissTo('/login-register/login'),
                     },
                 ])
             })

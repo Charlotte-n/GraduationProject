@@ -21,7 +21,7 @@ export const useRegisterInterface = () => {
                         {
                             text: '确定',
                             onPress: () =>
-                                router.replace('/login-register/login'),
+                                router.dismissTo('/login-register/login'),
                         },
                     ],
                 )

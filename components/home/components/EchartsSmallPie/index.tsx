@@ -15,19 +15,20 @@ interface IProps {
 const EchartSmallPie: FC<IProps> = () => {
     const { dailyIntake, dailyIntaked } = useHomeStore()
     const sampleData = useMemo(() => {
+        const carbohydrate = ((dailyIntake?.carbohydrate || 0) - (dailyIntaked?.carbohydrate || 0)) < 0 ? 1 : Math.max((dailyIntaked?.carbohydrate || 0) / (dailyIntake?.carbohydrate || 1), 0)
+        const protine = ((dailyIntake?.protein || 0) - (dailyIntaked?.protein || 0)) < 0 ? 1 : Math.max((dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1), 0)
+        const fat = ((dailyIntake?.fat || 0) - (dailyIntaked?.fat || 0)) < 0 ? 1 : Math.max((dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1), 0)
+        const cellulose = ((dailyIntake?.cellulose || 0) - (dailyIntaked?.cellulose || 0)) < 0 ? 1 : Math.max((dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1), 0)
         return [
             [
-
-                Math.max((dailyIntaked?.carbohydrate || 0) / (dailyIntake?.carbohydrate || 1), 0),
-
+                carbohydrate
             ], [
 
-                Math.max((dailyIntaked?.protein || 0) / (dailyIntake?.protein || 1), 0),
-
+                protine
             ],
-            [Math.max((dailyIntaked?.fat || 0) / (dailyIntake?.fat || 1), 0)],
+            [fat],
             [
-                Math.max((dailyIntaked?.cellulose || 0) / (dailyIntake?.cellulose || 1), 0)
+                cellulose
             ],
         ]
     }, [dailyIntake, dailyIntaked])
@@ -75,9 +76,11 @@ const EchartSmallPie: FC<IProps> = () => {
                                         top: -5,
                                     }}
                                 >
-                                    {Math.max((dailyIntaked as any)[
+                                    {Math.max(((dailyIntake as any)[
                                         yuansu[index]
-                                    ]?.toFixed(0) || 0, 0)}
+                                    ] || 0) - ((dailyIntaked as any)[
+                                        yuansu[index]
+                                    ] || 0), 0)?.toFixed(0)}
                                 </AutoText>
                                 <Text
                                     style={{

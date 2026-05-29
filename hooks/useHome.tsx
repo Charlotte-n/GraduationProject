@@ -21,6 +21,7 @@ export const useHome = () => {
     const GetDailyIntakeList = () => {
         getDailyIntakeApi(userInfo?.id as number)
             .then((res) => {
+                console.log("getDaillyIntake", res.data)
                 if (!res.data) {
                     ToastAndroid.show('获取今日摄入失败', ToastAndroid.SHORT)
                     return

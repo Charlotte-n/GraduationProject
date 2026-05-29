@@ -73,6 +73,7 @@ export default function Group() {
                 contentContainerStyle={{
                     backgroundColor: 'white',
                     paddingBottom: insets.bottom || 25,
+                    height: '100%'
                 }}
             >
                 {/* 创建小组 */}

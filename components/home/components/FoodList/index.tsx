@@ -7,7 +7,6 @@ interface FoodListProps {
 }
 
 const FoodList = memo(({ foodList }: FoodListProps) => {
-    console.log('foodList',foodList)
     return foodList.map((item, index) => (
         <FoodByTime
             key={item.id}

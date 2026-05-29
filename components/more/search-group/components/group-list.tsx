@@ -14,7 +14,7 @@ const GroupList = ({
         <>
             <ScrollView style={styles.container}>
                 {groupList.map((item) => (
-                    <View style={{ marginBottom: 30 }}>
+                    <View style={{ marginBottom: 30 }} key={item.id}>
                         <GroupItem
                             key={item.id}
                             groupItem={item}

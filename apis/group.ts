@@ -9,6 +9,7 @@ import {
     GambitData,
     groupClassificationType,
     GroupInfoType,
+    GroupQueryParams,
     RankingMemberBody,
     RankingType,
 } from './types/group'
@@ -28,6 +29,7 @@ enum BASEURL {
     GET_GROUPS_CATEGORY = '/group/allGroupCategory',
     CLOCK_CALENDAR = '/group/clockDate',
     CLOCK_CONTENT = '/group/getclock',
+    GROUP_LIST = '/group/getlist'
 }
 
 /**
@@ -240,5 +242,15 @@ export const getClockContentApi = (groupId: number) => {
         params: {
             groupId,
         },
+    })
+}
+
+
+export const getGroupListApi = (groupParams:GroupQueryParams)=>{
+    return hyRequest.post({
+        url:BASEURL.GROUP_LIST,
+        data:{
+            ...groupParams
+        }
     })
 }

@@ -109,4 +109,16 @@ export interface SingleClockContentType {
     username: string
 }
 
+export interface GroupQueryParams {
+    id?: number;
+    userId?: number;
+    ownerId?: number;
+    groupName?: string;
+    introduce?: string;
+    codeInfo?: string;
+    curNum?: number;
+    pageSize?: number;
+    pageNum?: number;
+  }
+
 //endregion

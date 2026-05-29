@@ -16,6 +16,10 @@ const EchartsBigPie: FC<IProps> = () => {
     const dailyIntaked = useHomeStore((state) => state.dailyIntaked)
 
     const sampleData = useMemo(() => {
+        if (dailyIntake?.calories && (dailyIntake?.calories || 0) -
+            (dailyIntaked?.calories || 0) < 0) {
+            return [1]
+        }
         return [
             (dailyIntaked?.calories || 0) / (dailyIntake?.calories || 1),
         ]
@@ -78,10 +82,9 @@ const EchartsBigPie: FC<IProps> = () => {
                                     textAlign: 'center',
                                 }}
                             >
-                                {(
-                                    (dailyIntake?.calories ||
-                                        0 - (dailyIntaked?.calories || 0)) * -1
-                                )?.toFixed(0)}
+                                {
+                                    ((dailyIntake?.calories || 0) -
+                                        (dailyIntaked?.calories || 0))?.toFixed(0)}
                             </Text>
                             <Text
                                 style={{

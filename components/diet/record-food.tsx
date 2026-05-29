@@ -27,11 +27,13 @@ interface RecordFoodProps {
     isVisible: boolean
     onClose: () => void
     id: number
+    // 为了还之前的债，只能越写越屎了
+    foodNutrition?: SingleFoodItemType
     time?: number
     showDelete?: boolean
 }
 
-const RecordFood = ({ isVisible, onClose, id, time, showDelete = false }: RecordFoodProps) => {
+const RecordFood = ({ isVisible, onClose, id, time, showDelete = false, foodNutrition }: RecordFoodProps) => {
     const [visible, setVisible] = useState(false)
     const [foodDetail, setfoodDetail] = useState<SingleFoodItemType>(
         {} as SingleFoodItemType,
@@ -71,6 +73,9 @@ const RecordFood = ({ isVisible, onClose, id, time, showDelete = false }: Record
 
     // 获取食物详情
     const getfoodDetail = () => {
+        if (foodNutrition) {
+            return setfoodDetail(foodNutrition)
+        }
         FoodListByCategoryApi({ id })
             .then((res) => {
                 if (!res.data) {
@@ -98,6 +103,7 @@ const RecordFood = ({ isVisible, onClose, id, time, showDelete = false }: Record
             foodId: foodDetail.id as number, //食物id
             operator: 1,
             g: g.current || 0, //克数
+            title: foodDetail.title
         }
     }, [foodDetail, time, selectedIndex, userId, g.current])
 

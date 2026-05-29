@@ -53,7 +53,7 @@ const CommunicateHeader = forwardRef(
                     </View>
                     {/* 记录的内容 */}
                     <View style={styles.statisticsContent}>
-                        {(recordNumber ?? []).map((number, index) => (
+                        {(recordNumber ?? [])?.map((number, index) => (
                             <View
                                 key={index}
                                 style={[

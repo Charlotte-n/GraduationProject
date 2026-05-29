@@ -19,11 +19,11 @@ const DATA = [
         title: '身体数据',
         path: '/mine-cpage/body',
     },
-    // {
-    //     id: '58694a0f-3da1-471f-bd96-145571e29235',
-    //     title: '小工具',
-    //     path:'tool'
-    // },
+    {
+        id: '58694a0f-3da1-471f-bd96-145571e29235',
+        title: '小组管理',
+        path:'/mine-cpage/groups'
+    },
 ]
 
 //个人资料
@@ -61,3 +61,4 @@ const BodyTargetData = [
 const targetData = ['减脂', '温和减脂', '保持体型', '温和增肌', '增肌']
 
 export { BodyData, BodyTargetData, DATA, targetData }
+

@@ -24,7 +24,7 @@ export default function Communicate() {
     const scrollY = useRef(new Animated.Value(0)).current
     const headHeight = -1
     const [titles, setTitles] = useState<
-        { id: string; title: string; desc: string }[]
+        { id: number; title: string; desc: string, status: number }[]
     >([])
     const [topicId, setTopicId] = useState(0)
     const setCommunicate = useCommunicateStore((state) => state.setCommunicate)
@@ -45,6 +45,7 @@ export default function Communicate() {
             topicId: topicId,
             pageSize: 1000,
         }
+
 
         getCommunicateContentApi(data, userInfo.id as number)
             .then((res) => {
@@ -105,7 +106,7 @@ export default function Communicate() {
                     ToastAndroid.show('获取饮食记录失败', ToastAndroid.SHORT)
                     return
                 }
-                setRecordNumber(res.data)
+                setRecordNumber(res.data.length === 0 ? [0, 0, 0] : res.data)
             })
             .catch((err) => {
                 console.log(err)
@@ -157,7 +158,7 @@ export default function Communicate() {
                 <StickyHeader
                     stickyHeaderY={headHeight}
                     stickyScrollY={scrollY}
-                    titles={titles}
+                    titles={titles as any}
                     getId={getId}
                 />
                 {/* 广场内容 */}

@@ -1,6 +1,6 @@
 import AutoText from '@/common/components/AutoText'
 import theme from '@/styles/theme/color'
-import { IntakeItem } from '@/types/home'
+import { IntakeItem, SingleFoodItemType } from '@/types/home'
 import { transformAdaption } from '@/utils/adaption'
 import { Icon, Image } from '@rneui/themed'
 import { useRouter } from 'expo-router'
@@ -28,10 +28,12 @@ const FoodByTime = ({ image, baseData, type, intakeFoodList = [] }: FoodByTimePr
         router.navigate(`/diet-cpages/food-category?type=${type || 0}`)
     }
 
+    const [foodNutrition, setFoodNutrition] = useState({} as SingleFoodItemType)
 
     const handleShowRecord = (value: boolean, item?: IntakeItem) => {
         if (value && item) {
             setCurrentId(item?.id as number)
+            setFoodNutrition(item)
         }
         setIsVisible(value)
     }
@@ -79,7 +81,8 @@ const FoodByTime = ({ image, baseData, type, intakeFoodList = [] }: FoodByTimePr
                 <RecordFood
                     isVisible={isVisible}
                     onClose={() => handleShowRecord(false)}
-                    id={currentId as number}
+                    id={currentId as number || Date.now()}
+                    foodNutrition={foodNutrition}
                     time={type as number}
                     showDelete={true}
                 />

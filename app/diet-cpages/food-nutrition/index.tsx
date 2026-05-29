@@ -251,7 +251,8 @@ export default function FoodNutritionComponent() {
                                 {isVisible && (
                                     <RecordFood
                                         isVisible={isVisible}
-                                        id={Number(id)}
+                                        id={Number(id) || Date.now()}
+                                        foodNutrition={FoodDetail}
                                         onClose={() => setIsVisible(false)}
                                     />
                                 )}

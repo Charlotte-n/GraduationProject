@@ -76,7 +76,7 @@ export default function ClockPage() {
 
             await ClockCalendarApi(data)
 
-            router.replace(`/more-cpages/group/c-pages/group-detail?id=${id}`)
+            router.dismissTo(`/more-cpages/group/c-pages/group-detail?id=${id}`)
 
 
             ToastAndroid.showWithGravity(

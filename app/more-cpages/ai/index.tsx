@@ -165,7 +165,7 @@ export default function AI() {
     }, [])
 
     useEffect(() => {
-        ws.current = new WebSocket('ws://192.168.74.237:8080/ws/' + userInfo?.id)
+        ws.current = new WebSocket('ws://149.104.29.34:8080/ws/' + userInfo?.id)
         ws.current.onopen = () => {
             console.log('连接成功')
         }
